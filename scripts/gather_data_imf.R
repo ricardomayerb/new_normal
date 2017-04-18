@@ -13,3 +13,13 @@ dbases <-  imf_ids(return_raw = FALSE , times=50)
 dbases
 
 availableDB <- DataflowMethod()
+sdmx <- readSDMX(providerId = "OECD", resource = "data", flowRef = "MIG",
+                 key = list("TOT", NULL, NULL), start = 2010, end = 2011)
+df <- as.data.frame(sdmx)
+head(df)
+
+sdmx <- readSDMX(providerId = "OECD", resource = "data", flowRef = "MIG",
+                 key = list("TOT", NULL, NULL), start = 2010, end = 2011,
+                 dsd = TRUE)
+df <- as.data.frame(sdmx, labels = TRUE)
+head(df)
