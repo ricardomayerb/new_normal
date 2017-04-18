@@ -21,5 +21,6 @@ head(df)
 sdmx <- readSDMX(providerId = "OECD", resource = "data", flowRef = "MIG",
                  key = list("TOT", NULL, NULL), start = 2010, end = 2011,
                  dsd = TRUE)
+
 df <- as.data.frame(sdmx, labels = TRUE)
 head(df)
