@@ -10,7 +10,7 @@ load("./produced_data/cepal_18_countries")
 
 not_cepal_countries <- c("USA", "CHN") 
 
-WEOApr2017all <- read_excel("V:/USR/RMAYER/cw/new_normal/raw_data/WEOApr2017all_excel.xlsx",
+WEOApr2017all <- read_excel("./raw_data/WEOApr2017all_excel.xlsx",
 col_types = c("numeric", "text", "text",
 "text", "text", "text", "text", "text",
 "text", "numeric", "numeric", "numeric",
@@ -29,7 +29,7 @@ col_types = c("numeric", "text", "text",
 
 
 
-WEOApr2017alla <- read_excel("V:/USR/RMAYER/cw/new_normal/raw_data/WEOApr2017alla_excel.xlsx",
+WEOApr2017alla <- read_excel("./raw_data/WEOApr2017alla_excel.xlsx",
 col_types = c("numeric", "text", "text",
 "text", "text", "text", "text", "text",
 "numeric", "numeric", "numeric",
