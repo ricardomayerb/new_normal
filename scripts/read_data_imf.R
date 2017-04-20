@@ -4,7 +4,7 @@ library(dplyr)
 load("./produced_data/cepal_33_countries")
 load("./produced_data/cepal_18_countries")
 
-not_cepal_countries <- c("USA", "CHN") 
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
 
 WEOOct2016all <- read_delim("./raw_data/WEOOct2016all.xls",
 "\t", escape_double = FALSE, trim_ws = TRUE, na = "n/a",
@@ -64,16 +64,6 @@ WEOOct2016cepal18_others <-  WEOOct2016_cou_and_agg %>%
            `WEO Country Code` %in% c(1, 163, 200, 205))
 
 
-
-gdp_gap <- WEOOct2016cepal18_others %>% 
-  filter(`WEO Subject Code` %in% c("NGAP_NPGDP")  )
-
-gdp <- WEOOct2016cepal18_others %>% 
-  filter(`WEO Subject Code` %in% c("NGDP_R")) 
-
-
-investment <- WEOOct2016cepal18_others %>% 
-  filter(`WEO Subject Code` %in% c("NID_NGDP"))
 
 
 save(WEOOct2016cepal18_others, WEOOct2016cepal33_others, 
