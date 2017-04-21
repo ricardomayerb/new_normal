@@ -242,6 +242,8 @@ bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = perio
 
 ## Comercio
 
+### Exportaciones e Importaciones
+
 ```{r calcultate_avg_gr_trade_related, include=FALSE}
 
 # "TM_RPCH": Volume of imports of goods and services, Percent change 
@@ -321,3 +323,73 @@ knitr::kable(weo_gg_avg_02_08_10_16_ae_usa_china_ez, digits = 1,
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
 
+
+### Commodity prices
+
+```{r compute_commodity_price, include=FALSE}
+
+# PMETAW, World, Commodity Metals Price Index includes Copper, Alumin, Index, 2005=100
+# PCOPP, World, Copper, grade A cathode, LME spot price, CIF European ... in U.S. dollars 
+# PALLFNFW, World, Commodity Price Index includes both Fuel and Non-Fuel Price Indices, Index, 2005=100
+# POILAPSPW, World, Crude Oil (petroleum), Price index simple average of three spot prices (APSP); Dated Brent, West Texas Intermediate, and the Dubai Fateh, Index, 2005=100
+# 
+# PCOFFW, World, Commodity Coffee Price Index includes Other Mild Arabicas and Robusta,Index, 2005=100
+# PNGASW, World, Commodity Natural Gas Price Index includes European, Japanese, and American Natural Gas Price Indices, Index, 2005=100
+# PNRGW, World, Commodity Fuel (energy) Index includes Crude oil (petroleum), Natural Gas, and Coal Price Indices, Index, 2005=100
+# PVOILW, World, Commodity Vegetable Oil Index includes Soybean, Soybean Meal, Soybean Oil, Rapeseed Oil, Palm Oil, Sunflower Oil, Olive Oil, Fishmeal, and Groundnut Price Indices, Index, 2005=100
+# PFOODW, World, Commodity Food Price Index includes Cereal, Vegetable Oils, Meat, Seafood, Sugar, Bananas, and Oranges Price Indices Index, 2005=100
+
+my_growth <- function(x) {
+  pg <- 100*(x - dplyr::lag(x))/ dplyr::lag(x)
+}
+
+weo_commo <- WEOApr2017cepal18_others_long %>% 
+  filter(country == "World") %>% select(weo_subject_code, year, value) %>% 
+  filter(weo_subject_code %in% c("PMETAW", "PCOPP", "PALLFNFW", "POILAPSPW",
+                                 "PCOFFW", "PNGASW", "PNRGW", "PVOILW", "PFOODW")) %>% 
+  arrange(weo_subject_code, year) %>%   
+  group_by(weo_subject_code) %>% 
+  mutate(pct_growth = my_growth(value)) 
+
+weo_commo_g_avg_2003_2008 <- weo_commo %>% 
+  filter(year >= 2003 & year <= 2008) %>% 
+  select(-value) %>% 
+  summarise(avg_gr_2003_2008 = mean(pct_growth, na.rm = TRUE))
+
+weo_commo_g_avg_2010_2016 <- weo_commo %>% 
+  filter(year >= 2010 & year <= 2016) %>% 
+  select(-value) %>% 
+  summarise(avg_gr_2010_2016 = mean(pct_growth, na.rm = TRUE))
+  
+weo_commo_g_avg_03_08_10_16 <- left_join(weo_commo_g_avg_2003_2008,
+                                         weo_commo_g_avg_2010_2016,
+                                         by = "weo_subject_code" ) %>% 
+  mutate(cambio = avg_gr_2010_2016 - avg_gr_2003_2008)
+
+```
+
+```{r table_comm_price_gr_avg}
+
+selected_comm <- c("PMETAW", "POILAPSPW", "PNGASW", "PFOODW")
+
+colnames_comm_table <- c("Commodity", "2003-2008", "2010-2016", "Cambio")
+
+comm_table_data <- weo_commo_g_avg_03_08_10_16 %>% 
+  filter(weo_subject_code %in% selected_comm)
+
+comm_table_data[ , 1] <- c("Food", "Metals", "Gas", "Oil")
+
+tbl_comm_gr_caption = "Growth commodity price indexes (%)"
+
+knitr::kable(comm_table_data , digits = 1,
+             col.names = colnames_comm_table, caption = tbl_comm_gr_caption) %>% 
+  add_footnote("Source: Price indexes (2005=100) for each year, from WEO April 2017")
+
+```
+
+## Formación de capital
+
+
+
+
+ 
