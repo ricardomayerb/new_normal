@@ -53,7 +53,7 @@ weo_country_names_lac_18[2] <- "Bolivia"
 weo_country_names_lac_18[18] <- "Venezuela"
 ```
 
-## Producto pontencial
+## Producto potencial
 
 ```{r calculate_gdp_gaps_trends, include=FALSE}
 
