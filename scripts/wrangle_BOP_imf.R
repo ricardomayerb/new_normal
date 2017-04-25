@@ -16,20 +16,22 @@ ifs_country_names_lac_18[18] <- "Venezuela, Republica Bolivariana de"
 # advanced economies, usa, UK, China,  europe, euro area, russian federation, japan, germany, india
 other_economies_imf_code = c(101, 111, 112, 924, 170, 163, 922, 158, 134, 534)
 
+# 
+# BOP_y_from_1948_cepal18_others <- BOP_y_from_1948 %>% 
+#   filter(`Country Name` %in% ifs_country_names_lac_18 | 
+#            `Country Code` %in% other_economies_imf_code)
+# 
+# BOP_q_from_1948_cepal18_others <- BOP_q_from_1948 %>% 
+#   filter(`Country Name` %in% ifs_country_names_lac_18 | 
+#            `Country Code` %in% other_economies_imf_code)
+# 
+# 
+# 
 
-BOP_y_from_1948_cepal18_others <- BOP_y_from_1948 %>% 
+
+BOP_y_cepal18plus_long <- BOP_y_from_1948 %>% 
   filter(`Country Name` %in% ifs_country_names_lac_18 | 
-           `Country Code` %in% other_economies_imf_code)
-
-BOP_q_from_1948_cepal18_others <- BOP_q_from_1948 %>% 
-  filter(`Country Name` %in% ifs_country_names_lac_18 | 
-           `Country Code` %in% other_economies_imf_code)
-
-
-
-
-
-BOP_y_cepal18plus_long <- BOP_y_from_1948_cepal18_others %>% 
+           `Country Code` %in% other_economies_imf_code) %>% 
   gather(key=year, value=value, `1948`:`2016`) %>% 
   filter(Attribute == "Value") %>% 
   distinct(`Country Name`, `Country Code`, `Indicator Name`, `Indicator Code`,
@@ -38,7 +40,9 @@ BOP_y_cepal18plus_long <- BOP_y_from_1948_cepal18_others %>%
          date = ymd(date))
 
 
-BOP_q_cepal18plus_long <- BOP_q_from_1948_cepal18_others %>% 
+BOP_q_cepal18plus_long <-  BOP_q_from_1948 %>% 
+  filter(`Country Name` %in% ifs_country_names_lac_18 | 
+           `Country Code` %in% other_economies_imf_code) %>% 
   gather(key=yearq, value=value, `1948Q1`:`2016Q4`) %>% 
   select(-`2017Q1`) %>% 
   filter(Attribute == "Value") %>% 

@@ -5,9 +5,14 @@ ifs_coltypes = cols("Country Name" =  "c", "Country Code" =  "c",
                     "Indicator Name" =  "c", "Indicator Code" =  "c",
                     "Attribute" = "c", .default = col_double())
 
+# BOP_yr_qr <- read_csv("../BOP/BOP_04-04-2017_timeSeries.csv",
+#                                   col_names = TRUE,
+#                                   ifs_coltypes)
+
+
 BOP_yr_qr <- read_csv("../BOP/BOP_04-04-2017_timeSeries.csv",
-                                  col_names = TRUE,
-                                  ifs_coltypes)
+                      col_names = TRUE,
+                      ifs_coltypes)
 
 BOP_yr_qr <- BOP_yr_qr %>% 
   select(-`X352`)

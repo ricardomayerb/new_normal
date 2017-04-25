@@ -5,24 +5,12 @@ ifs_coltypes = cols("Country Name" =  "c", "Country Code" =  "c",
                     "Indicator Name" =  "c", "Indicator Code" =  "c",
                     "Attribute" = "c", .default = col_double())
 
-# 
-# IFS_yr_qr_m_from_1980 <- read_csv("../IFS/IFS_03-27-2017_timeSeries_from_1980.csv",
-#                         col_names = TRUE,
-#                         ifs_coltypes)
-# 
-# IFS_yr_qr_m_from_1980 <- IFS_yr_qr_m_from_1980 %>% 
-#   select(-c(`2017M3`:`2017M12`))
-# 
-# IFS_q_from_1980 <- IFS_yr_qr_m_from_1980 %>% 
-#   select(contains("Q"))
-# 
-# IFS_m_from_1980 <- IFS_yr_qr_m_from_1980 %>% 
-#   select(contains("M"))
-# 
-# IFS_y_from_1980 <- IFS_yr_qr_m_from_1980 %>% 
-#   select(one_of(as.character(1980:2016)) )
 
-IFS_yr_qr_m_from_1948 <- read_csv("../IFS/IFS_03-27-2017_timeSeries.csv",
+# IFS_yr_qr_m_from_1948 <- read_csv("../IFS/IFS_03-27-2017_timeSeries.csv",
+#                                   col_names = TRUE,
+#                                   ifs_coltypes)
+
+IFS_yr_qr_m_from_1948 <- read_csv("../IFS/IFS_04-24-2017_timeSeries.csv",
                                   col_names = TRUE,
                                   ifs_coltypes)
 

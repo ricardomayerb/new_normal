@@ -1,4 +1,9 @@
 library(wbstats)
+library(stringr)
+library(dplyr)
+
+load ("./produced_data/cepal_18_countries")
+load ("./produced_data/cepal_33_countries")
 
 new_cache = wbcache()
 
@@ -6,7 +11,53 @@ wbco <-  new_cache$countries
 
 wbind <- new_cache$indicators
 
+ind_with_employed_in_name <- wbind %>% 
+  filter(str_detect(wbind$indicator, "employed"))
 
+ind_with_employed_in_desc <- wbind %>% 
+  filter(str_detect(wbind$indicatorDesc, "employed"))
+
+ind_with_mployment_in_name <- wbind %>% 
+  filter(str_detect(wbind$indicator, "mployment"))
+
+ind_with_employment_in_desc <- wbind %>% 
+  filter(str_detect(wbind$indicatorDesc, "employment"))
+
+ind_with_capita_in_name <- wbind %>% 
+  filter(str_detect(wbind$indicator, "capita"))
+
+# SL.GDP.PCAP.EM.KD.ZG
+# GDP per person employed (annual % growth)
+# GDP per person employed is gross domestic product (GDP) divided by total employment in the economy.
+# International Labour Organization, Key Indicators of 
+
+
+SL.EMP.TOTL.SP.NE.ZS
+
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+
+this_selection <- c(cepal_33_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
+
+gdp_ppe_ppp = wb(country = this_selection, indicator = "SL.GDP.PCAP.EM.KD")
+
+gdp_per_capita = wb(country = this_selection, indicator = "NY.GDP.PCAP.KD")
+
+employment_to_pop_15plus = wb(country = this_selection, indicator = "SL.EMP.TOTL.SP.ZS")
+
+employment_to_pop_15plus_ne = wb(country = this_selection, indicator = "SL.EMP.TOTL.SP.NE.ZS")
+
+total_pop = wb(country = this_selection, indicator = "SP.POP.TOTL")
+
+pop_65plus_pct_of_total = wb(country = this_selection, indicator = "SP.POP.65UP.TO.ZS")
+
+pop_15_64_pct_of_total = wb(country = this_selection, indicator = "SP.POP.1564.TO.ZS")
+
+pop_15up <- left_join(pop_15_64_pct_of_total, 
+                      pop_65plus_pct_of_total, by = c("iso2c","date")) %>% 
+  mutate(pct_15up = value.x + value.y)
 
 # NE.GDI.TOTL.ZS
 # Gross capital formation (% of GDP)

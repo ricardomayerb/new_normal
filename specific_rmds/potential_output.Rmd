@@ -3,9 +3,9 @@ title: "potential_output"
 author: "Ricardo Mayer"
 date: "April 17, 2017"
 output:
-  html_document: default
-  pdf_document: default
   word_document: default
+  pdf_document: default
+  html_document: default
 ---
 
 
@@ -388,6 +388,47 @@ knitr::kable(comm_table_data , digits = 1,
 ```
 
 ## Formación de capital
+
+```{r fbc}
+load("../produced_data/cs_fbcf_ratio_pib")
+
+cgr <- cs_fbcf_ratio_pib %>% 
+  select(iso3c, fbc_gr, fbcf_gr, year)
+
+cf_gr_03_08 <- cgr %>% 
+  select(-fbc_gr) %>% 
+  filter(year >= 2003 & year <= 2008) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_03_08 = mean(fbcf_gr, na.rm = TRUE))
+
+cf_gr_10_16 <- cgr %>% 
+  select(-fbc_gr) %>% 
+  filter(year >= 2010 & year <= 2016) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_10_16 = mean(fbcf_gr, na.rm = TRUE))
+
+fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
+                                     cf_gr_10_16,
+                                         by = "iso3c" ) %>% 
+  mutate(cambio = avg_10_16 - avg_03_08)
+
+```
+
+```{r fbcf_table}
+
+colnames_fbcf_table <- c("", "2003-2008", "2010-2016", "Cambio")
+
+fbcf_table_data <- fbcf_avg_gr_03_08_10_16 
+
+
+tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation (%)"
+
+knitr::kable(fbcf_table_data , digits = 1,
+             col.names = colnames_fbcf_table, caption = tbl_fbcf_gr_caption) %>% 
+  add_footnote("Source: cepalstat")
+
+
+```
 
 
 
