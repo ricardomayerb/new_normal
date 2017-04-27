@@ -65,6 +65,9 @@ pop_15up <- left_join(pop_15_64_pct_of_total,
   select(iso2c, date, pct_15up)
 
 
+
+
+
 employment_to_pop <- employment_to_pop_15plus %>% 
   rename(emp_to_pop15plus = value) %>% 
   left_join(pop_15up, by = c("iso2c", "date")) %>% 
@@ -106,7 +109,6 @@ pwt_gdp_per_employed <- pwt9.0 %>%
 
 
 this_selection_18 <- c(cepal_18_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
-
 
 ted_gracc_txt_url = 'https://www.conference-board.org/retrievefile.cfm?filename=TED_FLATFILE_ADJ_NOV20161.txt&type=subsite'
 

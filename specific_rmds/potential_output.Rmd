@@ -3,9 +3,9 @@ title: "potential_output"
 author: "Ricardo Mayer"
 date: "April 17, 2017"
 output:
-  word_document: default
   pdf_document: default
   html_document: default
+  word_document: default
 ---
 
 
@@ -28,6 +28,7 @@ library(ggthemes)
 library(knitr)
 library(kableExtra)
 library(countrycode)
+library(readxl)
 ```
 
 ```{r load_principal_data, cache=TRUE, include=FALSE}
@@ -311,8 +312,14 @@ knitr::kable(weo_gg_avg_02_08_10_16_lac, digits = 1,
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
 
+En casi todas las economías de la región, vemos una considerable desaceleración de sus exportaciones 
+(medidas por el volumen de exportación) respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que mejoran su desempeño en el segundo período, vienen de desempeños m+as bien modestos durante 2003-2008.
 
+Todas las excepciones se encuentran fuera de América del Sur, pero el panorama está lejos de ser homogéneo, pues junto a los casos de México, Honduras, Guatemala y notablemente Republica Dominicana --que pasa de una contracción promedio a una ráida expansión promedio-- que lograron incrementar la velocidad de expansión de sus exportaciones, están también los casos de Nicaragua, Costa Rica, Panamá y EL Salvador que sufrieron un freno importante en su sector exportador. Después de República Dominicana, es México quien presenta el caso más interesante: tiene un sólido incremento de la tasa de crecimiento de sus exportaciones y se ubica en esta nueva etapa como la segunda economía más dinámica 
 
+En el caso de la importaciones tenemos una situación muy similar a las de las exportaciones: las única economías que han logrado aumentar la tasa de expansión de sus importaciones son las mismas que lograron acelerar su sector exportador, menos Honduras, que se suma en este caso al grupo mayoritario de países que desaceleran.
+
+Esta tendencia general de América Latina, coincide con los patrones de crecimiento del comercio de las Economías Avanzas, China y Estados Unidos, con la sola pero potencialmente importante excepción las importaciones de los Estados Unidos, que se aceleraron levemente después de la crisis: pasaron de crecer a un 4.5% promedio anual a un 4.9% promedio anual. Sin duda, el cambio más importante para el producto pontencial de AL y especialemente de los exportadores de commodities es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
 
 
 ```{r table_avg_trade_bigeconomies, echo=FALSE, results=TRUE}
@@ -325,6 +332,7 @@ knitr::kable(weo_gg_avg_02_08_10_16_ae_usa_china_ez, digits = 1,
 
 
 ### Commodity prices
+
 
 ```{r compute_commodity_price, include=FALSE}
 
@@ -367,6 +375,10 @@ weo_commo_g_avg_03_08_10_16 <- left_join(weo_commo_g_avg_2003_2008,
   mutate(cambio = avg_gr_2010_2016 - avg_gr_2003_2008)
 
 ```
+
+En cuanto al precio de los commodities, si bien es cierto que en todos los grupos de bienes 
+se observa un quiebre brutal en sus trayectorias pre y post 2009 (todos pasas de crecer vigorosamente a tasas de crecimiento muy tímidas o de pequeñas contracciones) es en el caso de los hidrocarburos y los metales, donde el freno ha sido más fuerte: mientras que el grupo de los alimentos pasa de crecer desde un robusto 11.6% anual a un exiguo 1.6% en el segundo período, para los metales e hidrocarburos la caída es desde impresionantes 25% a expansiones nulas (metales) o caídas moderadas (gas y petróleo).
+
 
 ```{r table_comm_price_gr_avg}
 
@@ -431,6 +443,163 @@ knitr::kable(fbcf_table_data , digits = 1,
 ```
 
 
+## Productivity
+
+```{r labor_produc_dfs}
+
+load("../produced_data/gdp_employ_pop_wb_pwt_ted")
+gdp_hrs_worked_ppp_oecd <- read_excel("../raw_data/gdp_hrs_worked_ppp_oecd.xlsx")
+
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+this_selection_18 <- c(cepal_18_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
+
+wb_agg_cnames = c("World", "High Income", "OECD members", "Euro area", 
+                  "Latin America & Caribbean" )
+
+from_pwt <- pwt_gdp_per_employed %>% 
+  select(isocode, country, year, growth_gdp_to_pop_pwt, growth_gdp_to_emp_pwt) %>% 
+  filter(year >= 1990) %>% 
+  rename(iso3c = isocode)
+
+from_wb <- gdp_per_employed %>% 
+  ungroup() %>% 
+  select(iso3c, country, date, growth_gdp_per_pop, growth_gdp_per_emp) %>% 
+  rename(year = date) %>% 
+  mutate(iso3c = factor(iso3c),
+         year = as.integer(year)) %>% 
+  filter(year >= 1990)
+
+from_ted <- ted_gracc_data
+
+lp_growth_emp_wb_pwt <- left_join(from_wb, from_pwt, by = c("iso3c", "year")) %>% 
+  select(iso3c, year, growth_gdp_per_emp, growth_gdp_to_emp_pwt) %>% 
+  filter(iso3c %in% factor(this_selection_18))
+
+lp_growth_pop_wb_pwt <- left_join(from_wb, from_pwt, by = c("iso3c", "year")) %>% 
+  select(iso3c, year, growth_gdp_per_pop, growth_gdp_to_pop_pwt) %>% 
+  filter(iso3c %in% factor(this_selection_18))
+
+lp_growth_avgs_92_00 <-lp_growth_emp_wb_pwt %>% 
+  filter(year >= 1992 & year <= 2000) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_lp_gr_92_00_wb = mean(growth_gdp_per_emp, na.rm = TRUE),
+            avg_lp_gr_92_00_pwt = mean(growth_gdp_to_emp_pwt, na.rm = TRUE))
+
+lp_growth_avgs_03_08 <-lp_growth_emp_wb_pwt %>% 
+  filter(year >= 2003 & year <= 2008) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_lp_gr_03_08_wb = mean(growth_gdp_per_emp, na.rm = TRUE),
+            avg_lp_gr_03_08_pwt = mean(growth_gdp_to_emp_pwt, na.rm = TRUE))
+
+
+lp_growth_avgs_10_15 <-lp_growth_emp_wb_pwt %>% 
+  filter(year >= 2010 & year <= 2015) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_lp_gr_10_15_wb = mean(growth_gdp_per_emp, na.rm = TRUE),
+            avg_lp_gr_10_15_pwt = mean(growth_gdp_to_emp_pwt, na.rm = TRUE))  
+
+
+lp_growth_avgs_92_to_15 <- left_join(lp_growth_avgs_92_00, 
+                                     lp_growth_avgs_03_08, by = "iso3c") %>% 
+  left_join(lp_growth_avgs_10_15, by = "iso3c") %>% 
+  mutate(pwt_cambio_92_00_02_08 = avg_lp_gr_03_08_pwt - avg_lp_gr_92_00_pwt,
+         wb_cambio_92_00_02_08 = avg_lp_gr_03_08_wb - avg_lp_gr_92_00_wb,
+         pwt_cambio_03_08_10_15 = avg_lp_gr_10_15_pwt - avg_lp_gr_03_08_pwt,
+         wb_cambio_03_08_10_15 = avg_lp_gr_10_15_wb - avg_lp_gr_03_08_wb)
+
+
+lp_growth_diff_wb_vs_pwt  <- lp_growth_avgs_92_to_15 %>% 
+  select(iso3c, pwt_cambio_03_08_10_15, wb_cambio_03_08_10_15) %>% 
+  mutate(pwt_minus_wb = pwt_cambio_03_08_10_15 - wb_cambio_03_08_10_15,
+         sign_reversal = pwt_cambio_03_08_10_15*wb_cambio_03_08_10_15 < 0)
+
+
+
+
+```
+
+  Productivity in LAC low before and after. Far from levels in India or China. Even those countries that fared better did so very modestly, and it's more pronounced if we measure gdp at PPP.
+  
+  
+  
+  
+```{r table_lac_lab_prod_gr_wb}
+lp_wb_table_data <- lp_growth_avgs_92_to_15 %>% 
+  select(iso3c, avg_lp_gr_03_08_wb, avg_lp_gr_10_15_wb, wb_cambio_03_08_10_15) %>% 
+  filter(iso3c %in% factor(cepal_18_countries[["iso3c"]]))
+
+colnames_lac_lp_wb_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_wb_caption = "Growth of labor productivity (GDP per employed)"
+
+knitr::kable(lp_wb_table_data , digits = 1,
+             col.names = colnames_lac_lp_wb_table , caption = tbl_lp_wb_caption) %>% 
+  add_footnote("Source: World Bank, ILO")
+  
+```
+
+
+```{r table_lac_lab_prod_gr_pwt}
+lp_pwt_table_data <- lp_growth_avgs_92_to_15 %>% 
+  select(iso3c, avg_lp_gr_03_08_pwt, avg_lp_gr_10_15_pwt,pwt_cambio_03_08_10_15) %>% 
+  filter(iso3c %in% factor(cepal_18_countries[["iso3c"]]))
+
+colnames_lac_lp_pwt_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_pwt_caption = "Growth of labor productivity (GDP per employed, at 2011 PPP values)"
+
+knitr::kable(lp_pwt_table_data , digits = 1,
+             col.names = colnames_lac_lp_pwt_table , caption = tbl_lp_pwt_caption) %>% 
+  add_footnote("Source: PWT 9.0")
+  
+```
+
+
+```{r table_other_countries_lab_prod_gr_pwt}
+lp_pwt_table_data_not_cepal <- lp_growth_avgs_92_to_15 %>% 
+  select(iso3c, avg_lp_gr_03_08_pwt, avg_lp_gr_10_15_pwt,pwt_cambio_03_08_10_15) %>% 
+  filter(iso3c %in% factor(c(not_cepal_countries, aggregates_codes))  )
+
+colnames_notlac_lp_pwt_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_pwt_caption = "Growth of labor productivity (GDP per employed, at 2011 PPP values)"
+
+knitr::kable(lp_pwt_table_data_not_cepal , digits = 1,
+             col.names = colnames_lac_lp_pwt_table , caption = tbl_lp_pwt_caption) %>% 
+  add_footnote("Source: PWT 9.0")
+  
+```
+
+ 
+```{r table_other_countries_lab_prod_gr_wb}
+lp_wb_table_data_not_cepal <- lp_growth_avgs_92_to_15 %>% 
+  select(iso3c, avg_lp_gr_03_08_wb, avg_lp_gr_10_15_wb, wb_cambio_03_08_10_15) %>% 
+  filter(iso3c %in% factor(c(not_cepal_countries, aggregates_codes))  )
+
+colnames_notlac_lp_wb_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_pwt_caption = "Growth of labor productivity (GDP per employed (2010 USD))"
+
+knitr::kable(lp_wb_table_data_not_cepal , digits = 1,
+             col.names = colnames_lac_lp_pwt_table , caption = tbl_lp_pwt_caption) %>% 
+  add_footnote("Source: World Bank, ILO")
+  
+```
+
 
 
  
+```{r table_oecd_hours_prod}
+lp_oecd_table_data <- gdp_hrs_worked_ppp_oecd  
+
+colnames_lp_oecd_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_oecd_caption = "Growth of labor productivity (GDP per hours worked (2011 PPP prices))"
+
+knitr::kable(lp_oecd_table_data , digits = 1,
+             col.names = colnames_lp_oecd_table , caption = tbl_lp_oecd_caption) %>% 
+  add_footnote("Source: OECD")
+  
+```

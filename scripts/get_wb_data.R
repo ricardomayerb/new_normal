@@ -32,14 +32,29 @@ ind_with_capita_in_name <- wbind %>%
 # International Labour Organization, Key Indicators of 
 
 
-SL.EMP.TOTL.SP.NE.ZS
 
 
 not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
-
 aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
-
 this_selection <- c(cepal_33_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
+
+
+inds_with_formation <- wbsearch("capital formation")
+
+gcf_gr <-   wb(country = this_selection, indicator = "NE.GDI.TOTL.KD.ZG")
+gfcf_gr <-  wb(country = this_selection, indicator = "NE.GDI.FTOT.KD.ZG")
+
+gfcf_to_gdp <-  wb(country = this_selection, indicator = "NE.GDI.FTOT.ZS")
+gcf_to_gdp <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.ZS")
+
+gfcf_to_usd2010 <-  wb(country = this_selection, indicator = "NE.GDI.FTOT.KD")
+gcf_to_usd2010 <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.KD")
+
+
+gfcf_to_coLCU <-  wb(country = this_selection, indicator = "NE.GDI.FTOT.KN")
+gcf_to_coLCU <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.KN")
+
+
 
 gdp_ppe_ppp = wb(country = this_selection, indicator = "SL.GDP.PCAP.EM.KD")
 
