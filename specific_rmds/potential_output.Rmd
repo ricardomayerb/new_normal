@@ -3,9 +3,9 @@ title: "potential_output"
 author: "Ricardo Mayer"
 date: "April 17, 2017"
 output:
+  word_document: default
   pdf_document: default
   html_document: default
-  word_document: default
 ---
 
 
@@ -427,9 +427,19 @@ fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
                                          by = "iso3c" ) %>% 
   mutate(cambio = avg_10_16 - avg_03_08)
 
+
+
 ```
 
+La enorme mayoría -- 14 de 18-- de los países de la región en nuestra muestra vieron una 
+desaceleración de la inversión real (medida por el gasto real en formación 
+de capital fijo) en este segundo período. De las cuatro excepciones, una de ellas -- Guatemala -- pasó de una tasa de crecimiento modesta a una un tanto mayor (3,3% a 4,4%), pero sólo en los casos de Bolivia, Nicaragua and Panamá pudieron sostener y mejorar altas tasas de crecimiento de la inversión. 
+
+Dentro de la mayoría de los países donde la inversión se frena durante el segundo período, destacan Argentina, Brasil, Chile y Perú. En el caso de estos dos últimos países, se trata de exportadores de metales, grupo de commodities que como ya vimos se caracterizó grandes fluctuaciones en su precio y que estancó su crecimiento en el segundo período, lo que sin duda repercutió en los planes de inversión.
+
+
 ```{r gfcf_lac_table}
+
 
 colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
 
@@ -442,8 +452,33 @@ tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation, lac 18 (%)"
 
 knitr::kable(fbcf_table_data , digits = 1,
              col.names = colnames_fbcf_table, caption = tbl_fbcf_gr_caption) %>% 
-  add_footnote("Source: cepalstat")
+  add_footnote("Source: WB")
 
+```
+
+
+
+```{r gfcf_notlac_table}
+
+colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+
+other_iso2c <- countrycode(c(not_cepal_countries,aggregates_codes),
+                           "iso3c", "iso2c")
+
+fbcf_table_data_notlac <- gfcf_gr_03_08_10_15 %>% 
+  filter(iso2c %in% other_iso2c) %>%
+  select(iso2c, gfcf_gagr_03_08, gfcf_gagr_10_15, cambio_gm)
+
+
+tbl_fbcf_gr_caption_notlac = "Growth Gross Fixed Cap formation, other economies (%)"
+
+knitr::kable(fbcf_table_data_notlac , digits = 1,
+             col.names = colnames_fbcf_table,
+             caption = tbl_fbcf_gr_caption_notlac) %>% 
+  add_footnote("Source: WB")
 
 ```
 
@@ -525,9 +560,17 @@ lp_growth_diff_wb_vs_pwt  <- lp_growth_avgs_92_to_15 %>%
 
 ```
 
-  Productivity in LAC low before and after. Far from levels in India or China. Even those countries that fared better did so very modestly, and it's more pronounced if we measure gdp at PPP.
-  
-  
+
+Mirando a la región, el caso de la productividad del trabajo es un tanto distinto a las variables que hemos descrito hasta aquí. Comparte, por un lado, el de hecho de emperar en el período post crisis pero a diferencia de las otras, las tasas de crecimeinto son modestas en *ambos* períodos. No hubo un boom de productividad del trabajo junto con el boom de producción, inversión y exportación.
+
+Aquellos paises que lograron acelerar un poco su productividad laboral en el segundo perìodo son Bolivia, Ecuador, Nicargua, Panamá, Paraguay y Uruguay
+
+La anterior se sostiene tanto si consideramos los precios con o sin ajuste por PPP, pero en este último caso, los países que mejoraron su posición tienen a aparecer con mejoras más modestas que sin el ajuste por paridad de poder de compra. Los únicos casos donde es de alguna relevancia esta distinciòn son Perù y Colombia, que revierten una modesta caídad (Colombia) o un modesto aumento (Perù) si se mide su producciòn usando precios PPP.
+
+Estos números están basado en el producto promedio por *persona empleada*. Sólo tenemos datos comparables de producto por *hora trabajada* en el caso de los dos países de LAC que son miembros de la OECD (México y Chile) y en ambos casos, 
+la desaceleración de la prductividad del trabajo se hace más pronunciada, cuando medimos las horas trabajadas en vez de simplemente la cantidad de personas empleadas.
+
+También es cierto, que la producividad o se estancó o se ralentizó en la mayoría de las economías más avanzadas o más importantes (China, USA, Alemania, UK) y donde a excepción de China, la desaceleracion de la productividad es un poco mayor si se mide en producto por hora trabajada.
   
   
 ```{r table_lac_lab_prod_gr_wb}
