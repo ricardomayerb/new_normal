@@ -5,6 +5,20 @@ library(dplyr)
 load ("./produced_data/cepal_18_countries")
 load ("./produced_data/cepal_33_countries")
 
+my_growth <- function(x) {
+  pg <- 100*(x - dplyr::lag(x)) / dplyr::lag(x)
+}
+
+my_geoavg_growth <- function(x) {
+  en <- length(x)
+  rat <- dplyr::last(x)/dplyr::first(x)
+  gross_gavg_rate <- rat^(1/(en - 1))
+  gavg_rate <- 100 * (gross_gavg_rate-1)
+}
+
+
+
+
 new_cache = wbcache()
 
 wbco <-  new_cache$countries
@@ -32,8 +46,6 @@ ind_with_capita_in_name <- wbind %>%
 # International Labour Organization, Key Indicators of 
 
 
-
-
 not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
 aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
 this_selection <- c(cepal_33_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
@@ -53,6 +65,62 @@ gcf_to_usd2010 <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.KD")
 
 gfcf_to_coLCU <-  wb(country = this_selection, indicator = "NE.GDI.FTOT.KN")
 gcf_to_coLCU <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.KN")
+
+gfcf_to_coLCU <- gfcf_to_coLCU %>% 
+  arrange(iso2c, date) %>% 
+  group_by(iso2c) %>% 
+  mutate(gfcf_gr = my_growth(value)) %>% 
+  ungroup()
+  
+gcf_to_coLCU <- gcf_to_coLCU %>% 
+  arrange(iso2c, date) %>% 
+  group_by(iso2c) %>% 
+  mutate(gcf_gr = my_growth(value)) %>% 
+  ungroup()
+
+
+
+gfcf_to_coLCU_03_08 <- gfcf_to_coLCU %>% 
+  filter(date >= 2003 & date <= 2008) %>% 
+  arrange(iso2c, date) %>% 
+  group_by(iso2c) %>% 
+  summarise(gfcf_gagr_03_08 = my_geoavg_growth(value)) %>% 
+  ungroup()
+
+
+gfcf_to_coLCU_10_15 <- gfcf_to_coLCU %>% 
+  filter(date >= 2010 & date <= 2015) %>% 
+  arrange(iso2c, date) %>% 
+  group_by(iso2c) %>% 
+  summarise(gfcf_gagr_10_15 = my_geoavg_growth(value)) %>% 
+  ungroup()
+
+
+gfcf_gr_03_08_10_15 <- left_join(gfcf_to_coLCU_03_08, gfcf_to_coLCU_10_15,
+                                 by = c("iso2c")) %>% 
+  mutate(cambio = gfcf_gagr_10_15 - gfcf_gagr_03_08)
+
+
+
+gcf_to_coLCU_03_08 <- gcf_to_coLCU %>% 
+  filter(date >= 2003 & date <= 2008) %>% 
+  arrange(iso2c, date) %>% 
+  group_by(iso2c) %>% 
+  summarise(gcf_gagr_03_08 = my_geoavg_growth(value)) %>% 
+  ungroup()
+
+
+gcf_to_coLCU_10_15 <- gfcf_to_coLCU %>% 
+  filter(date >= 2010 & date <= 2015) %>% 
+  arrange(iso2c, date) %>% 
+  group_by(iso2c) %>% 
+  summarise(gcf_gagr_10_15 = my_geoavg_growth(value)) %>% 
+  ungroup()
+
+
+gcf_gr_03_08_10_15 <- left_join(gcf_to_coLCU_03_08, gcf_to_coLCU_10_15,
+                                 by = c("iso2c")) %>% 
+  mutate(cambio = gcf_gagr_10_15 - gcf_gagr_03_08)
 
 
 
