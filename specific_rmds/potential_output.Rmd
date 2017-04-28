@@ -403,6 +403,9 @@ knitr::kable(comm_table_data , digits = 1,
 
 ```{r fbc}
 load("../produced_data/cs_fbcf_ratio_pib")
+load("../produced_data/gfcf_wb_data")
+
+
 
 cgr <- cs_fbcf_ratio_pib %>% 
   select(iso3c, fbc_gr, fbcf_gr, year)
@@ -426,14 +429,16 @@ fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
 
 ```
 
-```{r fbcf_table}
+```{r gfcf_lac_table}
 
-colnames_fbcf_table <- c("", "2003-2008", "2010-2016", "Cambio")
+colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
 
-fbcf_table_data <- fbcf_avg_gr_03_08_10_16 
+fbcf_table_data <- gfcf_gr_03_08_10_15 %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>%
+  select(iso2c, gfcf_gagr_03_08, gfcf_gagr_10_15, cambio_gm)
 
 
-tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation (%)"
+tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation, lac 18 (%)"
 
 knitr::kable(fbcf_table_data , digits = 1,
              col.names = colnames_fbcf_table, caption = tbl_fbcf_gr_caption) %>% 

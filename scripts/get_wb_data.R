@@ -19,31 +19,11 @@ my_geoavg_growth <- function(x) {
 
 
 
-new_cache = wbcache()
-
-wbco <-  new_cache$countries
-
-wbind <- new_cache$indicators
-
-ind_with_employed_in_name <- wbind %>% 
-  filter(str_detect(wbind$indicator, "employed"))
-
-ind_with_employed_in_desc <- wbind %>% 
-  filter(str_detect(wbind$indicatorDesc, "employed"))
-
-ind_with_mployment_in_name <- wbind %>% 
-  filter(str_detect(wbind$indicator, "mployment"))
-
-ind_with_employment_in_desc <- wbind %>% 
-  filter(str_detect(wbind$indicatorDesc, "employment"))
-
-ind_with_capita_in_name <- wbind %>% 
-  filter(str_detect(wbind$indicator, "capita"))
-
-# SL.GDP.PCAP.EM.KD.ZG
-# GDP per person employed (annual % growth)
-# GDP per person employed is gross domestic product (GDP) divided by total employment in the economy.
-# International Labour Organization, Key Indicators of 
+# new_cache = wbcache()
+# 
+# wbco <-  new_cache$countries
+# 
+# wbind <- new_cache$indicators
 
 
 not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
@@ -84,7 +64,8 @@ gfcf_to_coLCU_03_08 <- gfcf_to_coLCU %>%
   filter(date >= 2003 & date <= 2008) %>% 
   arrange(iso2c, date) %>% 
   group_by(iso2c) %>% 
-  summarise(gfcf_gagr_03_08 = my_geoavg_growth(value)) %>% 
+  summarise(gfcf_gagr_03_08 = my_geoavg_growth(value),
+            gfcf_avgr_03_08 = mean(gfcf_gr, na.rm = TRUE)) %>% 
   ungroup()
 
 
@@ -92,13 +73,15 @@ gfcf_to_coLCU_10_15 <- gfcf_to_coLCU %>%
   filter(date >= 2010 & date <= 2015) %>% 
   arrange(iso2c, date) %>% 
   group_by(iso2c) %>% 
-  summarise(gfcf_gagr_10_15 = my_geoavg_growth(value)) %>% 
+  summarise(gfcf_gagr_10_15 = my_geoavg_growth(value),
+            gfcf_avgr_10_15 = mean(gfcf_gr, na.rm = TRUE)) %>% 
   ungroup()
 
 
 gfcf_gr_03_08_10_15 <- left_join(gfcf_to_coLCU_03_08, gfcf_to_coLCU_10_15,
                                  by = c("iso2c")) %>% 
-  mutate(cambio = gfcf_gagr_10_15 - gfcf_gagr_03_08)
+  mutate(cambio_gm = gfcf_gagr_10_15 - gfcf_gagr_03_08,
+         cambio_am = gfcf_avgr_10_15 - gfcf_avgr_03_08)
 
 
 
@@ -106,7 +89,8 @@ gcf_to_coLCU_03_08 <- gcf_to_coLCU %>%
   filter(date >= 2003 & date <= 2008) %>% 
   arrange(iso2c, date) %>% 
   group_by(iso2c) %>% 
-  summarise(gcf_gagr_03_08 = my_geoavg_growth(value)) %>% 
+  summarise(gcf_gagr_03_08 = my_geoavg_growth(value),
+            gcf_avgr_03_08 = mean(gcf_gr, na.rm = TRUE)) %>% 
   ungroup()
 
 
@@ -114,33 +98,41 @@ gcf_to_coLCU_10_15 <- gfcf_to_coLCU %>%
   filter(date >= 2010 & date <= 2015) %>% 
   arrange(iso2c, date) %>% 
   group_by(iso2c) %>% 
-  summarise(gcf_gagr_10_15 = my_geoavg_growth(value)) %>% 
+  summarise(gcf_gagr_10_15 = my_geoavg_growth(value),
+            gcf_avgr_10_15 = mean(gcf_gr, na.rm = TRUE)) %>% 
   ungroup()
 
 
 gcf_gr_03_08_10_15 <- left_join(gcf_to_coLCU_03_08, gcf_to_coLCU_10_15,
                                  by = c("iso2c")) %>% 
-  mutate(cambio = gcf_gagr_10_15 - gcf_gagr_03_08)
+  mutate(cambio_gm = gcf_gagr_10_15 - gcf_gagr_03_08,
+         cambio_am = gcf_avgr_10_15 - gcf_avgr_03_08)
 
 
+save(gfcf_gr_03_08_10_15, gfcf_to_coLCU, gfcf_to_gdp,
+     file = "./produced_data/gfcf_wb_data")
 
-gdp_ppe_ppp = wb(country = this_selection, indicator = "SL.GDP.PCAP.EM.KD")
+save(gcf_gr_03_08_10_15, gcf_to_coLCU, gcf_to_gdp,
+     file = "./produced_data/gcf_wb_data")
 
-gdp_per_capita = wb(country = this_selection, indicator = "NY.GDP.PCAP.KD")
-
-employment_to_pop_15plus = wb(country = this_selection, indicator = "SL.EMP.TOTL.SP.ZS")
-
-employment_to_pop_15plus_ne = wb(country = this_selection, indicator = "SL.EMP.TOTL.SP.NE.ZS")
-
-total_pop = wb(country = this_selection, indicator = "SP.POP.TOTL")
-
-pop_65plus_pct_of_total = wb(country = this_selection, indicator = "SP.POP.65UP.TO.ZS")
-
-pop_15_64_pct_of_total = wb(country = this_selection, indicator = "SP.POP.1564.TO.ZS")
-
-pop_15up <- left_join(pop_15_64_pct_of_total, 
-                      pop_65plus_pct_of_total, by = c("iso2c","date")) %>% 
-  mutate(pct_15up = value.x + value.y)
+# 
+# gdp_ppe_ppp = wb(country = this_selection, indicator = "SL.GDP.PCAP.EM.KD")
+# 
+# gdp_per_capita = wb(country = this_selection, indicator = "NY.GDP.PCAP.KD")
+# 
+# employment_to_pop_15plus = wb(country = this_selection, indicator = "SL.EMP.TOTL.SP.ZS")
+# 
+# employment_to_pop_15plus_ne = wb(country = this_selection, indicator = "SL.EMP.TOTL.SP.NE.ZS")
+# 
+# total_pop = wb(country = this_selection, indicator = "SP.POP.TOTL")
+# 
+# pop_65plus_pct_of_total = wb(country = this_selection, indicator = "SP.POP.65UP.TO.ZS")
+# 
+# pop_15_64_pct_of_total = wb(country = this_selection, indicator = "SP.POP.1564.TO.ZS")
+# 
+# pop_15up <- left_join(pop_15_64_pct_of_total, 
+#                       pop_65plus_pct_of_total, by = c("iso2c","date")) %>% 
+#   mutate(pct_15up = value.x + value.y)
 
 # NE.GDI.TOTL.ZS
 # Gross capital formation (% of GDP)
