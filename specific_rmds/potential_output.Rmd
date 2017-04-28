@@ -55,7 +55,6 @@ weo_country_names_lac_18[18] <- "Venezuela"
 ```
 
 ## Producto potencial
-
 ```{r calculate_gdp_gaps_trends, include=FALSE}
 
 source("../functions/funcs_for_new_normal.R")
@@ -168,7 +167,6 @@ El caso de México es interesante porque exhibe tasas de crecimiento del PIB pot
 Esta nueva realidad que enfrenta la región no es por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
 
 
-
 ```{r table_avg_tg_bigeconomies, echo=FALSE, results=TRUE}
 
 tbl_be_caption = "Average growth of potential output, advanced economies and China"
@@ -229,14 +227,7 @@ bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = perio
   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) +
   scale_y_continuous(breaks = seq(-2, 12, 2)) +
   theme_tufte()
-# 
-# bp_not_lac <- bp_not_lac +
-#   theme(axis.text = element_text(size = 15),
-#         legend.text = element_text(size = 15),
-#         legend.title = element_text(size = 17),
-#         title = element_text(size = 17)) 
 
-# bp_not_lac
 ```
 
 
@@ -313,7 +304,7 @@ knitr::kable(weo_gg_avg_02_08_10_16_lac, digits = 1,
 ```
 
 En casi todas las economías de la región, vemos una considerable desaceleración de sus exportaciones 
-(medidas por el volumen de exportación) respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que mejoran su desempeño en el segundo período, vienen de desempeños m+as bien modestos durante 2003-2008.
+(medidas por el volumen de exportación) respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que mejoran su desempeño en el segundo período, vienen de desempeños m+as bien modestos durante 2003-2008.
 
 Todas las excepciones se encuentran fuera de América del Sur, pero el panorama está lejos de ser homogéneo, pues junto a los casos de México, Honduras, Guatemala y notablemente Republica Dominicana --que pasa de una contracción promedio a una ráida expansión promedio-- que lograron incrementar la velocidad de expansión de sus exportaciones, están también los casos de Nicaragua, Costa Rica, Panamá y EL Salvador que sufrieron un freno importante en su sector exportador. Después de República Dominicana, es México quien presenta el caso más interesante: tiene un sólido incremento de la tasa de crecimiento de sus exportaciones y se ubica en esta nueva etapa como la segunda economía más dinámica 
 
