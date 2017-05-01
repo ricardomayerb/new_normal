@@ -101,6 +101,12 @@ trend_growth_list_other <- real_gdp_hp %>%
          voi = hp_trend) %>% 
   growth_report(end2 = 2016)
 
+trend_growth_list_china <- real_gdp_hp %>%
+  filter(country == "China") %>% 
+  rename(date_id = year,
+         eco_id = country,
+         voi = hp_trend) %>% 
+  growth_report(end2 = 2016)
 
 
 # real_gdp_country_wide <- real_gdp_long %>% 
@@ -108,6 +114,15 @@ trend_growth_list_other <- real_gdp_hp %>%
 # 
 # real_gdp_growth_long <- weo_gdp %>% 
 #   filter(weo_subject_code %in% c("NGDP_RPCH"))
+
+weo_few <- WEOApr2017cepal18_others_long %>% 
+  select(iso, country, year, weo_subject_code, value) %>% 
+  filter(weo_subject_code %in% c("NGDP_R", "NGDP_RPCH", "NGAP_NPGDP")) 
+
+weo_long_EU_AE_G7_USA <- subset(weo_few , 
+                country %in% c("United States", "Major advanced economies (G7)",
+                               "Euro area " , "Advanced economies")) %>% 
+  select(-iso) %>% arrange(country, year)
 
 weo_cwide_EU_AE_G7_USA <- weo_long_EU_AE_G7_USA %>% spread(weo_subject_code, value) %>% 
   group_by(country) %>% 
@@ -122,6 +137,9 @@ weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>%
          voi = gross_rate_potential_gdp) %>% 
   growth_report(input_type = "gross_rates",  end2 = 2016)
   
+
+avgs_china_usa_ez_g7 <- bind_rows(weo_pot_list_EU_AE_G7_USA$avgs_df,
+                                  trend_growth_list_china$avgs_df)
 
 # real_gdp_gap_weo_long <-  weo_gdp %>% 
 #   filter(weo_subject_code %in% c("NGAP_NPGDP"))
@@ -139,7 +157,7 @@ weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>%
 
 
 
-```{r table_avg_tg_lac, echo=FALSE, results=TRUE}
+```{r table_avg_tg_lac,  results=TRUE}
 lac_tbl_caption = "Average growth of potential output, LAC"
 uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
 table_data_pot_lac <- trend_growth_list_lac$avgs_df %>% 
@@ -163,10 +181,13 @@ Esta nueva realidad que enfrenta la región no es por supuesto, un mal endémico
 
 <br>
 
-```{r table_avg_tg_bigeconomies, echo=FALSE, results=TRUE}
+```{r table_avg_tg_others, results=TRUE}
 
+table_avg_tg_others_data <- avgs_china_usa_ez_g7 %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+  
 tbl_be_caption = "Average growth of potential output, advanced economies and China"
-knitr::kable(trend_growth_2003_2008_2010_2016_big_economies, digits = 1,
+knitr::kable(table_avg_tg_others_data, digits = 1,
              col.names = uno_colnames, caption = tbl_be_caption) %>% 
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculation")
 ```
@@ -245,7 +266,16 @@ weo_trade <- WEOApr2017cepal18_others_long %>%
   select(iso, country, year, weo_subject_code, value) %>% 
   filter(weo_subject_code %in% c("TM_RPCH", "TMG_RPCH", "TX_RPCH", "TXG_RPCH",
                                  "BCA_NGDPD")) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
   arrange(country, year, weo_subject_code)
+
+
+weo_x_growth_lac <- weo_trade %>% 
+  filter(weo_subject_code == "TX_RPCH") %>% 
+  filter(country %in% weo_country_names_lac_18) %>% 
+  mutate(x_gross_gr = value/100 + 1) %>% 
+  rename(voi = x_gross_gr, eco_id = country, date_id = date) %>% 
+  growth_report(end2 = 2016, input_type = "gross_rates")
 
 weo_trade_avg_2003_2008 <-  weo_trade %>% 
   spread(key=weo_subject_code, value=value) %>% 
