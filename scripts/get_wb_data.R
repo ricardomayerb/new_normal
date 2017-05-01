@@ -12,7 +12,7 @@ my_growth <- function(x) {
 my_geoavg_growth <- function(x) {
   en <- length(x)
   rat <- dplyr::last(x)/dplyr::first(x)
-  gross_gavg_rate <- rat^(1/(en - 1))
+  gross_gavg_rate <- rat^(1/en)
   gavg_rate <- 100 * (gross_gavg_rate-1)
 }
 
