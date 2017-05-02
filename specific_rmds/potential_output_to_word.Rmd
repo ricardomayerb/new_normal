@@ -1,14 +1,12 @@
 ---
-title: "potential_output"
+title: "Evolución del producto potencial y sus determinantes"
 author: "Ricardo Mayer"
-date: "April 17, 2017"
+date: '2017-05-02'
 output:
   word_document:
     reference_docx: reference_word.docx
   html_document: default
 ---
-
-
 
 
 ```{r setup, include=FALSE}
@@ -35,7 +33,7 @@ source("../functions/funcs_for_new_normal.R")
 
 ```
 
-```{r load_principal_data, cache=TRUE, include=FALSE}
+```{r load_principal_data,  include=FALSE}
 load("../produced_data/WEOApr2017_cepal_and_others")
 
 # what variables are available (not the same for countries and groups of countries!) ad what are their codes
@@ -57,6 +55,20 @@ weo_country_names_lac_18 <- countrycode(cepal_18_countries[["iso3c"]], "iso3c", 
 weo_country_names_lac_18[2] <- "Bolivia"
 weo_country_names_lac_18[18] <- "Venezuela"
 ```
+
+## Resumen
+
+Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de las exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero con una diferencia significativa, pues a diferencia de los otros determinantes mencionados, 
+no tuvo un crecimiento importante en el período previo a la crisis financiera global.
+
+Aunque esta descripción es pertinente a la gran  mayoría de los países examinados (13 a 15 países, dependiendo de la variable examinada,  de un total de 18 países), hay algunas excepciones sistemáticas: México es una economía que si bien estuvo ajeno a buena parte del boom productivo del quinquenio 2003-2008, al menos no ha empeorado su desempeño en el período 2010-2016.  Bolivia, Paraguay y Nicaragua, por su parte son las economías que más logran desmarcarse de la tendecia del resto de los países a un desaceleramiento y logran buenas posiciones frente a sus pares en el período post crisis financiera. Finalmente habría que agregar el caso de Panamá, que aunque ve desacelerado su producto potencial y sus exportaciones, son caídas pequeñas desde tasas bastante altas para la región y logra mantener una acelerada expansión del inversión real y aumentar su productividad laboral.
+
+En el polo opuesto a estas excepciones, constituyendo la cara más marcada de estos hechos estilizados, se encuentran Argentina, Brasil y, especialmente,  Venezuela. Todas presentan desaceleraciones importantes de su producto potencia y particularmente de la inversión real. En los casos de Argentina y Brasil su desaceleración del volumen exportador es algo más suave y el de la productividad laboral es leve y más o menos en la mediana de la región.
+
+Un punto complementario que se desprende de esta sección, es que el panorama general descrito para ALC es similar a la evolución que experimentó la economía mundial e su conjunto y los principales socios comerciales de la región: China, Estados Unidos y la Unión Europea, siendo el quiebre de tendencia de China mucho más pronunciado que el de las economías más avanzadas.
+
+
+##### Page Brake
 
 ## Producto potencial
 ```{r calculate_gdp_gaps_trends, include=FALSE}
@@ -359,11 +371,11 @@ Todas las excepciones se encuentran fuera de América del Sur, pero el panorama 
 
 En el caso de la importaciones tenemos una situación muy similar a las de las exportaciones: las única economías que han logrado aumentar la tasa de expansión de sus importaciones son las mismas que lograron acelerar su sector exportador, menos Honduras, que se suma en este caso al grupo mayoritario de países que desaceleran.
 
-Esta tendencia general de América Latina, coincide con los patrones de crecimiento del comercio de las Economías Avanzas, China y Estados Unidos, con la sola pero potencialmente importante excepción las importaciones de los Estados Unidos, que se aceleraron levemente después de la crisis: pasaron de crecer a un 4.5% promedio anual a un 4.9% promedio anual. Sin duda, el cambio más importante para el producto pontencial de AL y especialemente de los exportadores de commodities es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
+Esta tendencia general de América Latina, se inscribe en un contexto donde el comercio mundial, como fracción del producto, también se desaceleró: en el período post crisis financiera creció a un 4,9% promedio anual, menor al 7,5% promedio anual del quinquenio 2003-2008. El comportamiento de las exportaciones en la mayoría de los países de LAC encuentra su contraparte en la desaceleración de las importaciones en   China y Estados Unidos y en la suma de las economías avanzadas. El que la reducción del crecimiento de las importaciones de USA haya sido leve de 4,7% aual a 4,5% anual) ayuda a explicar por qué  México, Honduras )y hasta cierto punto Costa Rica) frenaron menos o aceleraron sus exportaciones. Sin embargo, el cambio más importante para el producto pontencial de AL y especialemente de los exportadores de commodities es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
 
 
 
-```{r table_avg_trade_g_world, results=TRUE}
+```{r table_avg_trade_g_world, message=FALSE, warning=FALSE,  include=FALSE}
 table_avg_trade_g_world_data <- weo_trade_growth_other$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
@@ -389,7 +401,7 @@ knitr::kable(table_avg_m_g_other_data, digits = 1,
 ```
 
 
-```{r table_avg_x_g_other, echo=FALSE, results=TRUE}
+```{r table_avg_x_g_other, message=FALSE, warning=FALSE, include=FALSE}
 table_avg_x_g_other_data <- weo_x_growth_other$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
@@ -426,6 +438,9 @@ knitr::kable(trade_to_gdp_other_data, digits = 1,
              col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
   add_footnote("Source: WB")
 ```
+
+
+##### Page brake
 
 ### Commodity prices
 
@@ -465,7 +480,7 @@ weo_commo_gr_list <- weo_commo %>%
 ```
 
 En cuanto al precio de los commodities, si bien es cierto que en todos los grupos de bienes 
-se observa un quiebre brutal en sus trayectorias pre y post 2009 (todos pasas de crecer vigorosamente a tasas de crecimiento muy tímidas o de pequeñas contracciones) es en el caso de los hidrocarburos y los metales, donde el freno ha sido más fuerte: mientras que el grupo de los alimentos pasa de crecer desde un robusto 11.6% anual a un exiguo 1.6% en el segundo período, para los metales e hidrocarburos la caída es desde impresionantes 25% a expansiones nulas (metales) o caídas moderadas (gas y petróleo).
+se observa un quiebre brutal en sus trayectorias pre y post 2009 (todos pasas de crecer vigorosamente a tasas de crecimiento muy tímidas o de pequeñas contracciones) es en el caso de los hidrocarburos y los metales, donde el freno ha sido más fuerte: mientras que el grupo de los alimentos pasa de crecer desde un robusto 11.6% anual a una leve caída anual de 1.6% en el segundo período, para los metales e hidrocarburos la caída es desde un impresionante 25% promedio anual  a caídas cercanas al 7% y 8% promedio al año. 
 
 
 ```{r table_comm_price_gr_avg}
@@ -546,11 +561,11 @@ fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
 
 ```
 
-La enorme mayoría -- 14 de 18-- de los países de la región en nuestra muestra vieron una 
+La gran mayoría -- 13 de 18-- de los países de la región en nuestra muestra vieron una 
 desaceleración de la inversión real (medida por el gasto real en formación 
-de capital fijo) en este segundo período. De las cuatro excepciones, una de ellas -- Guatemala -- pasó de una tasa de crecimiento modesta a una un tanto mayor (3,3% a 4,4%), pero sólo en los casos de Bolivia, Nicaragua and Panamá pudieron sostener y mejorar altas tasas de crecimiento de la inversión. 
+de capital fijo) en este segundo período. De las cinco excepciones, sólo dos de ellas --Panamá y Bolivia--  mejoran de tasas de crecimiento que ya eran altas y sólo Nicaragua presenta un salto absoluto significativo, (de 5,5% en el primer período a 10,9% en el segundo).
 
-Dentro de la mayoría de los países donde la inversión se frena durante el segundo período, destacan Argentina, Brasil, Chile y Perú. En el caso de estos dos últimos países, se trata de exportadores de metales, grupo de commodities que como ya vimos se caracterizó grandes fluctuaciones en su precio y que estancó su crecimiento en el segundo período, lo que sin duda repercutió en los planes de inversión.
+Dentro de la mayoría de los países donde la inversión se frena durante el segundo período, destacan las desaceleracioes de Argentina, Brasil, Chile y Perú. En el caso de estos dos últimos países, se trata de exportadores de metales, grupo de commodities que, como ya vimos, se caracterizó por una notoria caída en sus precios y son sectores de la economía que explican un buena parte de la inversión en dichos países.
 
 
 ```{r gfcf_lac_table}
