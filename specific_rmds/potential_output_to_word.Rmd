@@ -313,6 +313,29 @@ weo_m_growth_other <- weo_trade %>%
   rename(voi = m_gross_gr, eco_id = country, date_id = date) %>% 
   growth_report(end2 = 2016, input_type = "gross_rates")
 
+load("../produced_data/total_trade_wb")
+
+openess_lac_list <- trade_wb %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(eco_id = iso2c,
+         date_id = date,
+         voi = value) %>% 
+  growth_report()
+
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+other_iso2c <- countrycode(c(not_cepal_countries,aggregates_codes),
+                           "iso3c", "iso2c")
+
+openess_other_list <- trade_wb %>% 
+  filter(iso2c %in% other_iso2c) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(eco_id = iso2c,
+         date_id = date,
+         voi = value) %>% 
+  growth_report()
 ```
 
 
@@ -378,6 +401,31 @@ knitr::kable(table_avg_x_g_other_data, digits = 1,
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
 
+
+```{r trade_to_gdp_lac}
+trade_to_gdp_lac_data <- openess_lac_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "2003-2008", "2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Growth of trade/gdp (LAC-18)"
+knitr::kable(trade_to_gdp_lac_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
+  add_footnote("Source: WB")
+```
+
+
+```{r trade_to_gdp_other}
+trade_to_gdp_other_data <- openess_other_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "2003-2008", "2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Growth of trade/gdp (other economies)"
+knitr::kable(trade_to_gdp_other_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
+  add_footnote("Source: WB")
+```
 
 ### Commodity prices
 

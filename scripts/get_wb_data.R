@@ -30,6 +30,9 @@ not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR")
 aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
 this_selection <- c(cepal_33_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
 
+trade_wb <-   wb(country = this_selection, indicator = "NE.TRD.GNFS.ZS")
+
+save(trade_wb, file = "./produced_data/total_trade_wb")
 
 inds_with_formation <- wbsearch("capital formation")
 
@@ -45,6 +48,9 @@ gcf_to_usd2010 <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.KD")
 
 gfcf_to_coLCU <-  wb(country = this_selection, indicator = "NE.GDI.FTOT.KN")
 gcf_to_coLCU <-  wb(country = this_selection, indicator = "NE.GDI.TOTL.KN")
+
+
+
 
 gfcf_to_coLCU <- gfcf_to_coLCU %>% 
   arrange(iso2c, date) %>% 
