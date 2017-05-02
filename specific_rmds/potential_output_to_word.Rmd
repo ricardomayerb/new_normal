@@ -3,9 +3,9 @@ title: "potential_output"
 author: "Ricardo Mayer"
 date: "April 17, 2017"
 output:
+  word_document:
+    reference_docx: reference_word.docx
   html_document: default
-  pdf_document: default
-  word_document: default
 ---
 
 
@@ -78,14 +78,14 @@ real_gdp_hp <- add_ts_filters(real_gdp_long) %>% arrange(country, date) %>%
   ungroup()
 
 trend_growth_list_all <- real_gdp_hp %>% 
-  rename(date_id = year,
+  rename(date_id = date,
          eco_id = country,
          voi = hp_trend) %>% 
   growth_report(end2 = 2016)
 
 trend_growth_list_lac <- real_gdp_hp %>%
   filter(country %in% weo_country_names_lac_18) %>% 
-  rename(date_id = year,
+  rename(date_id = date,
          eco_id = country,
          voi = hp_trend) %>% 
   growth_report(end2 = 2016)
@@ -96,14 +96,14 @@ other_weo_economies = c(c("China", "United States"),
 
 trend_growth_list_other <- real_gdp_hp %>%
   filter(country %in% other_weo_economies) %>% 
-  rename(date_id = year,
+  rename(date_id = date,
          eco_id = country,
          voi = hp_trend) %>% 
   growth_report(end2 = 2016)
 
 trend_growth_list_china <- real_gdp_hp %>%
   filter(country == "China") %>% 
-  rename(date_id = year,
+  rename(date_id = date,
          eco_id = country,
          voi = hp_trend) %>% 
   growth_report(end2 = 2016)
@@ -131,8 +131,9 @@ weo_cwide_EU_AE_G7_USA <- weo_long_EU_AE_G7_USA %>% spread(weo_subject_code, val
          gross_rate_potential_gdp = gross_rate_gdp*dplyr::lag(gross_gap)/gross_gap,
          growth_potential_pct = 100*(gross_rate_potential_gdp-1))
 
-weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>% 
-    rename(date_id = year,
+weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>%
+  mutate(date = ymd(paste0(year,  "-12-31"))) %>% 
+    rename(date_id = date,
          eco_id = country,
          voi = gross_rate_potential_gdp) %>% 
   growth_report(input_type = "gross_rates",  end2 = 2016)
@@ -193,62 +194,62 @@ knitr::kable(table_avg_tg_others_data, digits = 1,
 ```
 
 
-```{r avg_tg_barplot_lac, fig.width=12, fig.height=12}
-lac_data <- trend_growth_2003_2008_2010_2016 %>% 
-  filter(!country %in% c("China", "United States"))  %>% 
-  mutate(country = factor(country),
-         country = reorder(country, avg_tg_2003_2008)
-         ) %>% 
-  gather(key = period, value = avg_growth,
-         avg_tg_2003_2008, avg_tg_2010_2016) %>% 
-  mutate(period = factor(period, 
-                         levels = c("avg_tg_2010_2016", 
-                                    "avg_tg_2003_2008"))) %>% 
-  arrange(country, period)
+<!-- ```{r avg_tg_barplot_lac, fig.width=12, fig.height=12} -->
+<!-- lac_data <- trend_growth_2003_2008_2010_2016 %>% -->
+<!--   filter(!country %in% c("China", "United States"))  %>% -->
+<!--   mutate(country = factor(country), -->
+<!--          country = reorder(country, avg_tg_2003_2008) -->
+<!--          ) %>% -->
+<!--   gather(key = period, value = avg_growth, -->
+<!--          avg_tg_2003_2008, avg_tg_2010_2016) %>% -->
+<!--   mutate(period = factor(period, -->
+<!--                          levels = c("avg_tg_2010_2016", -->
+<!--                                     "avg_tg_2003_2008"))) %>% -->
+<!--   arrange(country, period) -->
 
 
-bp_lac <- ggplot(lac_data, aes(x = country, y = avg_growth, fill = period)) + 
-  geom_bar(stat = "identity", position = "dodge") + 
-  coord_flip() + ggtitle("Potential output growth, LAC") + 
-  ylab("Average growth (%)") + xlab("") + 
-  scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) +
-  scale_y_continuous(breaks=seq(-2, 12, 2)) +
-  theme_tufte() +
-  theme(axis.text = element_text(size = 17),
-        legend.text = element_text(size = 15),
-        legend.title = element_text(size = 17),
-        title = element_text(size = 19)) 
+<!-- bp_lac <- ggplot(lac_data, aes(x = country, y = avg_growth, fill = period)) + -->
+<!--   geom_bar(stat = "identity", position = "dodge") + -->
+<!--   coord_flip() + ggtitle("Potential output growth, LAC") + -->
+<!--   ylab("Average growth (%)") + xlab("") + -->
+<!--   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) + -->
+<!--   scale_y_continuous(breaks=seq(-2, 12, 2)) + -->
+<!--   theme_tufte() + -->
+<!--   theme(axis.text = element_text(size = 17), -->
+<!--         legend.text = element_text(size = 15), -->
+<!--         legend.title = element_text(size = 17), -->
+<!--         title = element_text(size = 19)) -->
 
-# bp_lac
-```
-
-
-
-```{r avg_tg_barplot_not_lac}
- not_lac_data <- trend_growth_2003_2008_2010_2016_big_economies %>% 
-  mutate(country = factor(country),
-         country = reorder(country, avg_tg_2003_2008)
-         ) %>% 
-  gather(key = period, value = avg_growth,
-         avg_tg_2003_2008, avg_tg_2010_2016) %>% 
-  mutate(period = factor(period, 
-                         levels = c("avg_tg_2010_2016", 
-                                    "avg_tg_2003_2008"))) %>% 
-  arrange(country, period)
-
-
-bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = period)) + 
-  geom_bar(stat = "identity", position = "dodge") + 
-  coord_flip() + ggtitle("Potential output growth, Advanced economies and China") + 
-  ylab("Average growth (%)") + xlab("") + 
-  scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) +
-  scale_y_continuous(breaks = seq(-2, 12, 2)) +
-  theme_tufte()
-
-```
+<!-- # bp_lac -->
+<!-- ``` -->
 
 
 
+<!-- ```{r avg_tg_barplot_not_lac} -->
+<!--  not_lac_data <- trend_growth_2003_2008_2010_2016_big_economies %>% -->
+<!--   mutate(country = factor(country), -->
+<!--          country = reorder(country, avg_tg_2003_2008) -->
+<!--          ) %>% -->
+<!--   gather(key = period, value = avg_growth, -->
+<!--          avg_tg_2003_2008, avg_tg_2010_2016) %>% -->
+<!--   mutate(period = factor(period, -->
+<!--                          levels = c("avg_tg_2010_2016", -->
+<!--                                     "avg_tg_2003_2008"))) %>% -->
+<!--   arrange(country, period) -->
+
+
+<!-- bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = period)) + -->
+<!--   geom_bar(stat = "identity", position = "dodge") + -->
+<!--   coord_flip() + ggtitle("Potential output growth, Advanced economies and China") + -->
+<!--   ylab("Average growth (%)") + xlab("") + -->
+<!--   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) + -->
+<!--   scale_y_continuous(breaks = seq(-2, 12, 2)) + -->
+<!--   theme_tufte() -->
+
+<!-- ``` -->
+
+
+##### Page break
 
 ## Comercio
 
@@ -261,14 +262,15 @@ bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = perio
 # "TX_RPCH": Volume of exports of goods and services Percent change 
 # "TXG_RPCH": Volume of exports of goods, Percent change 
 # "BCA_NGDPD": Current account balance, Percentage of GDP
+# TRADEPCH	World	Trade volume of goods and services		Percent change
+
 
 weo_trade <- WEOApr2017cepal18_others_long %>% 
   select(iso, country, year, weo_subject_code, value) %>% 
-  filter(weo_subject_code %in% c("TM_RPCH", "TMG_RPCH", "TX_RPCH", "TXG_RPCH",
+  filter(weo_subject_code %in% c("TRADEPCH","TM_RPCH", "TMG_RPCH", "TX_RPCH", "TXG_RPCH",
                                  "BCA_NGDPD")) %>% 
   mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
   arrange(country, year, weo_subject_code)
-
 
 weo_x_growth_lac <- weo_trade %>% 
   filter(weo_subject_code == "TX_RPCH") %>% 
@@ -277,55 +279,52 @@ weo_x_growth_lac <- weo_trade %>%
   rename(voi = x_gross_gr, eco_id = country, date_id = date) %>% 
   growth_report(end2 = 2016, input_type = "gross_rates")
 
-weo_trade_avg_2003_2008 <-  weo_trade %>% 
-  spread(key=weo_subject_code, value=value) %>% 
-  filter(year >= 2003 & year <= 2008) %>% 
-  group_by(country) %>% 
-  summarise(avg_gr_x_2003_2008 = mean(TX_RPCH, na.rm = TRUE),
-            avg_gr_xg_2003_2008 = mean(TXG_RPCH, na.rm = TRUE),
-            avg_gr_m_2003_2008 = mean(TM_RPCH, na.rm = TRUE),
-            avg_gr_mg_2003_2008 = mean(TMG_RPCH, na.rm = TRUE))
-
-weo_trade_avg_2010_2016 <-  weo_trade %>% 
-  spread(key=weo_subject_code, value=value) %>% 
-  filter(year >= 2010 & year <= 2016) %>% 
-  group_by(country) %>% 
-  summarise(avg_gr_x_2010_2016 = mean(TX_RPCH, na.rm = TRUE),
-            avg_gr_xg_2010_2016 = mean(TXG_RPCH, na.rm = TRUE),
-            avg_gr_m_2010_2016 = mean(TM_RPCH, na.rm = TRUE),
-            avg_gr_mg_2010_2016 = mean(TMG_RPCH, na.rm = TRUE))
-
-weo_trade_avg_02_08_10_16 <- left_join(weo_trade_avg_2003_2008,
-                                       weo_trade_avg_2010_2016,
-                                       by = c("country")) 
-
-weo_ggss_avg_02_08_10_16 <- weo_trade_avg_02_08_10_16 %>% 
-  select(country, avg_gr_x_2003_2008, avg_gr_x_2010_2016,
-         avg_gr_m_2003_2008, avg_gr_m_2010_2016)
+weo_m_growth_lac <- weo_trade %>% 
+  filter(weo_subject_code == "TM_RPCH") %>% 
+  filter(country %in% weo_country_names_lac_18) %>% 
+  mutate(m_gross_gr = value/100 + 1) %>% 
+  rename(voi = m_gross_gr, eco_id = country, date_id = date) %>% 
+  growth_report(end2 = 2016, input_type = "gross_rates")
 
 
-weo_gg_avg_02_08_10_16 <- weo_trade_avg_02_08_10_16 %>% 
-  select(country, avg_gr_xg_2003_2008, avg_gr_xg_2010_2016,
-         avg_gr_mg_2003_2008, avg_gr_mg_2010_2016)
+weo_trade_growth_other <- weo_trade %>% 
+  filter(weo_subject_code == "TRADEPCH") %>% 
+  filter(country %in% c("World")) %>% 
+  mutate(x_gross_gr = value/100 + 1) %>% 
+  rename(voi = x_gross_gr, eco_id = country, date_id = date) %>% 
+  growth_report(end2 = 2016, input_type = "gross_rates")
 
-weo_gg_avg_02_08_10_16_lac <- weo_gg_avg_02_08_10_16  %>% 
-  filter(country  %in% weo_country_names_lac_18)
 
-weo_gg_avg_02_08_10_16_ae_usa_china_ez <- weo_gg_avg_02_08_10_16  %>% 
-  filter(country  %in% c("China", "United States", "Euro area", "Advanced economies"))
 
-chl_trade <- weo_trade %>% filter(iso == "CHL")
-chn_trade <- weo_trade %>% filter(iso == "CHN")
+weo_x_growth_other <- weo_trade %>% 
+  filter(weo_subject_code == "TX_RPCH") %>% 
+  filter(country %in% c("World", "China", "United States", 
+                        "Euro area", "Advanced economies")) %>% 
+  mutate(x_gross_gr = value/100 + 1) %>% 
+  rename(voi = x_gross_gr, eco_id = country, date_id = date) %>% 
+  growth_report(end2 = 2016, input_type = "gross_rates")
+
+
+weo_m_growth_other <- weo_trade %>% 
+  filter(weo_subject_code == "TM_RPCH") %>% 
+  filter(country %in% c("World", "China", "United States",
+                        "Euro area", "Advanced economies")) %>% 
+  mutate(m_gross_gr = value/100 + 1) %>% 
+  rename(voi = m_gross_gr, eco_id = country, date_id = date) %>% 
+  growth_report(end2 = 2016, input_type = "gross_rates")
+
 ```
 
 
 
-```{r table_avg_tg_lac_foo, echo=FALSE, results=TRUE}
-xm_gg_colnames = c("Economy", "Exports 2003-2008", "Exports 2010-2016",
-                   "Imports 2003-2008", "Imports 2010-2016")
+```{r table_avg_x_g_lac, echo=FALSE, results=TRUE}
+table_avg_x_g_lac_data <- weo_x_growth_lac$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
-tbl_gg_lac_caption = "Average growth exports and imports of goods (LAC-18)"
-knitr::kable(weo_gg_avg_02_08_10_16_lac, digits = 1,
+xm_gg_colnames = c(" ", "Exports 2003-2008", "Exports 2010-2016", "Cambio")
+
+tbl_gg_lac_caption = "Volume of exports, average period growth (LAC-18)"
+knitr::kable(table_avg_x_g_lac_data, digits = 1,
              col.names = xm_gg_colnames, caption = tbl_gg_lac_caption) %>% 
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
@@ -340,11 +339,42 @@ En el caso de la importaciones tenemos una situación muy similar a las de las e
 Esta tendencia general de América Latina, coincide con los patrones de crecimiento del comercio de las Economías Avanzas, China y Estados Unidos, con la sola pero potencialmente importante excepción las importaciones de los Estados Unidos, que se aceleraron levemente después de la crisis: pasaron de crecer a un 4.5% promedio anual a un 4.9% promedio anual. Sin duda, el cambio más importante para el producto pontencial de AL y especialemente de los exportadores de commodities es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
 
 
-```{r table_avg_trade_bigeconomies, echo=FALSE, results=TRUE}
 
-tbl_gg_be_caption = "Average growth exports and imports of goods (Advanced economies and China)"
-knitr::kable(weo_gg_avg_02_08_10_16_ae_usa_china_ez, digits = 1,
-             col.names = xm_gg_colnames, caption = tbl_gg_be_caption) %>% 
+```{r table_avg_trade_g_world, results=TRUE}
+table_avg_trade_g_world_data <- weo_trade_growth_other$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "Imports 2003-2008", "Imports 2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Volume of imports, average period growth, World"
+knitr::kable(table_avg_trade_g_world_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
+  add_footnote("Source: growth rates for each year from WEO April 2017")
+```
+
+
+```{r table_avg_m_g_other, results=TRUE}
+table_avg_m_g_other_data <- weo_m_growth_other$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "Imports 2003-2008", "Imports 2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Volume of imports, average period growth (major economies)"
+knitr::kable(table_avg_m_g_other_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
+  add_footnote("Source: growth rates for each year from WEO April 2017")
+```
+
+
+```{r table_avg_x_g_other, echo=FALSE, results=TRUE}
+table_avg_x_g_other_data <- weo_x_growth_other$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "Exports 2003-2008", "Exports 2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Volume of exports, average period growth (major economies)"
+knitr::kable(table_avg_x_g_other_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
 
@@ -369,26 +399,20 @@ knitr::kable(weo_gg_avg_02_08_10_16_ae_usa_china_ez, digits = 1,
 
 weo_commo <- WEOApr2017cepal18_others_long %>% 
   filter(country == "World") %>% select(weo_subject_code, year, value) %>% 
-  filter(weo_subject_code %in% c("PMETAW", "PCOPP", "PALLFNFW", "POILAPSPW",
-                                 "PCOFFW", "PNGASW", "PNRGW", "PVOILW", "PFOODW")) %>% 
+  filter(weo_subject_code %in% c("PMETAW", "PCOPP", "PALLFNFW",
+                                 "POILAPSPW", "PCOFFW", "PNGASW",
+                                 "PNRGW", "PVOILW", "PFOODW")) %>% 
   arrange(weo_subject_code, year) %>%   
   group_by(weo_subject_code) %>% 
-  mutate(pct_growth = my_growth(value)) 
+  mutate(gross_growth = simple_gross_growth(value),
+         date =  ymd(paste0(year,  "-12-31"))) 
 
-weo_commo_g_avg_2003_2008 <- weo_commo %>% 
-  filter(year >= 2003 & year <= 2008) %>% 
-  select(-value) %>% 
-  summarise(avg_gr_2003_2008 = mean(pct_growth, na.rm = TRUE))
 
-weo_commo_g_avg_2010_2016 <- weo_commo %>% 
-  filter(year >= 2010 & year <= 2016) %>% 
-  select(-value) %>% 
-  summarise(avg_gr_2010_2016 = mean(pct_growth, na.rm = TRUE))
-  
-weo_commo_g_avg_03_08_10_16 <- left_join(weo_commo_g_avg_2003_2008,
-                                         weo_commo_g_avg_2010_2016,
-                                         by = "weo_subject_code" ) %>% 
-  mutate(cambio = avg_gr_2010_2016 - avg_gr_2003_2008)
+weo_commo_gr_list <- weo_commo %>% 
+  rename(eco_id = weo_subject_code,
+         date_id = date,
+         voi = value) %>% 
+  growth_report(end2 = 2016)
 
 ```
 
@@ -400,28 +424,55 @@ se observa un quiebre brutal en sus trayectorias pre y post 2009 (todos pasas de
 
 selected_comm <- c("PMETAW", "POILAPSPW", "PNGASW", "PFOODW")
 
+table_comm_price_gr_avg_data <- weo_commo_gr_list$avgs_df %>% 
+  filter(eco_id %in% selected_comm) %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
 colnames_comm_table <- c("Commodity", "2003-2008", "2010-2016", "Cambio")
 
-comm_table_data <- weo_commo_g_avg_03_08_10_16 %>% 
-  filter(weo_subject_code %in% selected_comm)
 
-comm_table_data[ , 1] <- c("Food", "Metals", "Gas", "Oil")
+table_comm_price_gr_avg_data[ , 1] <- c("Food", "Gas", "Metals", "Oil")
 
 tbl_comm_gr_caption = "Growth commodity price indexes (%)"
 
-knitr::kable(comm_table_data , digits = 1,
+knitr::kable(table_comm_price_gr_avg_data, digits = 1,
              col.names = colnames_comm_table, caption = tbl_comm_gr_caption) %>% 
   add_footnote("Source: Price indexes (2005=100) for each year, from WEO April 2017")
 
 ```
 
+
+##### Page break
+
 ## Formación de capital
 
-```{r fbc}
+```{r fbc, warning=FALSE}
 load("../produced_data/cs_fbcf_ratio_pib")
 load("../produced_data/gfcf_wb_data")
 
 
+
+gfcf_lac_list <- gfcf_to_coLCU %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(eco_id = iso2c,
+         date_id = date,
+         voi = value) %>% 
+  growth_report()
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+other_iso2c <- countrycode(c(not_cepal_countries,aggregates_codes),
+                           "iso3c", "iso2c")
+
+
+gfcf_other_list <- gfcf_to_coLCU %>% 
+  filter(iso2c %in% other_iso2c) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(eco_id = iso2c,
+         date_id = date,
+         voi = value) %>% 
+  growth_report()
 
 cgr <- cs_fbcf_ratio_pib %>% 
   select(iso3c, fbc_gr, fbcf_gr, year)
@@ -456,17 +507,15 @@ Dentro de la mayoría de los países donde la inversión se frena durante el seg
 
 ```{r gfcf_lac_table}
 
-
 colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
 
-fbcf_table_data <- gfcf_gr_03_08_10_15 %>% 
-  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>%
-  select(iso2c, gfcf_gagr_03_08, gfcf_gagr_10_15, cambio_gm)
+gfcf_lac_table_data <- gfcf_lac_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
 
 tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation, lac 18 (%)"
 
-knitr::kable(fbcf_table_data , digits = 1,
+knitr::kable(gfcf_lac_table_data , digits = 1,
              col.names = colnames_fbcf_table, caption = tbl_fbcf_gr_caption) %>% 
   add_footnote("Source: WB")
 
@@ -478,26 +527,19 @@ knitr::kable(fbcf_table_data , digits = 1,
 
 colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
 
-not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
-aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
-
-other_iso2c <- countrycode(c(not_cepal_countries,aggregates_codes),
-                           "iso3c", "iso2c")
-
-fbcf_table_data_notlac <- gfcf_gr_03_08_10_15 %>% 
-  filter(iso2c %in% other_iso2c) %>%
-  select(iso2c, gfcf_gagr_03_08, gfcf_gagr_10_15, cambio_gm)
-
+gfcf_notlac_table_data <- gfcf_other_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
 tbl_fbcf_gr_caption_notlac = "Growth Gross Fixed Cap formation, other economies (%)"
 
-knitr::kable(fbcf_table_data_notlac , digits = 1,
+knitr::kable(gfcf_notlac_table_data , digits = 1,
              col.names = colnames_fbcf_table,
              caption = tbl_fbcf_gr_caption_notlac) %>% 
   add_footnote("Source: WB")
 
 ```
 
+##### Page break
 
 ## Productivity
 
@@ -514,10 +556,24 @@ this_selection_18 <- c(cepal_18_countries[["iso3c"]], not_cepal_countries, aggre
 wb_agg_cnames = c("World", "High Income", "OECD members", "Euro area", 
                   "Latin America & Caribbean" )
 
-from_pwt <- pwt_gdp_per_employed %>% 
-  select(isocode, country, year, growth_gdp_to_pop_pwt, growth_gdp_to_emp_pwt) %>% 
-  filter(year >= 1990) %>% 
-  rename(iso3c = isocode)
+gdp_emp_lac_list <- pwt_gdp_per_employed %>% 
+  select(isocode, country, year, gdp_to_emp_pwt) %>% 
+  filter(isocode %in% cepal_18_countries[["iso3c"]]) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = isocode,
+         date_id = date,
+         voi = gdp_to_emp_pwt) %>% 
+  growth_report()
+
+  
+gdp_emp_other_list <- pwt_gdp_per_employed %>% 
+  select(isocode, country, year, gdp_to_emp_pwt) %>% 
+  filter(isocode %in% c(not_cepal_countries, aggregates_codes)) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = isocode,
+         date_id = date,
+         voi = gdp_to_emp_pwt) %>% 
+  growth_report()
 
 from_wb <- gdp_per_employed %>% 
   ungroup() %>% 
@@ -528,51 +584,6 @@ from_wb <- gdp_per_employed %>%
   filter(year >= 1990)
 
 from_ted <- ted_gracc_data
-
-lp_growth_emp_wb_pwt <- left_join(from_wb, from_pwt, by = c("iso3c", "year")) %>% 
-  select(iso3c, year, growth_gdp_per_emp, growth_gdp_to_emp_pwt) %>% 
-  filter(iso3c %in% factor(this_selection_18))
-
-lp_growth_pop_wb_pwt <- left_join(from_wb, from_pwt, by = c("iso3c", "year")) %>% 
-  select(iso3c, year, growth_gdp_per_pop, growth_gdp_to_pop_pwt) %>% 
-  filter(iso3c %in% factor(this_selection_18))
-
-lp_growth_avgs_92_00 <-lp_growth_emp_wb_pwt %>% 
-  filter(year >= 1992 & year <= 2000) %>% 
-  group_by(iso3c) %>% 
-  summarise(avg_lp_gr_92_00_wb = mean(growth_gdp_per_emp, na.rm = TRUE),
-            avg_lp_gr_92_00_pwt = mean(growth_gdp_to_emp_pwt, na.rm = TRUE))
-
-lp_growth_avgs_03_08 <-lp_growth_emp_wb_pwt %>% 
-  filter(year >= 2003 & year <= 2008) %>% 
-  group_by(iso3c) %>% 
-  summarise(avg_lp_gr_03_08_wb = mean(growth_gdp_per_emp, na.rm = TRUE),
-            avg_lp_gr_03_08_pwt = mean(growth_gdp_to_emp_pwt, na.rm = TRUE))
-
-
-lp_growth_avgs_10_15 <-lp_growth_emp_wb_pwt %>% 
-  filter(year >= 2010 & year <= 2015) %>% 
-  group_by(iso3c) %>% 
-  summarise(avg_lp_gr_10_15_wb = mean(growth_gdp_per_emp, na.rm = TRUE),
-            avg_lp_gr_10_15_pwt = mean(growth_gdp_to_emp_pwt, na.rm = TRUE))  
-
-
-lp_growth_avgs_92_to_15 <- left_join(lp_growth_avgs_92_00, 
-                                     lp_growth_avgs_03_08, by = "iso3c") %>% 
-  left_join(lp_growth_avgs_10_15, by = "iso3c") %>% 
-  mutate(pwt_cambio_92_00_02_08 = avg_lp_gr_03_08_pwt - avg_lp_gr_92_00_pwt,
-         wb_cambio_92_00_02_08 = avg_lp_gr_03_08_wb - avg_lp_gr_92_00_wb,
-         pwt_cambio_03_08_10_15 = avg_lp_gr_10_15_pwt - avg_lp_gr_03_08_pwt,
-         wb_cambio_03_08_10_15 = avg_lp_gr_10_15_wb - avg_lp_gr_03_08_wb)
-
-
-lp_growth_diff_wb_vs_pwt  <- lp_growth_avgs_92_to_15 %>% 
-  select(iso3c, pwt_cambio_03_08_10_15, wb_cambio_03_08_10_15) %>% 
-  mutate(pwt_minus_wb = pwt_cambio_03_08_10_15 - wb_cambio_03_08_10_15,
-         sign_reversal = pwt_cambio_03_08_10_15*wb_cambio_03_08_10_15 < 0)
-
-
-
 
 ```
 
@@ -589,68 +600,37 @@ la desaceleración de la prductividad del trabajo se hace más pronunciada, cuan
 También es cierto, que la producividad o se estancó o se ralentizó en la mayoría de las economías más avanzadas o más importantes (China, USA, Alemania, UK) y donde a excepción de China, la desaceleracion de la productividad es un poco mayor si se mide en producto por hora trabajada.
   
   
-```{r table_lac_lab_prod_gr_wb}
-lp_wb_table_data <- lp_growth_avgs_92_to_15 %>% 
-  select(iso3c, avg_lp_gr_03_08_wb, avg_lp_gr_10_15_wb, wb_cambio_03_08_10_15) %>% 
-  filter(iso3c %in% factor(cepal_18_countries[["iso3c"]]))
+```{r table_lac_lab_prod_pwt}
+table_lac_lab_prod_pwt_data <- gdp_emp_lac_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo) 
 
 colnames_lac_lp_wb_table <- c("", "2003-2008", "2010-2015", "Cambio")
 
 tbl_lp_wb_caption = "Growth of labor productivity (GDP per employed)"
 
-knitr::kable(lp_wb_table_data , digits = 1,
+knitr::kable(table_lac_lab_prod_pwt_data, digits = 1,
              col.names = colnames_lac_lp_wb_table , caption = tbl_lp_wb_caption) %>% 
-  add_footnote("Source: World Bank, ILO")
-  
-```
-
-
-```{r table_lac_lab_prod_gr_pwt}
-lp_pwt_table_data <- lp_growth_avgs_92_to_15 %>% 
-  select(iso3c, avg_lp_gr_03_08_pwt, avg_lp_gr_10_15_pwt,pwt_cambio_03_08_10_15) %>% 
-  filter(iso3c %in% factor(cepal_18_countries[["iso3c"]]))
-
-colnames_lac_lp_pwt_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-tbl_lp_pwt_caption = "Growth of labor productivity (GDP per employed, at 2011 PPP values)"
-
-knitr::kable(lp_pwt_table_data , digits = 1,
-             col.names = colnames_lac_lp_pwt_table , caption = tbl_lp_pwt_caption) %>% 
   add_footnote("Source: PWT 9.0")
   
 ```
 
 
-```{r table_other_countries_lab_prod_gr_pwt}
-lp_pwt_table_data_not_cepal <- lp_growth_avgs_92_to_15 %>% 
-  select(iso3c, avg_lp_gr_03_08_pwt, avg_lp_gr_10_15_pwt,pwt_cambio_03_08_10_15) %>% 
-  filter(iso3c %in% factor(c(not_cepal_countries, aggregates_codes))  )
 
-colnames_notlac_lp_pwt_table <- c("", "2003-2008", "2010-2015", "Cambio")
+```{r table_other_lab_prod_pwt}
+table_other_lab_prod_pwt_data <- gdp_emp_other_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo) 
 
-tbl_lp_pwt_caption = "Growth of labor productivity (GDP per employed, at 2011 PPP values)"
+colnames_lac_lp_wb_table <- c("", "2003-2008", "2010-2015", "Cambio")
 
-knitr::kable(lp_pwt_table_data_not_cepal , digits = 1,
-             col.names = colnames_lac_lp_pwt_table , caption = tbl_lp_pwt_caption) %>% 
+tbl_lp_wb_caption = "Growth of labor productivity (GDP per employed)"
+
+knitr::kable(table_other_lab_prod_pwt_data, digits = 1,
+             col.names = colnames_lac_lp_wb_table , caption = tbl_lp_wb_caption) %>% 
   add_footnote("Source: PWT 9.0")
   
 ```
 
  
-```{r table_other_countries_lab_prod_gr_wb}
-lp_wb_table_data_not_cepal <- lp_growth_avgs_92_to_15 %>% 
-  select(iso3c, avg_lp_gr_03_08_wb, avg_lp_gr_10_15_wb, wb_cambio_03_08_10_15) %>% 
-  filter(iso3c %in% factor(c(not_cepal_countries, aggregates_codes))  )
-
-colnames_notlac_lp_wb_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-tbl_lp_pwt_caption = "Growth of labor productivity (GDP per employed (2010 USD))"
-
-knitr::kable(lp_wb_table_data_not_cepal , digits = 1,
-             col.names = colnames_lac_lp_pwt_table , caption = tbl_lp_pwt_caption) %>% 
-  add_footnote("Source: World Bank, ILO")
-  
-```
 
 
 

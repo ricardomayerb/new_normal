@@ -59,13 +59,13 @@ growth_report <- function(df, input_type = "levels",
   }
 
   new_df_per1 <-  new_df %>%
-    filter(date_id >= start1 & date_id <= end1) %>% 
+    filter(year(date_id) >= start1 & year(date_id) <= end1) %>% 
     group_by(eco_id) %>% 
     summarise(ari_mean_gr_per1 = mean(ptp_net_gr, na.rm = TRUE),
               geo_mean_gr_per1 = geomean_growth(voi, input_type = input_type))
     
   new_df_per2 <-  new_df %>%
-    filter(date_id >= start2 & date_id <= end2) %>% 
+    filter(year(date_id) >= start2 & year(date_id) <= end2) %>% 
     group_by(eco_id) %>% 
     summarise(ari_mean_gr_per2 = mean(ptp_net_gr, na.rm = TRUE),
               geo_mean_gr_per2 = geomean_growth(voi, input_type = input_type))
