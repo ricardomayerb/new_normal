@@ -3,7 +3,8 @@ title: "potential_output"
 author: "Ricardo Mayer"
 date: "April 17, 2017"
 output:
-  word_document: default
+  word_document:
+    reference_docx: reference_word.docx
   pdf_document: default
   html_document: default
 ---
