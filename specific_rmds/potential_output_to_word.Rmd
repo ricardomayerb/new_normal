@@ -58,14 +58,14 @@ weo_country_names_lac_18[18] <- "Venezuela"
 
 ## Resumen
 
-Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de las exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero con una diferencia significativa, pues a diferencia de los otros determinantes mencionados, 
-no tuvo un crecimiento importante en el período previo a la crisis financiera global.
+Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
 
-Aunque esta descripción es pertinente a la gran  mayoría de los países examinados (13 a 15 países, dependiendo de la variable examinada,  de un total de 18 países), hay algunas excepciones sistemáticas: México es una economía que si bien estuvo ajeno a buena parte del boom productivo del quinquenio 2003-2008, al menos no ha empeorado su desempeño en el período 2010-2016.  Bolivia, Paraguay y Nicaragua, por su parte son las economías que más logran desmarcarse de la tendecia del resto de los países a un desaceleramiento y logran buenas posiciones frente a sus pares en el período post crisis financiera. Finalmente habría que agregar el caso de Panamá, que aunque ve desacelerado su producto potencial y sus exportaciones, son caídas pequeñas desde tasas bastante altas para la región y logra mantener una acelerada expansión del inversión real y aumentar su productividad laboral.
+Estas condiciones se inscriben dentro de un contexto global de desaceleración de la producción, del comercio y  la productividad. Es, en particular, cierto para sus tres principales socios comerciales: China, Estados Unidos y la Unión Europea, siendo el quiebre de tendecia en China mucho más pronunciado que en los dos otros socios.
+
+Aunque esta descripción es pertinente a la gran  mayoría de los países de la región (13 a 15 países, dependiendo de la variable examinada,  de un total de 18 en nuestra muestra), hay algunas excepciones sistemáticas: México es una economía que si bien estuvo ajeno a buena parte del boom productivo del quinquenio 2003-2008, al menos no ha empeorado su desempeño en el período 2010-2016.  Bolivia, Paraguay y Nicaragua, por su parte son las economías que más logran desmarcarse de la tendecia del resto de los países a un desaceleramiento y logran buenas posiciones frente a sus pares en el período post crisis financiera. Finalmente habría que agregar el caso de Panamá, que aunque ve desacelerado su producto potencial y sus exportaciones, son caídas pequeñas desde tasas bastante altas para la región y logra mantener una acelerada expansión del inversión real y aumentar su productividad laboral.
 
 En el polo opuesto a estas excepciones, constituyendo la cara más marcada de estos hechos estilizados, se encuentran Argentina, Brasil y, especialmente,  Venezuela. Todas presentan desaceleraciones importantes de su producto potencia y particularmente de la inversión real. En los casos de Argentina y Brasil su desaceleración del volumen exportador es algo más suave y el de la productividad laboral es leve y más o menos en la mediana de la región.
 
-Un punto complementario que se desprende de esta sección, es que el panorama general descrito para ALC es similar a la evolución que experimentó la economía mundial e su conjunto y los principales socios comerciales de la región: China, Estados Unidos y la Unión Europea, siendo el quiebre de tendencia de China mucho más pronunciado que el de las economías más avanzadas.
 
 
 ##### Page Brake
@@ -710,3 +710,45 @@ knitr::kable(lp_oecd_table_data , digits = 1,
   add_footnote("Source: OECD")
   
 ```
+
+
+
+## Flujos financieros
+
+Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de incrementos en las entradas o salidas, netas o brutas,  se han vuelto menos frecuentes. Por ejemplo, en términos de gross inflows y gross outflows, la región exhibe menos episodios extremos  comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis finaciera global, donde los inflow surges fueron más frecuentes. También es cierto si miramos las entradas y salidas etas de capitales: hay menos episodios extremos de salida e igual cantidad de entradas.
+
+
+Concretamente, usando datos de CEPAL sobre flujos *brutos* entrantes y salientes (gross inflows and gross outflows) para Brasil, 
+México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] **encuentra solamente un episodio de sudden stop**, específicamente en Colombia entre 2015Q2 y 2015Q4. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s. 
+
+Por lado de los flujos de entrada positivo, después del 2009 vemos sólo dos inflow surges, versus tres en los 90s y siete en los 2000s previos a la crisis financiera global.
+
+Aquí hay un cuadro que resume la situación:
+
+```{r gross_ff_episodes_resumen}
+extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx")
+ee_table_data <- extreme_episodes_by_period %>% select(-`prom anual`)
+names(ee_table_data) <- c("Period", "Sudden Stops", "Surges", "Flights", "Retrenchment", "Total")
+tbl_ee_caption <- "Gross Financial flows: Number of extreme episodos"
+  
+knitr::kable(ee_table_data , digits = 1, caption = tbl_ee_caption) %>% 
+  add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
+```
+
+```{r}
+net_extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx", 
+                                             sheet = "net_data_ee_by_period")
+net_ee_table_data <- net_extreme_episodes_by_period %>% select(-`prom anual`)
+names(net_ee_table_data) <- c("Period", "Sudden Stops", "Surges", "Total")
+net_tbl_ee_caption <- "Net Financial flows: Number of extreme episodos"
+  
+knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>% 
+  add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
+```
+
+
+
+
+
+
+
