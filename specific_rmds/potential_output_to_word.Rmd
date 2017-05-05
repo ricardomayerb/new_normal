@@ -1,11 +1,12 @@
 ---
-title: "Evolución del producto potencial y sus determinantes"
+title: "EvoluciÃƒÂ³n del producto potencial y sus determinantes"
 author: "Ricardo Mayer"
 date: '2017-05-02'
 output:
+  pdf_document: default
+  html_document: default
   word_document:
     reference_docx: reference_word.docx
-  html_document: default
 ---
 
 
@@ -154,19 +155,17 @@ weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>%
 avgs_china_usa_ez_g7 <- bind_rows(weo_pot_list_EU_AE_G7_USA$avgs_df,
                                   trend_growth_list_china$avgs_df)
 
-# real_gdp_gap_weo_long <-  weo_gdp %>% 
-#   filter(weo_subject_code %in% c("NGAP_NPGDP"))
-# 
-# real_gdp_wide <- real_gdp_long %>% 
-#   spread(key=year, value=value)
-# 
-# real_gdp_growth_wide <- real_gdp_growth_long %>% 
-#   spread(key=year, value=value)
-# 
-# real_gdp_gap_weo_wide <- real_gdp_gap_weo_long %>% 
-#   spread(key=year, value=value)
-
 ```
+
+### Evolución tendencial del producto
+
+Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009), la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
+
+
+En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
+
+
+El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos, aunque real, no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
 
 
 
@@ -180,15 +179,6 @@ knitr::kable(table_data_pot_lac , digits = 1,
              col.names = uno_colnames, caption = lac_tbl_caption) %>% 
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
 ```
-
-
-Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009), la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
-
-
-En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
-
-
-El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos, aunque real, no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
 
 Esta nueva realidad que enfrenta la región no es por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
 
@@ -206,66 +196,14 @@ knitr::kable(table_avg_tg_others_data, digits = 1,
 ```
 
 
-<!-- ```{r avg_tg_barplot_lac, fig.width=12, fig.height=12} -->
-<!-- lac_data <- trend_growth_2003_2008_2010_2016 %>% -->
-<!--   filter(!country %in% c("China", "United States"))  %>% -->
-<!--   mutate(country = factor(country), -->
-<!--          country = reorder(country, avg_tg_2003_2008) -->
-<!--          ) %>% -->
-<!--   gather(key = period, value = avg_growth, -->
-<!--          avg_tg_2003_2008, avg_tg_2010_2016) %>% -->
-<!--   mutate(period = factor(period, -->
-<!--                          levels = c("avg_tg_2010_2016", -->
-<!--                                     "avg_tg_2003_2008"))) %>% -->
-<!--   arrange(country, period) -->
 
-
-<!-- bp_lac <- ggplot(lac_data, aes(x = country, y = avg_growth, fill = period)) + -->
-<!--   geom_bar(stat = "identity", position = "dodge") + -->
-<!--   coord_flip() + ggtitle("Potential output growth, LAC") + -->
-<!--   ylab("Average growth (%)") + xlab("") + -->
-<!--   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) + -->
-<!--   scale_y_continuous(breaks=seq(-2, 12, 2)) + -->
-<!--   theme_tufte() + -->
-<!--   theme(axis.text = element_text(size = 17), -->
-<!--         legend.text = element_text(size = 15), -->
-<!--         legend.title = element_text(size = 17), -->
-<!--         title = element_text(size = 19)) -->
-
-<!-- # bp_lac -->
-<!-- ``` -->
-
-
-
-<!-- ```{r avg_tg_barplot_not_lac} -->
-<!--  not_lac_data <- trend_growth_2003_2008_2010_2016_big_economies %>% -->
-<!--   mutate(country = factor(country), -->
-<!--          country = reorder(country, avg_tg_2003_2008) -->
-<!--          ) %>% -->
-<!--   gather(key = period, value = avg_growth, -->
-<!--          avg_tg_2003_2008, avg_tg_2010_2016) %>% -->
-<!--   mutate(period = factor(period, -->
-<!--                          levels = c("avg_tg_2010_2016", -->
-<!--                                     "avg_tg_2003_2008"))) %>% -->
-<!--   arrange(country, period) -->
-
-
-<!-- bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = period)) + -->
-<!--   geom_bar(stat = "identity", position = "dodge") + -->
-<!--   coord_flip() + ggtitle("Potential output growth, Advanced economies and China") + -->
-<!--   ylab("Average growth (%)") + xlab("") + -->
-<!--   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) + -->
-<!--   scale_y_continuous(breaks = seq(-2, 12, 2)) + -->
-<!--   theme_tufte() -->
-
-<!-- ``` -->
 
 
 ##### Page break
 
-## Comercio
+### Evolución de los determinantes
 
-### Exportaciones e Importaciones
+#### Exportaciones e Importaciones
 
 ```{r calcultate_avg_gr_trade_related, include=FALSE}
 
@@ -442,7 +380,7 @@ knitr::kable(trade_to_gdp_other_data, digits = 1,
 
 ##### Page brake
 
-### Commodity prices
+#### Commodity prices
 
 
 ```{r compute_commodity_price, include=FALSE}
@@ -507,7 +445,7 @@ knitr::kable(table_comm_price_gr_avg_data, digits = 1,
 
 ##### Page break
 
-## Formación de capital
+#### Formación de capital
 
 ```{r fbc, warning=FALSE}
 load("../produced_data/cs_fbcf_ratio_pib")
@@ -604,7 +542,7 @@ knitr::kable(gfcf_notlac_table_data , digits = 1,
 
 ##### Page break
 
-## Productivity
+#### Productivity
 
 ```{r labor_produc_dfs}
 
@@ -713,7 +651,7 @@ knitr::kable(lp_oecd_table_data , digits = 1,
 
 
 
-## Flujos financieros
+#### Flujos financieros
 
 Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de incrementos en las entradas o salidas, netas o brutas,  se han vuelto menos frecuentes. Por ejemplo, en términos de gross inflows y gross outflows, la región exhibe menos episodios extremos  comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis finaciera global, donde los inflow surges fueron más frecuentes. También es cierto si miramos las entradas y salidas etas de capitales: hay menos episodios extremos de salida e igual cantidad de entradas.
 
@@ -746,9 +684,78 @@ knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>%
   add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
 ```
 
+##### Page Break
+
+#### Joint points with Cycles' chapter
+
+-  Inversión: less dramatic fluctuations, which are good news, but anemic recoveries and subdued trend growth, which are not. If it were an individual,
+we would say that economic policies eliminated his eatings disorders (no more binge eatings and fasting, with their harmful consequences), but he still lacks musculature and a targeted diet. Point to get across the policy chapter.
+
+- From your chapter, exports and real investment became less central to actual growth. That sits very well with our observations of weak trend growth and luckluster productivity performance. It should be mentioned in the "new normal" chapter. Moreover, the fact that exports have made a stronger contribution in Central America, reinforce the overall better performance of CA over South America, which is also featured in my tables.
+
+- From reading your chapter, I think that I should include Canada in my analysis, since is a key trade partner of Central America. 
+
+- Do you think that better financial (cheaper and more stable) conditions since 2000s explains, in part, the reduction in amplitude of investment´s cycle? Could it be that is less lumpier because actual or expected financing constraints disappeared?
+
+- Si el nuevo gran protagonista del crecimiento es el consumo privado --y cambiar eso tomaría varios años-- es vital contener el sobre-endeudamiento, establecer mecanismos razonables de quiebra personal para suavizar consumo en caso de insolvencia. Un early-warning-system regional se hace imperativo y me da la impresión de que en general los países de la región están un poco atrasados. Una vez que los NPL se han acelerado notablemente es quizás demasiado tarde para actuar. 
+Para eso se necesita información de carga financiera y no solamente de morosidad. Desafío para los próximos años.
+
+- tengo menos comentarios sobre el tema del gasto público. Sobre las exportaciones, en tanto, me gustaría volver a leerlo con detención y ahí te comento algo.
 
 
 
 
 
+<!-- ```{r avg_tg_barplot_lac, fig.width=12, fig.height=12} -->
+<!-- lac_data <- trend_growth_2003_2008_2010_2016 %>% -->
+<!--   filter(!country %in% c("China", "United States"))  %>% -->
+<!--   mutate(country = factor(country), -->
+<!--          country = reorder(country, avg_tg_2003_2008) -->
+<!--          ) %>% -->
+<!--   gather(key = period, value = avg_growth, -->
+<!--          avg_tg_2003_2008, avg_tg_2010_2016) %>% -->
+<!--   mutate(period = factor(period, -->
+<!--                          levels = c("avg_tg_2010_2016", -->
+<!--                                     "avg_tg_2003_2008"))) %>% -->
+<!--   arrange(country, period) -->
 
+
+<!-- bp_lac <- ggplot(lac_data, aes(x = country, y = avg_growth, fill = period)) + -->
+<!--   geom_bar(stat = "identity", position = "dodge") + -->
+<!--   coord_flip() + ggtitle("Potential output growth, LAC") + -->
+<!--   ylab("Average growth (%)") + xlab("") + -->
+<!--   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) + -->
+<!--   scale_y_continuous(breaks=seq(-2, 12, 2)) + -->
+<!--   theme_tufte() + -->
+<!--   theme(axis.text = element_text(size = 17), -->
+<!--         legend.text = element_text(size = 15), -->
+<!--         legend.title = element_text(size = 17), -->
+<!--         title = element_text(size = 19)) -->
+
+<!-- # bp_lac -->
+<!-- ``` -->
+
+
+
+<!-- ```{r avg_tg_barplot_not_lac} -->
+<!--  not_lac_data <- trend_growth_2003_2008_2010_2016_big_economies %>% -->
+<!--   mutate(country = factor(country), -->
+<!--          country = reorder(country, avg_tg_2003_2008) -->
+<!--          ) %>% -->
+<!--   gather(key = period, value = avg_growth, -->
+<!--          avg_tg_2003_2008, avg_tg_2010_2016) %>% -->
+<!--   mutate(period = factor(period, -->
+<!--                          levels = c("avg_tg_2010_2016", -->
+<!--                                     "avg_tg_2003_2008"))) %>% -->
+<!--   arrange(country, period) -->
+
+
+<!-- bp_not_lac <- ggplot(not_lac_data, aes(x = country, y = avg_growth, fill = period)) + -->
+<!--   geom_bar(stat = "identity", position = "dodge") + -->
+<!--   coord_flip() + ggtitle("Potential output growth, Advanced economies and China") + -->
+<!--   ylab("Average growth (%)") + xlab("") + -->
+<!--   scale_fill_discrete(labels = c("2010 - 2016", "2003 - 2008")) + -->
+<!--   scale_y_continuous(breaks = seq(-2, 12, 2)) + -->
+<!--   theme_tufte() -->
+
+<!-- ``` -->
