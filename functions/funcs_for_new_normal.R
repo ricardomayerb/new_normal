@@ -102,11 +102,18 @@ growth_report <- function(df, input_type = "levels",
     select(eco_id)
   
   
-  
+  group_avgs <- means_two_periods %>%
+    summarise_at(c("ari_mean_gr_per1","geo_mean_gr_per1",
+                   "ari_mean_gr_per2","geo_mean_gr_per2"), mean) %>% 
+    mutate(change_ari = ari_mean_gr_per2 - ari_mean_gr_per1,
+           change_geo = geo_mean_gr_per2 - geo_mean_gr_per1)
+
+
   return(list(new_df = new_df, avgs_df = means_two_periods,
               neggeochg = neg_geo_change_ids, posgeochg = pos_geo_change_ids, 
               negarichg = neg_ari_change_ids, posarichg = pos_geo_change_ids,
-              other_stats = two_per_stats))
+              other_stats = two_per_stats,
+              group_averages = group_avgs))
   }
 
 add_ts_filters <- function(df, date_colname = "date", value_colname = "value",

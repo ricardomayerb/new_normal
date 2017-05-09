@@ -1,10 +1,10 @@
 ---
 title: "América Latina y el Caribe en su nueva normalidad"
 author: "Ricardo Mayer"
-date: '2017-05-02'
+date: '2017-05-09'
 output:
   word_document:
-    reference_docx: reference_word.docx
+    reference_docx: reference_style_for_new_normal.docx
   pdf_document: default
   html_document: default
 ---
@@ -34,7 +34,7 @@ source("../functions/funcs_for_new_normal.R")
 
 ```
 
-```{r load_principal_data,  include=FALSE}
+```{r load_principal_data,  include=FALSE, cache=TRUE}
 load("../produced_data/WEOApr2017_cepal_and_others")
 
 # what variables are available (not the same for countries and groups of countries!) ad what are their codes
@@ -55,32 +55,14 @@ load("../produced_data/cepal_33_countries")
 weo_country_names_lac_18 <- countrycode(cepal_18_countries[["iso3c"]], "iso3c", "country.name.en")
 weo_country_names_lac_18[2] <- "Bolivia"
 weo_country_names_lac_18[18] <- "Venezuela"
+
+load("../produced_data/selected_oecd_vars")
+load("../produced_data/ted_productivity_2016_nov")
+
 ```
 
 
-
-## Resumen
-
-Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
-
-Estas condiciones se inscriben dentro de un contexto global de desaceleración de la producción, del comercio y  la productividad. Es, en particular, cierto para sus tres principales socios comerciales: China, Estados Unidos y la Unión Europea, siendo el quiebre de tendecia en China mucho más pronunciado que en los dos otros socios.
-
-Aunque esta descripción es pertinente a la gran  mayoría de los países de la región (13 a 15 países, dependiendo de la variable examinada,  de un total de 18 en nuestra muestra), hay algunas excepciones sistemáticas: México es una economía que si bien estuvo ajeno a buena parte del boom productivo del quinquenio 2003-2008, al menos no ha empeorado su desempeño en el período 2010-2016.  Bolivia, Paraguay y Nicaragua, por su parte son las economías que más logran desmarcarse de la tendecia del resto de los países a un desaceleramiento y logran buenas posiciones frente a sus pares en el período post crisis financiera. Finalmente habría que agregar el caso de Panamá, que aunque ve desacelerado su producto potencial y sus exportaciones, son caídas pequeñas desde tasas bastante altas para la región y logra mantener una acelerada expansión del inversión real y aumentar su productividad laboral.
-
-En el polo opuesto a estas excepciones, constituyendo la cara más marcada de estos hechos estilizados, se encuentran Argentina, Brasil y, especialmente,  Venezuela. Todas presentan desaceleraciones importantes de su producto potencia y particularmente de la inversión real. En los casos de Argentina y Brasil su desaceleración del volumen exportador es algo más suave y el de la productividad laboral es leve y más o menos en la mediana de la región.
-
-
-
-##### Page Brake
-
-
-## Contexto internacional
-
-### Lento crecimiento del producto efectivo y tendencial
-
-
-```{r calculate_gdp_gaps_trends, include=FALSE}
-
+```{r calculate_gdp_gaps_trends, include=FALSE, cache=TRUE}
 
 weo_gdp <- WEOApr2017cepal18_others_long %>% 
   select(iso, country, year, weo_subject_code, value) %>% 
@@ -161,8 +143,111 @@ weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>%
 
 avgs_china_usa_ez_g7 <- bind_rows(weo_pot_list_EU_AE_G7_USA$avgs_df,
                                   trend_growth_list_china$avgs_df)
+```
+
+
+```{r productivity_gr}
+
+oecd_lab_prod_for_report <- selection_oecd_eo_nov_2016 %>% 
+  filter(VARIABLE == "PDTY" & FREQUENCY == "A") %>% 
+  mutate(date_id = ymd(paste0(obsTime,  "-12-31"))) %>% 
+  rename(eco_id = LOCATION, 
+         voi = obsValue) %>% 
+  select(eco_id, date_id, voi)
+
+#new periods
+oecd_lab_prod_avg_03_08_10_15 <- oecd_lab_prod_for_report %>% 
+  growth_report(end2 = 2016)
+
+#esteban periods
+oecd_lab_prod_avg_90_95_96_00 <- oecd_lab_prod_for_report %>% 
+  growth_report(start1 = 1990, end1 = 1995, start2 = 1996, end2 = 2000)
+
+oecd_lab_prod_avg_01_06_07_09 <- oecd_lab_prod_for_report %>% 
+  growth_report(start1 = 2001, end1 = 2006, start2 = 2007, end2 = 2009)
+
+oecd_lab_prod_avg_07_09_10_16 <- oecd_lab_prod_for_report %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016)
+
+ted_lab_prod_employed_regions <- ted_nov_2016_regions %>% 
+  filter(INDICATOR == "LP_L_g") %>% 
+  select(-c(MEASURE, INDICATOR)) %>% 
+  gather(key = "year", value = "net_rate", -c(REGION)) %>% 
+  mutate(gross_rate_of_growth = net_rate/100 + 1)
+
+ted_prod_regions_for_report <- ted_lab_prod_employed_regions %>% 
+  mutate(date_id = ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = REGION, 
+         voi = gross_rate_of_growth) %>% 
+  select(eco_id, date_id, voi)
+
+ted_emplo_prod_avg_90_95_96_00 <- ted_prod_regions_for_report %>% 
+  growth_report(start1 = 1990, end1 = 1995, start2 = 1996, end2 = 2000,
+                input_type = "gross_rates")
+
+ted_emplo_prod_avg_01_06_07_09 <- ted_prod_regions_for_report %>% 
+  growth_report(start1 = 2001, end1 = 2006, start2 = 2007, end2 = 2009,
+                input_type = "gross_rates")
+
+ted_emplo_prod_avg_07_09_10_16 <- ted_prod_regions_for_report %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
+                input_type = "gross_rates")
+
+# %>% 
+#   mutate(gross_rate_of_growth = )
+
 
 ```
+
+
+## Resumen (reescribir miercoles)
+
+Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
+
+Estas condiciones se inscriben dentro de un contexto global de desaceleración de la producción, del comercio y  la productividad. Es, en particular, cierto para sus tres principales socios comerciales: China, Estados Unidos y la Unión Europea, siendo el quiebre de tendecia en China mucho más pronunciado que en los dos otros socios.
+
+Aunque esta descripción es pertinente a la gran  mayoría de los países de la región (13 a 15 países, dependiendo de la variable examinada,  de un total de 18 en nuestra muestra), hay algunas excepciones sistemáticas: México es una economía que si bien estuvo ajeno a buena parte del boom productivo del quinquenio 2003-2008, al menos no ha empeorado su desempeño en el período 2010-2016.  Bolivia, Paraguay y Nicaragua, por su parte son las economías que más logran desmarcarse de la tendecia del resto de los países a un desaceleramiento y logran buenas posiciones frente a sus pares en el período post crisis financiera. Finalmente habría que agregar el caso de Panamá, que aunque ve desacelerado su producto potencial y sus exportaciones, son caídas pequeñas desde tasas bastante altas para la región y logra mantener una acelerada expansión del inversión real y aumentar su productividad laboral.
+
+En el polo opuesto a estas excepciones, constituyendo la cara más marcada de estos hechos estilizados, se encuentran Argentina, Brasil y, especialmente,  Venezuela. Todas presentan desaceleraciones importantes de su producto potencia y particularmente de la inversión real. En los casos de Argentina y Brasil su desaceleración del volumen exportador es algo más suave y el de la productividad laboral es leve y más o menos en la mediana de la región.
+
+
+
+##### Page Brake
+
+
+## La región enfrenta un contexto externo más restrictivo y más incierto
+
+A partir de la crisis global financiera el contexto internacional se ha vuelto más restrictivo. 
+Las tasas de crecimiento de la economía mundial y de los principales socios de América Latina 
+y el Caribe han disminuido restringiendo las posibilidades de crecimiento de la región a través del sector externo.
+
+```{r table_avg_tg_others, results=TRUE}
+
+table_avg_tg_others_data <- avgs_china_usa_ez_g7 %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  filter(!str_detect(eco_id, "Major") )
+
+tg_others_colnames <- c("Región"," 2003-2008 ", " 2010-2016 ")
+  
+tbl_be_caption = "Tasas de crecimiento de las economías a nivel mundial (% anual del PIB potencial)"
+knitr::kable(table_avg_tg_others_data, digits = 1,
+             col.names = tg_others_colnames, caption = tbl_be_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017")
+```
+
+
+La evidencia disponible muestra que a la par con la baja tendencial del crecimiento económico y de la inversión el ritmo de crecimiento de la productividad ha tendido a desacelerarse (o estancarse) sobre todo en el mundo desarrollado. 
+
+La tasa de crecimiento de la productividad laboral para el caso de los Estados Unidos aumentó en la década de los noventa. Esta pasó de 1.4% y 2.6% en promedio para 1990-1995 y 1996-2000 para luego disminuir por debajo de 1% en la década de los noventa y mantenerse en torno a 1% entre 2010-2015. Por su parte tanto la Zona Euro como el resto de las economías industrializadas registran una clara disminución en la tasa de crecimiento de la productividad en los noventa (Cuadro 4).
+A  nivel más específico del sector manufacturero también se nota una pérdida de productividad en las economías más desarrolladas. La tasa de crecimiento anual del producto por hora para un conjunto de economías desarrolladas baja de 4.8%  a 1.5% entre 1998-2006 y 2010-2014. Una evolución similar se registra para el producto por trabajador: 4.7% y 1.4% para el mismo periodo. 
+
+
+
+##### Page Brake
+
+### Lento crecimiento del producto efectivo y tendencial
+
+
 
 ### Evolución tendencial del producto
 
@@ -211,16 +296,7 @@ Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémic
 
 
 
-```{r table_avg_tg_others, results=TRUE}
 
-table_avg_tg_others_data <- avgs_china_usa_ez_g7 %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-  
-tbl_be_caption = "Average growth of potential output, advanced economies and China"
-knitr::kable(table_avg_tg_others_data, digits = 1,
-             col.names = uno_colnames, caption = tbl_be_caption) %>% 
-  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculation")
-```
 
 
 
