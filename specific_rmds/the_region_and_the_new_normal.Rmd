@@ -1,7 +1,7 @@
 ---
-title: "América Latina y el Caribe en su nueva normalidad"
+title: "America Latina y el Caribe en su nueva normalidad"
 author: "Ricardo Mayer"
-date: '2017-05-09'
+date: '`r Sys.Date()`'
 output:
   word_document:
     reference_docx: reference_style_for_new_normal.docx
@@ -37,14 +37,14 @@ source("../functions/funcs_for_new_normal.R")
 ```{r load_principal_data,  include=FALSE, cache=TRUE}
 load("../produced_data/WEOApr2017_cepal_and_others" )
 
-# what variables are available (not the same for countries and groups of countries!) ad what are their codes
+# what variables are available  (not the same for countries and groups of countries!) ad what are their codes
 
 subject_dict_co <- WEOApr2017cepal18_others_long %>% 
   filter(iso == "CHL" & year == 2000) %>% 
-  select(-c(value, iso, country, country_series_specific_notes,
+  select(-c(value, iso, country, country_series_specific_notes ,
             weo_country_code, estimates_start_after, scale, year))
 
-subject_dict_wo <- WEOApr2017cepal18_others_long %>% 
+subject_dict_wo <- WEOApr2017cepal18_others_long  %>% 
   filter(country == "World" & year == 2000) %>% 
   select(-c(value, iso,  country_series_specific_notes,
             weo_country_code, estimates_start_after, scale, year) ) 
@@ -199,6 +199,82 @@ ted_emplo_prod_avg_07_09_10_16 <- ted_prod_regions_for_report %>%
 ```
 
 
+```{r fbc, warning=FALSE}
+load("../produced_data/cs_fbcf_ratio_pib")
+load("../produced_data/gfcf_wb_data")
+
+weo_gfcf_aspct_gdp <- WEOApr2017cepal18_others_long %>% 
+  select(iso, country, year, weo_subject_code, value) %>% 
+  filter(weo_subject_code %in% c("NID_NGDP")) %>% 
+  mutate(date = ymd(paste0(year,  "-12-31")))
+
+
+weo_regions_names <- c("World", "Advanced economies", "Emerging market and developing economies",
+                       "Other advanced economies (Advanced economies excluding G7 and euro area)",
+                       "Major advanced economies (G7)", "Euro area",
+                       "Latin America and the Caribbean", "Middle East and North Africa")
+
+weo_gfcf_aspct_gdp_regions <- weo_gfcf_aspct_gdp %>% 
+  filter(country %in% weo_regions_names)  %>% 
+  select(country, date, value) %>% 
+  rename(date_id = date, voi = value, eco_id = country)
+
+weo_gfcf_to_gdp_regions_90_95_96_00 <- weo_gfcf_aspct_gdp_regions %>% 
+  growth_report(start1 = 1991, end1 = 1995, start2 = 1996, end2 = 2000)
+
+weo_gfcf_to_gdp_regions_01_06_07_09 <- weo_gfcf_aspct_gdp_regions %>% 
+  growth_report(start1 = 2001, end1 = 2006, start2 = 2007, end2 = 2009)
+
+weo_gfcf_to_gdp_regions_07_09_10_16 <- weo_gfcf_aspct_gdp_regions %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016)
+
+gfcf_lac_list <- gfcf_to_coLCU %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(eco_id = iso2c,
+         date_id = date,
+         voi = value) %>% 
+  growth_report()
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+other_iso2c <- countrycode(c(not_cepal_countries,aggregates_codes),
+                           "iso3c", "iso2c")
+
+
+gfcf_other_list <- gfcf_to_coLCU %>% 
+  filter(iso2c %in% other_iso2c) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(eco_id = iso2c,
+         date_id = date,
+         voi = value) %>% 
+  growth_report()
+
+cgr <- cs_fbcf_ratio_pib %>% 
+  select(iso3c, fbc_gr, fbcf_gr, year)
+
+cf_gr_03_08 <- cgr %>% 
+  select(-fbc_gr) %>% 
+  filter(year >= 2003 & year <= 2008) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_03_08 = mean(fbcf_gr, na.rm = TRUE))
+
+cf_gr_10_16 <- cgr %>% 
+  select(-fbc_gr) %>% 
+  filter(year >= 2010 & year <= 2016) %>% 
+  group_by(iso3c) %>% 
+  summarise(avg_10_16 = mean(fbcf_gr, na.rm = TRUE))
+
+fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
+                                     cf_gr_10_16,
+                                         by = "iso3c" ) %>% 
+  mutate(cambio = avg_10_16 - avg_03_08)
+
+```
+
+
+
+
 ## Resumen (reescribir miercoles)
 
 Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
@@ -211,7 +287,7 @@ En el polo opuesto a estas excepciones, constituyendo la cara más marcada de es
 
 
 
-##### Page Brake
+##### Page Brake in Word
 
 
 ## La región enfrenta un contexto externo más restrictivo y más incierto
@@ -298,14 +374,78 @@ tbl_eco_emerg <- knitr::kable(tbl_prod_eco_emerg_data, digits = 1,
 
 tbl_eco_emerg
 ```
-1.	A los efectos que ha tenido el comportamiento de la inversión y la productividad en el PIB tendencial hay que sumar la desaceleración del comercio que se produce a partir de la década de los 2000.
-A diferencia del declive tendencial que muestra la tasa de crecimiento del producto y de la inversión a partir de la década de los setenta, el comercio mantuvo hasta el inicio de la Crisis Global Financiera (2007-2009) un elevado dinamismo.   No obstante desde entonces también ha mostrado señales de desaceleración. La evidencia disponible desde 1990 hasta 2015 muestra que la tasa de crecimiento del comercio a nivel mundial pasó, en promedio, de 7.6% en la década de los noventa a 4.8% en los 2000. 
+
+
+
+**La formacion de capital está estancada**
+
+
+```{r tbl_weo_gfcf_gr_regions}
+
+tbl_weo_gfcf_gr_regions_data <- weo_gfcf_to_gdp_regions_90_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1991-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_gfcf_to_gdp_regions_01_06_07_09$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(weo_gfcf_to_gdp_regions_07_09_10_16$avgs_df, by = "eco_id") %>% 
+  select(1:5,  geo_mean_gr_per2) %>% 
+  rename("2010-2016" = geo_mean_gr_per2)
+
+weo_gfcf_regions_colnames <- c("Región", "1991-1995 ", "1996-2000",
+                            "2001-2006", "2007-2009", "2010-2016")
+
+weo_gfcf_regions_caption = "Tasa de crecimiento anual de Formación de capital/PIB"
+
+table_weo_gfcf_gr_regions <- knitr::kable(tbl_weo_gfcf_gr_regions_data , digits = 1,
+             col.names = weo_gfcf_regions_colnames,
+             caption = weo_gfcf_regions_caption) %>% 
+  add_footnote("Fuente: IMF, Abril, 2017")
+
+table_weo_gfcf_gr_regions
+
+
+```
+
+
+
+
+```{r gfcf_notlac_table}
+
+colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+gfcf_notlac_table_data <- gfcf_other_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+tbl_fbcf_gr_caption_notlac = "Growth Gross Fixed Cap formation, other economies (%)"
+
+wb_notlac_tbl <- knitr::kable(gfcf_notlac_table_data , digits = 1,
+             col.names = colnames_fbcf_table,
+             caption = tbl_fbcf_gr_caption_notlac) %>% 
+  add_footnote("Source: WB")
+
+```
+
+
+
+**A los efectos que ha tenido el comportamiento de la inversión y la productividad en el PIB tendencial hay que sumar la desaceleración del comercio que se produce a partir de la década de los 2000.**
+
+
+
+A diferencia del declive tendencial que muestra la tasa de crecimiento del producto y de la inversión a partir de la década de los setenta, el comercio mantuvo hasta el inicio de la Crisis Global Financiera (2007-2009) un elevado dinamismo ^[Utilizando datos desde 1950 hasta el 2012, Ocampo (2015) divide la evolución del comercio en cuatro fases: 1950-1974; 1974-1986; 1986-2007; 2007-2012. El comercio experimentó la tasa de crecimiento más elevada en la tercera y cuarta fases (7%) y la tasa de crecimiento más baja en la cuarta fase (2.6%)]. No obstante desde entonces también ha mostrado señales de desaceleración. La evidencia disponible desde 1990 hasta 2015 muestra que la tasa de crecimiento del comercio a nivel mundial pasó, en promedio, de 7.6% en la década de los noventa a 4.8% en los 2000. 
 La desaceleración del comercio afecta sobre todo a las economías avanzadas y en menor medida al mundo en desarrollo. En su conjunto las exportaciones para las economías industrializadas han disminuido en promedio de 6%-7% en la década de los 90 a cerca de 2% en la década de los 2000. La desaceleración del comercio afecta con una intensidad similar a la mayor parte de las economías avanzadas.
+
+
 Contrariamente, en el caso de las economías en desarrollo la intensidad de la deceleración es heterogénea. La desaceleración del comercio se concentra en América Latina y el Caribe y Africa y Medio Oriente más que en Asia y Europa del Este y Asia Central  (Cuadro 5)
 
 
 
-```{r calcultate_avg_gr_trade_related, include=FALSE}
+
+
+
+```{r avg_gr_trade_x_m, include=FALSE}
 
 # "TM_RPCH": Volume of imports of goods and services, Percent change 
 # "TMG_RPCH": Volume of Imports of goods, Percent change 
@@ -344,12 +484,12 @@ weo_m_pct_ch <- WEOApr2017cepal18_others_long %>%
          eco_id = country) %>% 
   select(-c(weo_subject_code, value)) 
 
-region_names_desa <- c("World", "United States", "Japan",
+region_names_desa <- c("United States", "Japan", "Advanced economies",
                   "Other advanced economies (Advanced economies excluding G7 and euro area)")
 
-region_names_emerg <- c("China", "Emerging and developing Asia", 
+region_names_emerg <- c("Emerging and developing Asia", 
                         "Emerging market and developing economies" ,
-                  "Latin America and the Caribbean")
+                  "Latin America and the Caribbean", "Middle East and North Africa")
 
 
 weo_x_pct_ch_world <- weo_x_pct_ch %>% 
@@ -420,9 +560,227 @@ weo_x_pct_ch_emerg_92_00_01_16 <-  weo_x_pct_ch_emerg %>%
 ```
 
 
+```{r tbl_trade_x_eco_desa}
 
-##### Page Brake
+tbl_trade_gr_data_world <- weo_trade_pct_ch_world_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_trade_pct_ch_world_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_trade_pct_ch_world_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, "World" = "Comercio mundial"))
 
+
+tbl_x_gr_data_world <- weo_x_pct_ch_world_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_world_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_world_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, "World" = "Exportaciones mundiales"))
+
+
+tbl_x_gr_data_eco_desa <- weo_x_pct_ch_desa_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_desa_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_desa_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, 
+                         "Japan" = "Japón",
+                         "Advanced economies" = "Economías avanzadas",
+                         "United States" = "Estados Unidos",
+                         "Other advanced economies (Advanced economies excluding G7 and euro area)" = "Otras economías avanzadas"))
+
+
+tbl_x_gr_data_eco_emerg <- weo_x_pct_ch_emerg_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_emerg_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_emerg_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, 
+                         "Latin America and the Caribbean" = "América Latina y el Caribe",
+                         "Emerging market and developing economies" = "Economías emergentes y en desarrollo",
+                         "Emerging and developing Asia" = "Asia emergente y en desarrollo",
+                         "Middle East and North Africa" = "Medio Oriente y Norte de África"))
+
+big_trade_x_table_data <- tbl_trade_gr_data_world %>% 
+  bind_rows(tbl_x_gr_data_world) %>% 
+  bind_rows(tbl_x_gr_data_eco_desa) %>% 
+  bind_rows(tbl_x_gr_data_eco_emerg)
+  
+trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
+
+tbl_trade_x_caption = "Crecimiento del comercio y las exportacioens, mundial y por región"
+
+tbl_trade_x <- knitr::kable(big_trade_x_table_data, digits = 1,
+             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
+
+tbl_trade_x 
+
+```
+
+La desaceleración del comercio responde en parte a factores de carácter cíclico pero también se explica por razones de carácter estructural tal y como lo indica el hecho que el comercio se ha vuelto menos sensible a los cambios en el ingreso. Esto se ejemplifica la disminución de la elasticidad de largo plazo de las exportaciones global con respecto a la producción mundial. 
+La evidencia disponible para el periodo 1990-2015 muestra que la elasticidad de largo plazo del índice de volumen de las exportaciones respecto a la producción industrial del mundo disminuyó de 2 entre 1991-2000 a 1.7 entre 2002-2008 a 1.0 entre el 2010 y el 2015 (Figura 7). A nivel regional se produce el mismo fenómeno. Las estimaciones para la elasticidad ingreso de las exportaciones de América Latina con respecto al ingreso de las economías avanzadas y Asia emergente también muestra una disminución en el periodo 1991-2015.
+Estimaciones de la descomposición de la elasticidad a nivel de grupos de producto muestra que la caída de la elasticidad se explica por la disminución de la elasticidad de manufacturas. La elasticidad de importaciones de largo plazo para las manufacturas disminuyó de 2.6 entre 1986-2000 a 0.8 para el periodo 2001-2013.
+
+
+[*insertar figura Elasticidad de largo plazo del índice de volumen de las exportaciones respecto a la producción industrial del mundo (1991-2015)*]
+
+La caída de la elasticidad del comercio con respecto al ingreso responde a dos conjuntos de factores. En primer lugar, cabe destacar el cambio en la composición de la demanda agregada mundial y los determinantes del crecimiento global. Los distintos componentes de la demanda agregada mundial tienen distintas intensidades comerciales. Tanto en cuanto la disminución de la tasa de crecimiento a nivel mundial se explica por los componentes de la demanda agregada con un mayor contenido de comercio como es el caso de la inversión, una baja en el PIB mundial tendrá un mayor efecto en el comercio que una baja en el los componentes de la demanda agregada que son menos intensivos en comercio. 
+En segundo lugar se ha producido una ralentización del crecimiento de las cadenas de valor a nivel mundial. La evidencia disponible muestra que la razón del valor añadido externo al valor añadido interno para las exportaciones mundiales aumentó en 8.4 puntos porcentuales entre 1995-2005 y en sólo 2.5 puntos porcentuales para el periodo 2005-2012.  Una forma alternativa de medir esto es a través del crecimiento del comercio de bienes intermedios que según las últimas estimaciones disponibles se ha estancado (Figura 11).
+
+
+
+
+
+##### Page Brake in Word
+
+
+
+## Financial environment
+
+### Private credit to gdp levels and gr
+
+```{r credit_gdp_levels_and_gr}
+
+load("../produced_data/wb_credit_to_gdp_dfs")
+load("../produced_data/bis_tidy")
+
+not_lac_country_names <- c("World", "Euro area", "China", "United States",
+                           "Middle East & North Africa", "Middle East & North Africa", "Japan")
+
+wb_privcred2gdp_not_lac <- dom_credit_to_priv_sec_to_gdp %>% 
+  filter((country %in% not_lac_country_names) & date >= 1989 ) %>% 
+   mutate(date =  ymd(paste0(date,  "-12-31"))) 
+
+wb_privcred2gdp_regions <- wb_privcred2gdp_not_lac   %>% 
+  select(country, date, value) %>% 
+  rename(date_id = date, voi = value, eco_id = country)
+
+wb_privcred2gdp_regions_90_99_00_06 <- wb_privcred2gdp_regions %>% 
+  growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+
+wb_privcred2gdp_regions_07_09_10_15 <- wb_privcred2gdp_regions %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+                                                                                     
+
+                                     
+
+# Q:CL:P:A:M:770:A
+bis_pri_nfs_alls_gdp <- tc_qs_long %>% 
+  filter(str_detect(code, ":P:A:M:770:A"))
+
+bis_not_lac_country_names <- c("euro_area", "advanced_economies", "G20", "emerging_markets",
+                               "China", "United States of America" , "Japan", 
+                               "all_reporting_economies")
+
+bis_pri_nfs_alls_gdp_region <- bis_pri_nfs_alls_gdp %>% 
+  filter(country_name %in% bis_not_lac_country_names) %>% 
+  select(country_name, date, value) %>% 
+  rename(date_id = date, voi = value, eco_id = country_name)
+
+# demonios, son trimestrales
+# wb_prinfs2gdp_regions_90_99_00_06 <- bis_pri_nfs_alls_gdp_region %>% 
+#   growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+# 
+# wb_prinfs2gdp_regions_07_09_10_15 <- bis_pri_nfs_alls_gdp_region %>% 
+#   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+
+bis_gap_other_country_names <- c("euro_area", "China", "United States of America" , "Japan", 
+                               "United Kingdom of Great Britain and Northern Ireland")
+
+bis_credit_gdp_gap_notlac <- cr_gap_bis_gapval %>% 
+  filter(country_name %in% bis_gap_other_country_names) %>% 
+  select(-code) %>% 
+  rename(date_id = date, voi = value, eco_id = country_name)
+
+bis_cr_gap_notlac_avg_lvl_90_99_00_06 <- bis_credit_gdp_gap_notlac %>% 
+   means_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+  
+bis_cr_gap_notlac_avg_lvl_07_09_10_15 <- bis_credit_gdp_gap_notlac %>% 
+   means_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+
+```
+
+
+```{r tbl_privcred2gdp}
+tbl_privcred2gdp_data <- wb_privcred2gdp_regions_90_99_00_06$avgs_df %>%
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1999" = geo_mean_gr_per1, 
+         "2000-2005" = geo_mean_gr_per2) %>% 
+  left_join(wb_privcred2gdp_regions_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "2010-2015" = geo_mean_gr_per2)
+  
+
+wb_privcred2gdp_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+wb_privcred2gdp_regions_caption = "Tasa de crecimiento anual de Credito/PIB"
+
+wb_privcred2gdp_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
+             col.names = wb_privcred2gdp_regions_colnames,
+             caption = wb_privcred2gdp_regions_caption) %>% 
+  add_footnote("Source: WB")
+
+wb_privcred2gdp_regions_tbl
+
+```
+
+
+
+```{r tbl_creditgap}
+tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
+  select(eco_id, mean_per1, mean_per2) %>% 
+  rename("1990-1999" = mean_per1, 
+         "2000-2006" = mean_per2) %>% 
+  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, mean_per1, mean_per2) %>% 
+  rename("2007-2009" = mean_per1, 
+         "2010-2015" = mean_per2)
+  
+
+bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
+
+bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
+             col.names = bis_cr_gap_notlac_regions_colnames,
+             caption = bis_cr_gap_notlac_regions_caption) %>% 
+  add_footnote("Source: BIS")
+
+bis_cr_gap_notlac_regions_tbl
+
+```
 ### Lento crecimiento del producto efectivo y tendencial
 
 
@@ -666,7 +1024,7 @@ knitr::kable(trade_to_gdp_other_data, digits = 1,
 ```
 
 
-##### Page brake
+##### Page brake in Word
 
 #### Commodity prices
 
@@ -735,58 +1093,6 @@ knitr::kable(table_comm_price_gr_avg_data, digits = 1,
 
 #### Formación de capital
 
-```{r fbc, warning=FALSE}
-load("../produced_data/cs_fbcf_ratio_pib")
-load("../produced_data/gfcf_wb_data")
-
-
-
-gfcf_lac_list <- gfcf_to_coLCU %>% 
-  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
-  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
-  rename(eco_id = iso2c,
-         date_id = date,
-         voi = value) %>% 
-  growth_report()
-
-not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
-aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
-other_iso2c <- countrycode(c(not_cepal_countries,aggregates_codes),
-                           "iso3c", "iso2c")
-
-
-gfcf_other_list <- gfcf_to_coLCU %>% 
-  filter(iso2c %in% other_iso2c) %>% 
-  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
-  rename(eco_id = iso2c,
-         date_id = date,
-         voi = value) %>% 
-  growth_report()
-
-cgr <- cs_fbcf_ratio_pib %>% 
-  select(iso3c, fbc_gr, fbcf_gr, year)
-
-cf_gr_03_08 <- cgr %>% 
-  select(-fbc_gr) %>% 
-  filter(year >= 2003 & year <= 2008) %>% 
-  group_by(iso3c) %>% 
-  summarise(avg_03_08 = mean(fbcf_gr, na.rm = TRUE))
-
-cf_gr_10_16 <- cgr %>% 
-  select(-fbc_gr) %>% 
-  filter(year >= 2010 & year <= 2016) %>% 
-  group_by(iso3c) %>% 
-  summarise(avg_10_16 = mean(fbcf_gr, na.rm = TRUE))
-
-fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
-                                     cf_gr_10_16,
-                                         by = "iso3c" ) %>% 
-  mutate(cambio = avg_10_16 - avg_03_08)
-
-
-
-```
-
 La gran mayoría -- 13 de 18-- de los países de la región en nuestra muestra vieron una 
 desaceleración de la inversión real (medida por el gasto real en formación 
 de capital fijo) en este segundo período. De las cinco excepciones, sólo dos de ellas --Panamá y Bolivia--  mejoran de tasas de crecimiento que ya eran altas y sólo Nicaragua presenta un salto absoluto significativo, (de 5,5% en el primer período a 10,9% en el segundo).
@@ -812,23 +1118,7 @@ knitr::kable(gfcf_lac_table_data , digits = 1,
 
 
 
-```{r gfcf_notlac_table}
-
-colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-gfcf_notlac_table_data <- gfcf_other_list$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-tbl_fbcf_gr_caption_notlac = "Growth Gross Fixed Cap formation, other economies (%)"
-
-knitr::kable(gfcf_notlac_table_data , digits = 1,
-             col.names = colnames_fbcf_table,
-             caption = tbl_fbcf_gr_caption_notlac) %>% 
-  add_footnote("Source: WB")
-
-```
-
-##### Page break
+##### Page break in Word
 
 #### Productivity
 

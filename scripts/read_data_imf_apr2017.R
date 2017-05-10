@@ -8,7 +8,7 @@ library(stringi)
 load("./produced_data/cepal_33_countries")
 load("./produced_data/cepal_18_countries")
 
-not_cepal_countries <- c("USA", "CHN") 
+not_cepal_countries <- c("USA", "CHN", "JPN", "GBR", "DEU", "IND") 
 
 WEOApr2017all <- read_excel("./raw_data/WEOApr2017all_excel.xlsx",
 col_types = c("numeric", "text", "text",
@@ -86,20 +86,19 @@ WEOApr2017_long <- WEOApr2017_wide %>%
 
 WEOApr2017cepal33_others_wide <- WEOApr2017_wide %>% 
   filter(iso %in% cepal_33_countries[["iso3c"]] | iso %in% not_cepal_countries |
-           weo_country_code %in% c(1, 110, 119, 123, 505, 163, 200, 205, 406, 603))
+           weo_country_code %in% c(1, 110, 119, 123, 505, 163, 200, 205, 406, 603, 440))
 
 WEOApr2017cepal18_others_wide <-  WEOApr2017_wide %>% 
   filter(iso %in% cepal_18_countries[["iso3c"]] | iso %in% not_cepal_countries |
-           weo_country_code %in% c(1, 110, 119, 123, 505, 163, 200, 205, 406, 603))
+           weo_country_code %in% c(1, 110, 119, 123, 505, 163, 200, 205, 406, 603, 440))
 
 WEOApr2017cepal33_others_long <- WEOApr2017_long %>% 
   filter(iso %in% cepal_33_countries[["iso3c"]] | iso %in% not_cepal_countries |
-           weo_country_code %in% c(1, 110, 119, 123, 505, 163, 200, 205, 406, 603))
-
+           weo_country_code %in% c(1, 110, 119, 123, 505, 163, 200, 205, 406, 603, 440))
 
 WEOApr2017cepal18_others_long <-  WEOApr2017_long %>% 
   filter(iso %in% cepal_18_countries[["iso3c"]] | iso %in% not_cepal_countries |
-           weo_country_code %in% c(1, 110, 119, 123, 505,  163, 200, 205, 406, 603))
+           weo_country_code %in% c(1, 110, 119, 123, 505,  163, 200, 205, 406, 603, 440))
 
 
 

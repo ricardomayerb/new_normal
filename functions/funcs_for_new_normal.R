@@ -116,6 +116,59 @@ growth_report <- function(df, input_type = "levels",
               group_averages = group_avgs))
   }
 
+
+means_report <- function(df,  
+                          start1 = 2003, end1 = 2008,
+                          start2 = 2010, end2 = 2015) {
+  
+  new_df <- df %>% 
+      arrange(eco_id, date_id) 
+  
+  new_df_per1 <-  new_df %>%
+    filter(year(date_id) >= start1 & year(date_id) <= end1) %>% 
+    group_by(eco_id) %>% 
+    summarise(mean_per1 = mean(voi, na.rm = TRUE)
+              )
+  
+  new_df_per2 <-  new_df %>%
+    filter(year(date_id) >= start2 & year(date_id) <= end2) %>% 
+    group_by(eco_id) %>% 
+    summarise(mean_per2 = mean(voi, na.rm = TRUE)
+              )
+  
+  means_two_periods <- left_join(new_df_per1 , new_df_per2,
+                                 by = "eco_id") %>% 
+    mutate(change = mean_per2 - mean_per1,
+           change_pct = 100* (change/mean_per1)-1
+           ) %>% 
+    arrange(desc(change_pct))
+  
+  two_per_stats <- means_two_periods %>% 
+    summarise(neg_change = sum(change < 0))
+  
+  neg_change_ids  <- means_two_periods %>% 
+    filter(change < 0)  %>% 
+    select(eco_id)
+  
+  
+  pos_change_ids  <- means_two_periods %>% 
+    filter(change > 0)  %>% 
+    select(eco_id)
+  
+
+  group_avgs <- means_two_periods %>%
+    summarise_at(c("mean_per1","mean_per2"), mean) %>% 
+    mutate(change = mean_per2 - mean_per1)
+  
+  
+  return(list(new_df = new_df, avgs_df = means_two_periods,
+              negchg = neg_change_ids, poschg = pos_change_ids,
+              other_stats = two_per_stats,
+              group_averages = group_avgs))
+}
+
+
+
 add_ts_filters <- function(df, date_colname = "date", value_colname = "value",
                            hp_type = "lambda", data_periodicity = "annual",
                            country_colname = "iso"){
