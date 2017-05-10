@@ -3,8 +3,10 @@ library(dplyr)
 load("./produced_data/oecd_eo_nov_2017")
 
 # CBGDPR: Current account balance, as a percentage of GDP
+# Export volumes of goods and services XGSVD
+# 48. Import volumes of goods and services MGSVD
 
-trade_vars = c("TGSVD", "TGSVD_ANNPCT", "CTGSVD")
+trade_vars = c("TGSVD", "TGSVD_ANNPCT", "CTGSVD", "XGSVD", "MGSVD")
 capital_formation_vars <- c("ITV_ANNPCT", "ITV", "IBV")
 gdp_vars <- c("GDPV", "GDPV_ANNPCT ", "GDPVTR", "GAP", "GDP")
 

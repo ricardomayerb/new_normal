@@ -6,7 +6,7 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
-fin_flows_lac_18 <- read_excel("V:/USR/RMAYER/cw/new_normal/raw_data/Bal Pag_TRIMESTRAL_CECILIA_rm.xlsx",
+fin_flows_lac_18 <- read_excel("./raw_data/Bal Pag_TRIMESTRAL_CECILIA_rm.xlsx",
 sheet = "inflows_lac_18", col_types = c("text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
@@ -35,7 +35,7 @@ sheet = "inflows_lac_18", col_types = c("text",
 new_dates <- as.yearqtr(2000 + seq(0,67/4, by = 1/4))
 new_names <- c("item", new_dates)
 
-fin_flows_lac_17 <- read_excel("V:/USR/RMAYER/cw/new_normal/raw_data/Bal Pag_TRIMESTRAL_CECILIA_rm.xlsx",
+fin_flows_lac_17 <- read_excel("./raw_data/Bal Pag_TRIMESTRAL_CECILIA_rm.xlsx",
                                sheet = "inflows_lac_17", col_types = c("text",
                                                                        "numeric", "numeric", "numeric",
                                                                        "numeric", "numeric", "numeric",
@@ -99,7 +99,7 @@ fin_flows_17_xts <- fin_flows_long_lac_17 %>%
   select(-date) %>% 
   xts(order.by = fin_flows_long_lac_17$date)
 
-fin_flows_17_xts_yearly <- apply.yearly(fin_flows_17_xts
+# fin_flows_17_xts_yearly <- apply.yearly(fin_flows_17_xts
 
 
 fin_flows_18_xts <- fin_flows_long_lac_18 %>% 

@@ -35,9 +35,10 @@ source("../functions/funcs_for_new_normal.R")
 ```
 
 ```{r load_principal_data,  include=FALSE, cache=TRUE}
-load("../produced_data/WEOApr2017_cepal_and_others")
+load("../produced_data/WEOApr2017_cepal_and_others" )
 
 # what variables are available (not the same for countries and groups of countries!) ad what are their codes
+
 subject_dict_co <- WEOApr2017cepal18_others_long %>% 
   filter(iso == "CHL" & year == 2000) %>% 
   select(-c(value, iso, country, country_series_specific_notes,
@@ -193,8 +194,6 @@ ted_emplo_prod_avg_07_09_10_16 <- ted_prod_regions_for_report %>%
   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
                 input_type = "gross_rates")
 
-# %>% 
-#   mutate(gross_rate_of_growth = )
 
 
 ```
@@ -240,6 +239,185 @@ La evidencia disponible muestra que a la par con la baja tendencial del crecimie
 
 La tasa de crecimiento de la productividad laboral para el caso de los Estados Unidos aumentó en la década de los noventa. Esta pasó de 1.4% y 2.6% en promedio para 1990-1995 y 1996-2000 para luego disminuir por debajo de 1% en la década de los noventa y mantenerse en torno a 1% entre 2010-2015. Por su parte tanto la Zona Euro como el resto de las economías industrializadas registran una clara disminución en la tasa de crecimiento de la productividad en los noventa (Cuadro 4).
 A  nivel más específico del sector manufacturero también se nota una pérdida de productividad en las economías más desarrolladas. La tasa de crecimiento anual del producto por hora para un conjunto de economías desarrolladas baja de 4.8%  a 1.5% entre 1998-2006 y 2010-2014. Una evolución similar se registra para el producto por trabajador: 4.7% y 1.4% para el mismo periodo. 
+
+
+
+```{r tbl_productividad_mundo}
+
+tbl_prod_world_data <- ted_emplo_prod_avg_90_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_01_06_07_09$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_07_09_10_16$avgs_df, by = "eco_id") %>% 
+  select(1:5,  geo_mean_gr_per2) %>% 
+  rename("2010-2016" = geo_mean_gr_per2)
+
+period_esteban_colnames <- c("Región", "1990-1995 ", "1996-2000",
+                            "2001-2006", "2007-2009", "2010-2016")
+```
+
+
+```{r tbl_productividad_eco_desa}
+eco_desa_id <- c("Euro Area", "United States", "Other Mature Economies")
+
+tbl_prod_eco_desa_data <- tbl_prod_world_data %>% 
+  filter(eco_id %in% eco_desa_id)
+
+tbl_eco_desa_caption = "Crecimiento de la productividad, economías desarrolladas"
+
+tbl_eco_desa <- knitr::kable(tbl_prod_eco_desa_data, digits = 1,
+             col.names = period_esteban_colnames , caption = tbl_eco_desa_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos Conference Board, 2016")
+
+tbl_eco_desa
+```
+
+
+
+
+En cambio en el caso de las economías en desarrollo se nota un claro aumento de la productividad entre la década de los noventa y los 2000. Este aumento se explica, en gran medida, por el desempeño de China e India. China e India más que duplicaron el crecimiento de la productividad entre la segunda mitad de la década de los noventa y los 2000. Por su parte Asia en desarrollo (sin China e India), Medio Oriente y Africa del Norte y América Latina mostraron un estancamiento en el crecimiento de la productividad.
+
+
+```{r tbl_productividad_eco_emerg}
+eco_emerg_id <- c("China", "India", "Emerging Markets and Developing Economies",
+                  "Latin America", "Other Developing Asia",
+                  "Middle East & North Africa" , "Sub-Saharan Africa",
+                  "Russia, Central Asia and Southeast Europe")
+
+tbl_prod_eco_emerg_data <- tbl_prod_world_data %>% 
+  filter(eco_id %in% eco_emerg_id)
+
+tbl_eco_emerg_caption = "Crecimiento de la productividad, economías emergentes"
+tbl_eco_emerg <- knitr::kable(tbl_prod_eco_emerg_data, digits = 1,
+             col.names = period_esteban_colnames , caption = tbl_eco_emerg_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos Conference Board, 2016")
+
+tbl_eco_emerg
+```
+1.	A los efectos que ha tenido el comportamiento de la inversión y la productividad en el PIB tendencial hay que sumar la desaceleración del comercio que se produce a partir de la década de los 2000.
+A diferencia del declive tendencial que muestra la tasa de crecimiento del producto y de la inversión a partir de la década de los setenta, el comercio mantuvo hasta el inicio de la Crisis Global Financiera (2007-2009) un elevado dinamismo.   No obstante desde entonces también ha mostrado señales de desaceleración. La evidencia disponible desde 1990 hasta 2015 muestra que la tasa de crecimiento del comercio a nivel mundial pasó, en promedio, de 7.6% en la década de los noventa a 4.8% en los 2000. 
+La desaceleración del comercio afecta sobre todo a las economías avanzadas y en menor medida al mundo en desarrollo. En su conjunto las exportaciones para las economías industrializadas han disminuido en promedio de 6%-7% en la década de los 90 a cerca de 2% en la década de los 2000. La desaceleración del comercio afecta con una intensidad similar a la mayor parte de las economías avanzadas.
+Contrariamente, en el caso de las economías en desarrollo la intensidad de la deceleración es heterogénea. La desaceleración del comercio se concentra en América Latina y el Caribe y Africa y Medio Oriente más que en Asia y Europa del Este y Asia Central  (Cuadro 5)
+
+
+
+```{r calcultate_avg_gr_trade_related, include=FALSE}
+
+# "TM_RPCH": Volume of imports of goods and services, Percent change 
+# "TMG_RPCH": Volume of Imports of goods, Percent change 
+# "TX_RPCH": Volume of exports of goods and services Percent change 
+# "TXG_RPCH": Volume of exports of goods, Percent change 
+# "BCA_NGDPD": Current account balance, Percentage of GDP
+# TRADEPCH	World	Trade volume of goods and services		Percent change
+
+weo_trade_pct_ch <- WEOApr2017cepal18_others_long %>% 
+  select(country, year, weo_subject_code, value) %>% 
+  filter(weo_subject_code %in% c("TRADEPCH")) %>% 
+  filter(country == "World") %>% 
+  mutate(date_id =  ymd(paste0(year,  "-12-31")),
+         gross_gr = value/100 + 1) %>% 
+  rename(voi = gross_gr,
+         eco_id = country) %>% 
+  select(-c(weo_subject_code, value)) 
+  
+
+weo_x_pct_ch <- WEOApr2017cepal18_others_long %>% 
+  select(country, year, weo_subject_code, value) %>% 
+  filter(weo_subject_code %in% c("TX_RPCH")) %>% 
+  mutate(date_id =  ymd(paste0(year,  "-12-31")),
+         gross_gr = value/100 + 1) %>% 
+  rename(voi = gross_gr,
+         eco_id = country) %>% 
+  select(-c(weo_subject_code, value)) 
+
+
+weo_m_pct_ch <- WEOApr2017cepal18_others_long %>% 
+  select(country, year, weo_subject_code, value) %>% 
+  filter(weo_subject_code %in% c("TM_RPCH")) %>% 
+  mutate(date_id =  ymd(paste0(year,  "-12-31")),
+         gross_gr = value/100 + 1) %>% 
+  rename(voi = gross_gr,
+         eco_id = country) %>% 
+  select(-c(weo_subject_code, value)) 
+
+region_names_desa <- c("World", "United States", "Japan",
+                  "Other advanced economies (Advanced economies excluding G7 and euro area)")
+
+region_names_emerg <- c("China", "Emerging and developing Asia", 
+                        "Emerging market and developing economies" ,
+                  "Latin America and the Caribbean")
+
+
+weo_x_pct_ch_world <- weo_x_pct_ch %>% 
+  filter(eco_id == "World")
+
+weo_x_pct_ch_desa <- weo_x_pct_ch %>% 
+  filter(eco_id %in% region_names_desa)
+
+weo_x_pct_ch_emerg <- weo_x_pct_ch %>% 
+  filter(eco_id %in% region_names_emerg)
+
+
+
+weo_trade_pct_ch_world_92_95_96_00 <-  weo_trade_pct_ch %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+
+weo_trade_pct_ch_world_01_07_08_11 <-  weo_trade_pct_ch %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+
+weo_trade_pct_ch_world_92_00_01_16 <-  weo_trade_pct_ch %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+
+
+weo_x_pct_ch_world_92_95_96_00 <-  weo_x_pct_ch_world %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+
+weo_x_pct_ch_world_01_07_08_11 <-  weo_x_pct_ch_world %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+
+weo_x_pct_ch_world_92_00_01_16 <-  weo_x_pct_ch_world %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+
+
+
+weo_x_pct_ch_desa_92_95_96_00 <-  weo_x_pct_ch_desa %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+
+weo_x_pct_ch_desa_01_07_08_11 <-  weo_x_pct_ch_desa %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+
+weo_x_pct_ch_desa_92_00_01_16 <-  weo_x_pct_ch_desa %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+
+
+weo_x_pct_ch_emerg_92_95_96_00 <-  weo_x_pct_ch_emerg %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+
+weo_x_pct_ch_emerg_01_07_08_11 <-  weo_x_pct_ch_emerg %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+
+weo_x_pct_ch_emerg_92_00_01_16 <-  weo_x_pct_ch_emerg %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+
+# weo_x_growth_lac <- weo_trade %>% 
+#   filter(weo_subject_code == "TX_RPCH") %>% 
+#   filter(country %in% weo_country_names_lac_18) %>% 
+#   mutate(x_gross_gr = value/100 + 1) %>% 
+#   rename(voi = x_gross_gr, eco_id = country, date_id = date) %>% 
+#   growth_report(end2 = 2016, input_type = "gross_rates")
+# 
+# weo_m_growth_lac <- weo_trade %>% 
+#   filter(weo_subject_code == "TM_RPCH") %>% 
+#   filter(country %in% weo_country_names_lac_18) %>% 
+#   mutate(m_gross_gr = value/100 + 1) %>% 
+#   rename(voi = m_gross_gr, eco_id = country, date_id = date) %>% 
+#   growth_report(end2 = 2016, input_type = "gross_rates")
+
+```
 
 
 
