@@ -57,9 +57,33 @@ weo_country_names_lac_18 <- countrycode(cepal_18_countries[["iso3c"]], "iso3c", 
 weo_country_names_lac_18[2] <- "Bolivia"
 weo_country_names_lac_18[18] <- "Venezuela"
 
+weo_country_names_lac_17 <- weo_country_names_lac_18[1:17]
+
+weo_country_names_cardm <- c("Costa Rica", "Dominican Republic", "El Salvador" ,"Honduras", "Nicaragua", "Mexico", "Guatemala" , "Panama")
+
+weo_country_names_sa <- c("Argentina", "Bolivia", "Brazil", "Chile",
+                           "Colombia", "Ecuador", "Paraguay", "Peru",
+                           "Uruguay", "Venezuela")
+
+weo_country_names_sa_notven <- c("Argentina", "Bolivia", "Brazil", "Chile",
+                           "Colombia", "Ecuador", "Paraguay", "Peru",
+                           "Uruguay") 
+
+cepal_17_countries <- cepal_18_countries %>% 
+  filter(iso3c != "VEN")
+
+cardm_countries <- cepal_18_countries %>% 
+  filter(iso3c %in% c("CRI", "HND", "MEX", "DOM", "GTM", "SLV", "PAN", "NIC")  )
+
+sa_countries <- cepal_18_countries %>% 
+  filter(iso3c %in% c("ARG", "BOL", "BRA", "CHL", "COL", "ECU", "PER",
+                      "PRY", "URY", "VEN")  )
+
+sa_countries_notven <- cepal_18_countries %>% 
+  filter(iso3c != "VEN"  )
+
 load("../produced_data/selected_oecd_vars")
 load("../produced_data/ted_productivity_2016_nov")
-
 ```
 
 
@@ -92,6 +116,41 @@ trend_growth_list_lac <- real_gdp_hp %>%
          eco_id = country,
          voi = hp_trend) %>% 
   growth_report(end2 = 2016)
+trend_growth_list_lac$group_averages["region_name"] <- "LAC-18"
+
+
+trend_growth_list_lac_17 <- real_gdp_hp %>%
+  filter(country %in% weo_country_names_lac_17) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = hp_trend) %>% 
+  growth_report(end2 = 2016)
+trend_growth_list_lac_17$group_averages["region_name"] <- "LAC-17"
+
+trend_growth_list_cardm <- real_gdp_hp %>%
+  filter(country %in% weo_country_names_cardm) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = hp_trend) %>% 
+  growth_report(end2 = 2016)
+trend_growth_list_cardm$group_averages["region_name"] <- "CARDM"
+
+
+trend_growth_list_sa <- real_gdp_hp %>%
+  filter(country %in% weo_country_names_sa) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = hp_trend) %>% 
+  growth_report(end2 = 2016)
+trend_growth_list_sa$group_averages["region_name"] <- "South America"
+
+trend_growth_list_sa_notven <- real_gdp_hp %>%
+  filter(country %in% weo_country_names_sa_notven) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = hp_trend) %>% 
+  growth_report(end2 = 2016)
+trend_growth_list_sa_notven$group_averages["region_name"] <- "South America w.o. Ven"
 
 other_weo_economies = c(c("China", "United States"), 
                         c("Major advanced economies (G7)",
@@ -193,8 +252,6 @@ ted_emplo_prod_avg_01_06_07_09 <- ted_prod_regions_for_report %>%
 ted_emplo_prod_avg_07_09_10_16 <- ted_prod_regions_for_report %>% 
   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
                 input_type = "gross_rates")
-
-
 
 ```
 
@@ -316,6 +373,43 @@ La evidencia disponible muestra que a la par con la baja tendencial del crecimie
 La tasa de crecimiento de la productividad laboral para el caso de los Estados Unidos aumentó en la década de los noventa. Esta pasó de 1.4% y 2.6% en promedio para 1990-1995 y 1996-2000 para luego disminuir por debajo de 1% en la década de los noventa y mantenerse en torno a 1% entre 2010-2015. Por su parte tanto la Zona Euro como el resto de las economías industrializadas registran una clara disminución en la tasa de crecimiento de la productividad en los noventa (Cuadro 4).
 A  nivel más específico del sector manufacturero también se nota una pérdida de productividad en las economías más desarrolladas. La tasa de crecimiento anual del producto por hora para un conjunto de economías desarrolladas baja de 4.8%  a 1.5% entre 1998-2006 y 2010-2014. Una evolución similar se registra para el producto por trabajador: 4.7% y 1.4% para el mismo periodo. 
 
+
+
+
+```{r table_avg_tg_lac_agg, results=TRUE}
+
+table_avg_tg_lac_agg_data <- trend_growth_list_lac$group_averages %>% 
+  bind_rows(trend_growth_list_cardm$group_averages) %>% 
+  bind_rows(trend_growth_list_sa$group_averages) %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2016" = geo_mean_gr_per2) 
+
+table_avg_tg_lac_agg_notven_data <- trend_growth_list_lac_17$group_averages %>% 
+  bind_rows(trend_growth_list_cardm$group_averages) %>% 
+  bind_rows(trend_growth_list_sa_notven$group_averages) %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2016" = geo_mean_gr_per2) 
+
+
+tg_lacagg_colnames <- c("Región"," 2003-2008 ", " 2010-2016 ")
+  
+tbl_lacagg_caption = "Tasas de crecimiento en LAC-18 (% anual del PIB potencial)"
+
+table_tg_lacagg <- knitr::kable(table_avg_tg_lac_agg_data, digits = 1,
+             col.names = tg_lacagg_colnames, caption = tbl_be_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017")
+
+tbl_lacagg_caption_notven = "Tasas de crecimiento en LAC-17 (% anual del PIB potencial)"
+
+table_tg_lacagg_notven <- knitr::kable(table_avg_tg_lac_agg_notven_data, digits = 1,
+             col.names = tg_lacagg_colnames, caption = tbl_lacagg_caption_notven) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017")
+
+table_tg_lacagg
+table_tg_lacagg_notven
+```
 
 
 ```{r tbl_productividad_mundo}
