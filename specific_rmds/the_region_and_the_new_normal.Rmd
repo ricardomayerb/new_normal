@@ -61,6 +61,8 @@ weo_country_names_lac_17 <- weo_country_names_lac_18[1:17]
 
 weo_country_names_cardm <- c("Costa Rica", "Dominican Republic", "El Salvador" ,"Honduras", "Nicaragua", "Mexico", "Guatemala" , "Panama")
 
+weo_country_names_card <- c("Costa Rica", "Dominican Republic", "El Salvador" ,"Honduras", "Nicaragua",  "Guatemala" , "Panama")
+
 weo_country_names_sa <- c("Argentina", "Bolivia", "Brazil", "Chile",
                            "Colombia", "Ecuador", "Paraguay", "Peru",
                            "Uruguay", "Venezuela")
@@ -74,6 +76,9 @@ cepal_17_countries <- cepal_18_countries %>%
 
 cardm_countries <- cepal_18_countries %>% 
   filter(iso3c %in% c("CRI", "HND", "MEX", "DOM", "GTM", "SLV", "PAN", "NIC")  )
+
+card_countries <- cepal_18_countries %>% 
+  filter(iso3c %in% c("CRI", "HND", "DOM", "GTM", "SLV", "PAN", "NIC")  )
 
 sa_countries <- cepal_18_countries %>% 
   filter(iso3c %in% c("ARG", "BOL", "BRA", "CHL", "COL", "ECU", "PER",
@@ -585,6 +590,7 @@ region_names_emerg <- c("Emerging and developing Asia",
                   "Latin America and the Caribbean", "Middle East and North Africa")
 
 
+
 weo_x_pct_ch_world <- weo_x_pct_ch %>% 
   filter(eco_id == "World")
 
@@ -594,24 +600,36 @@ weo_x_pct_ch_desa <- weo_x_pct_ch %>%
 weo_x_pct_ch_emerg <- weo_x_pct_ch %>% 
   filter(eco_id %in% region_names_emerg)
 
+weo_x_pct_ch_lac18 <- weo_x_pct_ch %>% 
+  filter(eco_id %in% weo_country_names_lac_18)
 
+weo_x_pct_ch_lac17 <- weo_x_pct_ch %>% 
+  filter(eco_id %in% weo_country_names_lac_17)
+
+weo_x_pct_ch_cardm <- weo_x_pct_ch %>% 
+  filter(eco_id %in% weo_country_names_cardm)
+
+weo_x_pct_ch_card <- weo_x_pct_ch %>% 
+  filter(eco_id %in% weo_country_names_card)
+
+weo_x_pct_ch_sa <- weo_x_pct_ch %>% 
+  filter(eco_id %in% weo_country_names_sa)
+
+weo_x_pct_ch_sa_notven <- weo_x_pct_ch %>% 
+  filter(eco_id %in% weo_country_names_sa_notven)
 
 weo_trade_pct_ch_world_92_95_96_00 <-  weo_trade_pct_ch %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
-
 weo_trade_pct_ch_world_01_07_08_11 <-  weo_trade_pct_ch %>% 
   growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
-
 weo_trade_pct_ch_world_92_00_01_16 <-  weo_trade_pct_ch %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
 
 
 weo_x_pct_ch_world_92_95_96_00 <-  weo_x_pct_ch_world %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
-
 weo_x_pct_ch_world_01_07_08_11 <-  weo_x_pct_ch_world %>% 
   growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
-
 weo_x_pct_ch_world_92_00_01_16 <-  weo_x_pct_ch_world %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
 
@@ -619,38 +637,211 @@ weo_x_pct_ch_world_92_00_01_16 <-  weo_x_pct_ch_world %>%
 
 weo_x_pct_ch_desa_92_95_96_00 <-  weo_x_pct_ch_desa %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
-
 weo_x_pct_ch_desa_01_07_08_11 <-  weo_x_pct_ch_desa %>% 
   growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
-
 weo_x_pct_ch_desa_92_00_01_16 <-  weo_x_pct_ch_desa %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
 
 
 weo_x_pct_ch_emerg_92_95_96_00 <-  weo_x_pct_ch_emerg %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
-
 weo_x_pct_ch_emerg_01_07_08_11 <-  weo_x_pct_ch_emerg %>% 
   growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
-
 weo_x_pct_ch_emerg_92_00_01_16 <-  weo_x_pct_ch_emerg %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
 
-# weo_x_growth_lac <- weo_trade %>% 
-#   filter(weo_subject_code == "TX_RPCH") %>% 
-#   filter(country %in% weo_country_names_lac_18) %>% 
-#   mutate(x_gross_gr = value/100 + 1) %>% 
-#   rename(voi = x_gross_gr, eco_id = country, date_id = date) %>% 
-#   growth_report(end2 = 2016, input_type = "gross_rates")
-# 
-# weo_m_growth_lac <- weo_trade %>% 
-#   filter(weo_subject_code == "TM_RPCH") %>% 
-#   filter(country %in% weo_country_names_lac_18) %>% 
-#   mutate(m_gross_gr = value/100 + 1) %>% 
-#   rename(voi = m_gross_gr, eco_id = country, date_id = date) %>% 
-#   growth_report(end2 = 2016, input_type = "gross_rates")
+
+weo_x_pct_ch_lac18_92_95_96_00 <-  weo_x_pct_ch_lac18 %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+weo_x_pct_ch_lac18_92_95_96_00$group_averages["region_name"] <- "LAC-18"
+
+weo_x_pct_ch_lac18_01_07_08_11 <-  weo_x_pct_ch_lac18 %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+weo_x_pct_ch_lac18_01_07_08_11$group_averages["region_name"] <- "LAC-18"
+
+weo_x_pct_ch_lac18_92_00_01_16 <-  weo_x_pct_ch_lac18 %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+weo_x_pct_ch_lac18_92_00_01_16$group_averages["region_name"] <- "LAC-18"
+
+
+weo_x_pct_ch_lac18_notnic <- weo_x_pct_ch_lac18 %>%
+  filter(eco_id != "Nicaragua")
+weo_x_pct_ch_lac18_notnic_92_95_96_00 <-  weo_x_pct_ch_lac18_notnic %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+weo_x_pct_ch_lac18_notnic_92_95_96_00$group_averages["region_name"] <- "LAC-18_notnic"
+
+weo_x_pct_ch_lac18_notnic_01_07_08_11 <-  weo_x_pct_ch_lac18_notnic %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+weo_x_pct_ch_lac18_notnic_01_07_08_11$group_averages["region_name"] <- "LAC-18_notnic"
+
+weo_x_pct_ch_lac18_notnic_92_00_01_16 <-  weo_x_pct_ch_lac18_notnic %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+weo_x_pct_ch_lac18_notnic_92_00_01_16$group_averages["region_name"] <- "LAC-18_notnic"
+
+
+
+weo_x_pct_ch_cardm_92_95_96_00 <-  weo_x_pct_ch_cardm %>% 
+  growth_report(input_type = "gross_rates", start1 = 1993, end1 = 1995, start2 = 1996, end2 = 2000)
+weo_x_pct_ch_cardm_92_95_96_00$group_averages["region_name"] <- "CARDM"
+
+weo_x_pct_ch_cardm_01_07_08_11 <-  weo_x_pct_ch_cardm %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+weo_x_pct_ch_cardm_01_07_08_11$group_averages["region_name"] <- "CARDM"
+
+weo_x_pct_ch_cardm_92_00_01_16 <-  weo_x_pct_ch_cardm %>% 
+  growth_report(input_type = "gross_rates", start1 = 1993, end1 = 2000, start2 = 2001, end2 = 2016)
+weo_x_pct_ch_cardm_92_00_01_16$group_averages["region_name"] <- "CARDM"
+
+
+weo_x_pct_ch_cardm_notnic <- weo_x_pct_ch_cardm %>% 
+  filter(eco_id != "Nicaragua")
+weo_x_pct_ch_cardm_notnic_92_95_96_00 <-  weo_x_pct_ch_cardm_notnic %>% 
+  growth_report(input_type = "gross_rates", start1 = 1993, end1 = 1995, start2 = 1996, end2 = 2000)
+weo_x_pct_ch_cardm_notnic_92_95_96_00$group_averages["region_name"] <- "CARDM_notNic"
+
+weo_x_pct_ch_cardm_notnic_01_07_08_11 <-  weo_x_pct_ch_cardm_notnic %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+weo_x_pct_ch_cardm_notnic_01_07_08_11$group_averages["region_name"] <- "CARDM_notNic"
+
+weo_x_pct_ch_cardm_notnic_92_00_01_16 <-  weo_x_pct_ch_cardm_notnic %>% 
+  growth_report(input_type = "gross_rates", start1 = 1993, end1 = 2000, start2 = 2001, end2 = 2016)
+weo_x_pct_ch_cardm_notnic_92_00_01_16$group_averages["region_name"] <- "CARDM_notNic"
+
+
+
+weo_x_pct_ch_sa_92_95_96_00 <-  weo_x_pct_ch_sa %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 1995, start2 = 1996, end2 = 2000)
+weo_x_pct_ch_sa_92_95_96_00$group_averages["region_name"] <- "South America"
+
+weo_x_pct_ch_sa_01_07_08_11 <-  weo_x_pct_ch_sa %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
+weo_x_pct_ch_sa_01_07_08_11$group_averages["region_name"] <- "South America"
+
+weo_x_pct_ch_sa_92_00_01_16 <-  weo_x_pct_ch_sa %>% 
+  growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+weo_x_pct_ch_sa_92_00_01_16$group_averages["region_name"] <- "South America"
 
 ```
+
+
+```{r tbl_trade_x_lac_aggs}
+
+tbl_trade_x_lac18_aggs_data <- weo_x_pct_ch_lac18_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_lac18_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_lac18_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+
+tbl_trade_x_cardm_aggs_data <- weo_x_pct_ch_cardm_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_cardm_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_cardm_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+tbl_trade_x_sa_aggs_data <- weo_x_pct_ch_sa_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_sa_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_sa_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+joined_lacaggs_trade_x_table_data <- tbl_trade_x_lac18_aggs_data %>% 
+  bind_rows(tbl_trade_x_cardm_aggs_data) %>% 
+  bind_rows(tbl_trade_x_sa_aggs_data) 
+  
+trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
+
+tbl_trade_x_caption = "Crecimiento del comercio y las exportacioens, LAC-18 y subregiones"
+
+tbl_trade_x_lacaggs <- knitr::kable(joined_lacaggs_trade_x_table_data, digits = 1,
+             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
+
+tbl_trade_x_lacaggs 
+
+```
+
+
+
+```{r tbl_trade_x_lac_aggs_notnic}
+
+tbl_trade_x_lac18_notnic_aggs_data <- weo_x_pct_ch_lac18_notnic_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_lac18_notnic_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_lac18_notnic_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+
+tbl_trade_x_cardm_notnic_aggs_data <- weo_x_pct_ch_cardm_notnic_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_cardm_notnic_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_cardm_notnic_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+tbl_trade_x_sa_aggs_data <- weo_x_pct_ch_sa_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_sa_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_sa_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+joined_lacaggs_notnic_trade_x_table_data <- tbl_trade_x_lac18_notnic_aggs_data %>% 
+  bind_rows(tbl_trade_x_cardm_notnic_aggs_data) %>% 
+  bind_rows(tbl_trade_x_sa_aggs_data) 
+  
+trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
+
+tbl_trade_x_caption = "Crecimiento del comercio y las exportacioens, LAC-18 (w.o. NIC) y subregiones"
+
+tbl_trade_x_lacaggs_notnic <- knitr::kable(joined_lacaggs_notnic_trade_x_table_data, digits = 1,
+             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
+
+tbl_trade_x_lacaggs_notnic 
+
+```
+
 
 
 ```{r tbl_trade_x_eco_desa}
@@ -921,24 +1112,8 @@ knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
 
 Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
 
-<br>
 
-
-
-
-
-
-
-
-#### Diferentes medidas del PIB potencial
-
-IMF (WEO), estimates a 1.8% potential growth for the U.S after 2018, once the probable effects of 
-this year fiscal stimulus wane out
-
-
-
-
-##### Page break
+##### Page break in Word
 
 ### Evolución de los determinantes
 
