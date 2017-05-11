@@ -275,7 +275,7 @@ fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
 
 
 
-## Resumen (reescribir miercoles)
+## Resumen (reescribir al final)
 
 Esta sección da cuenta de los siguientes hechos estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
 
@@ -405,7 +405,6 @@ table_weo_gfcf_gr_regions <- knitr::kable(tbl_weo_gfcf_gr_regions_data , digits 
   add_footnote("Fuente: IMF, Abril, 2017")
 
 table_weo_gfcf_gr_regions
-
 
 ```
 
@@ -773,7 +772,7 @@ bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
 
 bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
 
-bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
+bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
              col.names = bis_cr_gap_notlac_regions_colnames,
              caption = bis_cr_gap_notlac_regions_caption) %>% 
   add_footnote("Source: BIS")
