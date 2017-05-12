@@ -246,6 +246,38 @@ ted_prod_regions_for_report <- ted_lab_prod_employed_regions %>%
          voi = gross_rate_of_growth) %>% 
   select(eco_id, date_id, voi)
 
+
+ted_lab_prod_employed_countries <- ted_nov_2016_countries %>% 
+  filter(INDICATOR == "LP_L_g") %>% 
+  select(-c(MEASURE, INDICATOR)) %>% 
+  gather(key = "year", value = "net_rate", -c(REGION, COUNTRY)) %>% 
+  mutate(gross_rate_of_growth = net_rate/100 + 1)
+
+ted_prod_countries_for_report <- ted_lab_prod_employed_countries %>% 
+  mutate(date_id = ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = COUNTRY, 
+         voi = gross_rate_of_growth) %>% 
+  select(eco_id, date_id, voi)
+
+ted_prod_lac18 <- ted_prod_countries_for_report %>% 
+  filter(eco_id %in% weo_country_names_lac_18)
+  
+ted_prod_lac17 <- ted_prod_countries_for_report %>% 
+  filter(eco_id %in% weo_country_names_lac_17)
+
+ted_prod_cardm <- ted_prod_countries_for_report %>% 
+  filter(eco_id %in% weo_country_names_cardm)
+
+ted_prod_card <- ted_prod_countries_for_report %>% 
+  filter(eco_id %in% weo_country_names_card)
+
+ted_prod_sa <- ted_prod_countries_for_report %>% 
+  filter(eco_id %in% weo_country_names_sa)
+
+ted_prod_sa_notven <- ted_prod_countries_for_report %>% 
+  filter(eco_id %in% weo_country_names_sa_notven)
+
+
 ted_emplo_prod_avg_90_95_96_00 <- ted_prod_regions_for_report %>% 
   growth_report(start1 = 1990, end1 = 1995, start2 = 1996, end2 = 2000,
                 input_type = "gross_rates")
@@ -257,6 +289,55 @@ ted_emplo_prod_avg_01_06_07_09 <- ted_prod_regions_for_report %>%
 ted_emplo_prod_avg_07_09_10_16 <- ted_prod_regions_for_report %>% 
   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
                 input_type = "gross_rates")
+
+
+ted_emplo_prod_avg_lac18_90_95_96_00 <- ted_prod_lac18 %>% 
+  growth_report(start1 = 1990, end1 = 1995, start2 = 1996, end2 = 2000,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_lac18_90_95_96_00$group_averages["region_name"] <- "LAC-18"
+
+ted_emplo_prod_avg_lac18_01_06_07_09 <- ted_prod_lac18 %>% 
+  growth_report(start1 = 2001, end1 = 2006, start2 = 2007, end2 = 2009,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_lac18_01_06_07_09$group_averages["region_name"] <- "LAC-18"
+
+ted_emplo_prod_avg_lac18_07_09_10_16 <- ted_prod_lac18 %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_lac18_07_09_10_16$group_averages["region_name"] <- "LAC-18"
+
+
+ted_emplo_prod_avg_cardm_90_95_96_00 <- ted_prod_cardm %>% 
+  growth_report(start1 = 1990, end1 = 1995, start2 = 1996, end2 = 2000,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_cardm_90_95_96_00$group_averages["region_name"] <- "CARDM"
+
+ted_emplo_prod_avg_cardm_01_06_07_09 <- ted_prod_cardm %>% 
+  growth_report(start1 = 2001, end1 = 2006, start2 = 2007, end2 = 2009,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_cardm_01_06_07_09$group_averages["region_name"] <- "CARDM"
+
+ted_emplo_prod_avg_cardm_07_09_10_16 <- ted_prod_cardm %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_cardm_07_09_10_16$group_averages["region_name"] <- "CARDM"
+
+
+ted_emplo_prod_avg_sa_90_95_96_00 <- ted_prod_sa %>% 
+  growth_report(start1 = 1990, end1 = 1995, start2 = 1996, end2 = 2000,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_sa_90_95_96_00$group_averages["region_name"] <- "SA"
+
+ted_emplo_prod_avg_sa_01_06_07_09 <- ted_prod_sa %>% 
+  growth_report(start1 = 2001, end1 = 2006, start2 = 2007, end2 = 2009,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_sa_01_06_07_09$group_averages["region_name"] <- "SA"
+
+ted_emplo_prod_avg_sa_07_09_10_16 <- ted_prod_sa %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2016,
+                input_type = "gross_rates")
+ted_emplo_prod_avg_sa_07_09_10_16$group_averages["region_name"] <- "SA"
+
 
 ```
 
@@ -435,6 +516,65 @@ period_esteban_colnames <- c("Región", "1990-1995 ", "1996-2000",
                             "2001-2006", "2007-2009", "2010-2016")
 ```
 
+
+```{r table_avg_prod_lac_agg, results=TRUE}
+
+tbl_prod_lac18_aggs_data <- ted_emplo_prod_avg_lac18_90_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_lac18_01_06_07_09$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_lac18_07_09_10_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "2010-2016" = geo_mean_gr_per2) 
+
+
+tbl_prod_cardm_aggs_data <- ted_emplo_prod_avg_cardm_90_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_cardm_01_06_07_09$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_cardm_07_09_10_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "2010-2016" = geo_mean_gr_per2) 
+
+tbl_prod_sa_aggs_data <- ted_emplo_prod_avg_sa_90_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_sa_01_06_07_09$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_sa_07_09_10_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "2010-2016" = geo_mean_gr_per2) 
+
+joined_lacaggs_prod_table_data <- tbl_prod_lac18_aggs_data %>% 
+  bind_rows(tbl_prod_cardm_aggs_data) %>% 
+  bind_rows(tbl_prod_sa_aggs_data) 
+  
+prod_x_colnames <- c("", "1990-1995", "1996-2000", "2001-2006", "2007-2009", "2010-2016")
+
+tbl_prod_caption = "Crecimiento del comercio y las exportacioens, LAC-18 y subregiones"
+
+tbl_prod_lacaggs <- knitr::kable(joined_lacaggs_prod_table_data, digits = 1,
+             col.names = prod_x_colnames , caption = tbl_prod_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
+
+tbl_prod_lacaggs 
+
+
+```
 
 ```{r tbl_productividad_eco_desa}
 eco_desa_id <- c("Euro Area", "United States", "Other Mature Economies")
