@@ -1399,54 +1399,6 @@ bis_cr_gap_notlac_regions_tbl
 ```
 
 
-#### Evolución tendencial del producto (borrar?)
-
-Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009) y su rápido rebote, la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
-
-
-En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
-
-
-El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos,  no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
-
-
-```{r table_avg_tg_lac,  include=FALSE}
-lac_tbl_caption = "Average growth of potential output, LAC"
-uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
-table_data_pot_lac <- trend_growth_list_lac$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-knitr::kable(table_data_pot_lac , digits = 1,
-             col.names = uno_colnames, caption = lac_tbl_caption) %>% 
-  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
-```
-
-
-```{r table_avg_tg_lacavg_aes,  results=TRUE}
-lac_aes_tbl_caption = "Average growth of potential output"
-uno_colnames = c("Región"," 2003-2008 ", " 2010-2016 ", " cambio ")
-table_data_pot_lac <- trend_growth_list_lac$group_averages %>% 
-  mutate(eco_id = "LAC") %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-table_avg_tg_aes_data <- avgs_china_usa_ez_g7 %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo) %>% 
-  filter(!str_detect(eco_id, "Major") )
-
-table_avg_tg_lac_aes_data <- bind_rows(table_data_pot_lac, table_avg_tg_aes_data)
-
-knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
-             col.names = uno_colnames, caption = lac_aes_tbl_caption) %>% 
-  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
-```
-
-Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
-
-
-
-
-##### Page break in Word
-
 ### Flujos financieros
 
 
@@ -1576,7 +1528,84 @@ knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>%
 
 ##### Page break in Word
 
+### Box: Determinantes de la inversión en economías avanzadas
+
+```{r correlation_matrices_from_esteban}
+
+cor_tasas_crec_usa = data.frame( inversion = c(1, 0.275365029), 
+                                 beneficios = c(0.275365029, 1), 
+                                 row.names = c("inversion", "beneficios") )
+
+cor_tasas_crec_canada = data.frame( inversion = c(1, 0.414469), 
+                                 beneficios = c(0.414469, 1), 
+                                 row.names = c("inversion", "beneficios") )
+
+
+cor_tasas_crec_francia = data.frame( inversion = c(1, 0.73079889), 
+                                 beneficios = c(0.73079889, 1), 
+                                 row.names = c("inversion", "beneficios") )
+
+cor_tasas_crec_usa
+cor_tasas_crec_canada
+cor_tasas_crec_francia
+```
+
+
+
+
+
+##### Page break in Word
+
 ## Desempeño de la región en este nuevo normal
+
+
+#### Evolución tendencial del producto (borrar?)
+
+Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009) y su rápido rebote, la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
+
+
+En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
+
+
+El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos,  no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
+
+
+```{r table_avg_tg_lac,  include=FALSE}
+lac_tbl_caption = "Average growth of potential output, LAC"
+uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
+table_data_pot_lac <- trend_growth_list_lac$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+knitr::kable(table_data_pot_lac , digits = 1,
+             col.names = uno_colnames, caption = lac_tbl_caption) %>% 
+  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
+```
+
+
+```{r table_avg_tg_lacavg_aes,  results=TRUE}
+lac_aes_tbl_caption = "Average growth of potential output"
+uno_colnames = c("Región"," 2003-2008 ", " 2010-2016 ", " cambio ")
+table_data_pot_lac <- trend_growth_list_lac$group_averages %>% 
+  mutate(eco_id = "LAC") %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+table_avg_tg_aes_data <- avgs_china_usa_ez_g7 %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo) %>% 
+  filter(!str_detect(eco_id, "Major") )
+
+table_avg_tg_lac_aes_data <- bind_rows(table_data_pot_lac, table_avg_tg_aes_data)
+
+knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
+             col.names = uno_colnames, caption = lac_aes_tbl_caption) %>% 
+  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
+```
+
+Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
+
+
+
+
+##### Page break in Word
 
 ### Exportaciones e Importaciones
 
