@@ -1,10 +1,11 @@
 ---
-title: "America Latina y el Caribe en su nueva normalidad"
-author: "Ricardo Mayer"
+title: "La región y el nuevo normal"
+author: "DDE"
 date: '`r Sys.Date()`'
 output:
   word_document:
     reference_docx: reference_style_for_new_normal.docx
+    toc: yes
   pdf_document: default
   html_document: default
 ---
@@ -720,13 +721,18 @@ from_ted <- ted_gracc_data
 
 
 
-## Resumen (reescribir al final)
+## Resumen 
 
-En este capítulo documentamos los siguientes hecho estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
-Estas condiciones se inscriben dentro de un contexto global de desaceleración de la producción, del comercio y la productividad. Es, en particular, cierto para sus tres principales socios comerciales: China, Estados Unidos y la Unión Europea, siendo el quiebre de tendencia en China mucho más pronunciado que en los dos otros socios.
-Aunque esta descripción es pertinente a la gran mayoría de los países de la región (13 a 15 países, dependiendo de la variable examinada, de un total de 18 en nuestra muestra), hay algunas excepciones sistemáticas: México es una economía que si bien estuvo ajeno a buena parte del boom productivo del quinquenio 2003-2008, al menos no ha empeorado su desempeño en el período 2010-2016. Bolivia, Paraguay y Nicaragua, por su parte son las economías que más logran desmarcarse de la tendencia del resto de los países a un desaceleramiento y logran buenas posiciones frente a sus pares en el período post crisis financiera. Finalmente habría que agregar el caso de Panamá, que aunque ve desacelerado su producto potencial y sus exportaciones, son caídas pequeñas desde tasas bastante altas para la región y logra mantener una acelerada expansión del inversión real y aumentar su productividad laboral.
-En el polo opuesto a estas excepciones, constituyendo la cara más marcada de estos hechos estilizados, se encuentran Argentina, Brasil y, especialmente, Venezuela. Todas presentan desaceleraciones importantes de su producto potencia y particularmente de la inversión real. En los casos de Argentina y Brasil su desaceleración del volumen exportador es algo más suave y el de la productividad laboral es leve y más o menos en la mediana de la región.
+Los principales mensajes de este capítulo se puede resumir de la siguiente manera:
+la región se encuentra en medio de un escenario internacional más restictivo e incierto, con variables reales menos auspiciosas que en el pasado en términos de productividad, crecimiento económico y expansión del comercio. Las  variables financieras han por ahora más estables que en el pasado pero con menor margen de liquidez hacia los países emergentes  que en la última década. Un fenómeno interesante ha sido la menor frecuencia tanto de sudden stops como de surges desde el exterior, a pesar del mayor volumen de flujos experimentados. Hasta ahora, el único sudden stop bruto en esta nueva normalidad corresponde mayormente a flujos de cartera, en Colombia, durante 2015-2016. Es un dato a tomar en cuenta, porque otro razgo distintivo del nuevo normal en la región es el aumento en la importacia absoluta y relativa de flujos de cartera y ligados a la banca.
 
+La situación en que se encuentra la región es también de un menor dinamismo generalizado, cuando se compara el período posterior a la crisis financiera global (2010-2016) con el que le antecedió (2003-2008). Es un realidad suficientemente compartida por los países para llamarlo un fenómeno regional aunque con excepciones y expresiones más o menos agudas: podríamos llamarla una *heterogeneidad acotada*. Heterogeneidad acotada que no es simple de capturar: es verdad que América Central y México tienen en general números más positivos en el sector real comparados con América del Sur y que esta última sub región incluye consistentemente a los casos más agudos, pero también es cierto que  Bolvia (exporta hidrocarburos) y Paraguay (exporta energía y alimentos) se encuentran regularmente entre las excepciones positivas al menor dinamismo, junto con México  y Nicaragua (exportan manufacturas y alimentos), lo que apunta a que ningún criterio singular, ni geográfico ni de especialización productiva ni de socios comerciales es capaz de describir de manera sencilla esta situación heterogénea. 
+
+Otro mensaje importante es que no deberíamos esperar que el mayor dinamismo en el mediano plazo provenga del sector exportador ni de condiciones más favorables de crédito. El lento aumento de la producción y la productividad mundial no augura shocks postivos importantes de demanda para nuestros países, con Estados unidos creciendo a tasas menores al 2% y Chia estabilizándose en torno al 6%, mientras que la región tampoco a aumentado significativamente su elasticidad de volumen exportador frente a aumentos de la producción mundial. 
+
+Mientras que el consumo ha sido hasta ahora el componente más dinamico de la demanda interna en la región (ver el capítulo de ciclos económicos para más detalles), creemos que tiene un espacio cada vez más reducido para seguir cumpliendo ese papel porque se ha apoyado en una expansión importante el crédito interno, pero esa expansión se ve desafiada por el estancamiento de los flujos de liquidez hacia la región, por el aumento en el mediano plazo de las tasas de interés en las economías avanzadas y porque en países donde el sector financiero se encuentra desarrollado, ha estado creciendo más rápido que su tendencia histórica por ya varios años.
+
+En el capítulo sobre política económica veremos las dificultades que enfrenta en este escenario la política fiscal para poder expandir el gasto en consumo y en inversión, pero baste notar aquí que el escenario descrito obliga al sector público a ser muy cauto al resgauardar la sostenibilidad de su deuda actual con menores tasas de crecimiento tendencial, mayores tasas de interes y precios de commodities que de aumentar lo harán de forma muy moderada. 
 
 
 
@@ -896,7 +902,19 @@ Canadá:
 
 
 Francia:
-![IRF Francia investment](irf_francia.png)
+![IRF Francia investment usa](irf_francia.png)
+
+USA:
+![inversion beneficios crecimiento usa](beneficios_inversion_usa.png)
+
+
+Canadá:
+![inversion beneficios crecimiento canada](beneficios_inversion_canada.png)
+
+
+
+Francia:
+![inversion beneficios crecimiento francia](beneficios_inversion_francia.png)
 
 
 ```{r correlation_matrices_from_esteban}
@@ -919,14 +937,9 @@ cor_tasas_crec_canada
 cor_tasas_crec_francia
 ```
 
-USA:
-![crecimiento beneficios inversion usa](beneficios_inversion_usa.png)
 
-Canada:
-![crecimiento beneficios inversion canada](beneficios_inversion_canada.png)
 
-Francia:
-![crecimiento beneficios inversion francia](beneficios_inversion_francia.png)
+
 
 ### A partir de esta década se ha sumado una desaceleración del comercio
 
@@ -1059,7 +1072,7 @@ En segundo lugar se ha producido una ralentización del crecimiento de las caden
 Dado que la elasticidad de nuestras exportaciones ante cambios en el  producto mundial no ha aumentado y que  el crecimiento externo potencial se visto notablemente enlentecido, un aumento veloz del producto regional vía exportaciones, aparece como improbable en esta nueva normalidad.
 
 
-#### Precios de commodities caen y se proyecta un repunte moderado
+#### Precios de commodities disminuyen varianza pero crecen lentamente
 
 
 ```{r compute_commodity_price, include=FALSE, cache=TRUE}
@@ -1353,6 +1366,36 @@ wb_privcred2gdp_regions_tbl
 
 ```
 
+Respecto del componente cíclico que del crédito, es interesante observar lo que ocurre en el siguiente cuadro 
+que se contruye a partir de una medida de brecha de credito respecto a su tendecia de largo plazo, por el BIS
+
+
+```{r tbl_creditgap}
+tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
+  select(eco_id, mean_per1, mean_per2) %>% 
+  rename("1990-1999" = mean_per1, 
+         "2000-2006" = mean_per2) %>% 
+  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, mean_per1, mean_per2) %>% 
+  rename("2007-2009" = mean_per1, 
+         "2010-2015" = mean_per2)
+  
+
+bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
+
+bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
+             col.names = bis_cr_gap_notlac_regions_colnames,
+             caption = bis_cr_gap_notlac_regions_caption) %>% 
+  add_footnote("Source: BIS")
+
+bis_cr_gap_notlac_regions_tbl
+
+```
+
+
 Finalmente, en la medida de que las tasas de política monetaria de Estados Unidos, la Zona del euro y Japón se normalicen paulatinamente en los próximos años, debiéramos ver un encarecimiento del financiamiento, pero de todos modos en niveles bajos o moderados comparados con la historia pre-2007.
 
 
@@ -1361,7 +1404,13 @@ Finalmente, en la medida de que las tasas de política monetaria de Estados Unid
 ## El nuevo normal de la región: menor dinamismo con heterogeneidad acotada.
 
 
-El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una pérdida de dinamismo de su crecimiento de largo plazo.  La evidencia muestra que tanto el Istmo centroamericano extendido (con República Dominicana y México) como América del Sur han perdido impulso en sus productos tendenciales, pero la pérdida de dinamismo es mucho mayor para América del Sur. Lo anterior es aún más relevante si pensamos que la principal economía de la subregión norte, México, no parece haberse desacelerado, versus las dos principales de américa del sur, Brasil y Argentina que tuvieron los frenos más pronunciados de la región, sólo superadas por Venezuela. Interesantemente, las cuatro excepciones a este fenómeno (Bolivia, Paraguay, Nicaragua y México) están repartidas entre ambas subregiones geográficas, tienen productos de exportación distintos (hidrocarburos, alimentos y manufacturas) y socios comerciales principales distintos (China y Estados Unidos), por lo que el fenómeno de desaceleración se resiste a un corte demasiado simple en términos geográficos, estructurales o comerciales.
+El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una clara pérdida de dinamismo de su crecimiento de largo plazo (15 de 18 países) y en casi la mitad el promedio anual de crecimiento tendencial caye más de 100 puntos bases.
+
+La evidencia muestra que en ambas subregiones la mayoría de los países han perdido impulso en sus productos tendenciales, pero la pérdida de dinamismo es mucho mayor para América del Sur. 
+
+
+
+Más aún, la principal economía de la subregión norte, México, no parece haber mantenido su ritmo moderado, versus las dos principales de América del Sur, Brasil y Argentina, que tuvieron los frenos más pronunciados de la región, sólo superadas por Venezuela. Interesantemente, las cuatro excepciones a freno (Bolivia, Paraguay, Nicaragua y México) están repartidas entre ambas subregiones geográficas, tienen productos de exportación distintos (hidrocarburos, alimentos y manufacturas) y socios comerciales principales distintos (China y Estados Unidos), por lo que el fenómeno de desaceleración se resiste a un corte demasiado simple en términos geográficos, estructurales o comerciales. Dicho esto, en el caso de México y Nicaragua, es sin duda un factor importante el que Estados Unidos haya padecido una desaceleración menos pronunciada que China o la Unión Europea.
 
 
 
@@ -1383,11 +1432,9 @@ knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
 ```
 
-La relentización de crecimiento potencial es suficientemente extendido en la región como para caracterizarlo de generalizado, por cuanto el número de excepciones es pequeño y con la excepción de México que está prácticamente sin cambios, ninguna de las excepciones es muy gravitante en los mercados vecinos. Sin embargo vale la pena detenerse un poco en ver quienes lograron mantener su ritmo, quienes cayeron levemente y quienes cayeron abruptamente, para lo cual es necesario referirse al Cuadro 9
 
-En nuestra muestra, sólo  3 de 18 países, exhiben claramente un mayor dinamismo en el período post-2009. En casi en la mitad de los países (8 de 18) el PIB potencial pierde en promedio 100 o más puntos base de crecimiento en esta década.
 
-El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial, no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
+
 
 ```{r table_avg_tg_lac,  include=FALSE}
 lac_tbl_caption = "Average growth of potential output, LAC"
@@ -1400,12 +1447,10 @@ knitr::kable(table_data_pot_lac , digits = 1,
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
 ```
 
-Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es, como vimos en la sección anterior,  parte de un contexto internacional de desaceleración, pero constituye junto al Oriente Medio y a Africa uno de los casos másagudos dentro del grupo de als economía emergentes. 
-##### Page break in Word
 
-### Evolución de los determinantes
 
-#### Exportaciones e Importaciones
+
+### Las exportaciones se han desacelerado en el corto y mediano plazo
 
 ```{r calcultate_avg_gr_trade_related, include=FALSE}
 
@@ -1493,6 +1538,16 @@ openess_other_list <- trade_wb %>%
 
 
 
+En casi todas las economías de la región, vemos una considerable desaceleración de sus exportaciones 
+(medidas por el volumen de exportación) respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que mejoran su desempeño en el segundo período, vienen de desempeños m+as bien modestos durante 2003-2008.
+
+Todas las excepciones se encuentran fuera de América del Sur, pero el panorama está lejos de ser homogéneo, pues junto a los casos de México, Honduras, Guatemala y notablemente Republica Dominicana --que pasa de una contracción promedio a una ráida expansión promedio-- que lograron incrementar la velocidad de expansión de sus exportaciones, están también los casos de Nicaragua, Costa Rica, Panamá y EL Salvador que sufrieron un freno importante en su sector exportador. Después de República Dominicana, es México quien presenta el caso más interesante: tiene un sólido incremento de la tasa de crecimiento de sus exportaciones y se ubica en esta nueva etapa como la segunda economía más dinámica 
+
+En el caso de la importaciones tenemos una situación muy similar a las de las exportaciones: las única economías que han logrado aumentar la tasa de expansión de sus importaciones son las mismas que lograron acelerar su sector exportador, menos Honduras, que se suma en este caso al grupo mayoritario de países que desaceleran.
+
+Esta tendencia general de América Latina, se inscribe en un contexto donde el comercio mundial, como fracción del producto, también se desaceleró: en el período post crisis financiera creció a un 4,9% promedio anual, menor al 7,5% promedio anual del quinquenio 2003-2008, con un final de período poco auspiciosoÑ se estima que el 2016 el volumen de comercio mundial creció tan sólo un 2,2%, su cifra más baja desde el 2009 (WEO April 2017). El comportamiento de las exportaciones en la mayoría de los países de LAC encuentra su contraparte en la desaceleración de las importaciones en   China y Estados Unidos y en la suma de las economías avanzadas. El que la reducción del crecimiento de las importaciones de USA haya sido leve de 4,7% aual a 4,5% anual) ayuda a explicar por qué  México, Honduras )y hasta cierto punto Costa Rica) frenaron menos o aceleraron sus exportaciones. Sin embargo, el cambio más importante para el producto pontencial de AL y especialemente de los exportadores de commodities es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
+
+
 
 ```{r tbl_trade_x_lac_aggs_notnic}
 
@@ -1552,21 +1607,7 @@ tbl_trade_x_lacaggs_notnic
 
 ```
 
-La relentización de crecimiento potencial es suficientemente extendido en la región como para caracterizarlo de generalizado, por cuanto el número de excepciones es pequeño y con la excepción de México que está prácticamente sin cambios, ninguna de las excepciones es muy gravitante en los mercados vecinos. Sin embargo vale la pena detenerse un poco en ver quienes lograron mantener su ritmo, quienes cayeron levemente y quienes cayeron abruptamente, para lo cual es necesario referirse al Cuadro 9
 
-En nuestra muestra, sólo  3 de 18 países, exhiben claramente un mayor dinamismo en el período post-2009. En casi en la mitad de los países (8 de 18) el PIB potencial pierde en promedio 100 o más puntos base de crecimiento en esta década.
-
-El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial, no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
-
-
-En casi todas las economías de la región, vemos una considerable desaceleración de sus exportaciones 
-(medidas por el volumen de exportación) respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que mejoran su desempeño en el segundo período, vienen de desempeños m+as bien modestos durante 2003-2008.
-
-Todas las excepciones se encuentran fuera de América del Sur, pero el panorama está lejos de ser homogéneo, pues junto a los casos de México, Honduras, Guatemala y notablemente Republica Dominicana --que pasa de una contracción promedio a una ráida expansión promedio-- que lograron incrementar la velocidad de expansión de sus exportaciones, están también los casos de Nicaragua, Costa Rica, Panamá y EL Salvador que sufrieron un freno importante en su sector exportador. Después de República Dominicana, es México quien presenta el caso más interesante: tiene un sólido incremento de la tasa de crecimiento de sus exportaciones y se ubica en esta nueva etapa como la segunda economía más dinámica 
-
-En el caso de la importaciones tenemos una situación muy similar a las de las exportaciones: las única economías que han logrado aumentar la tasa de expansión de sus importaciones son las mismas que lograron acelerar su sector exportador, menos Honduras, que se suma en este caso al grupo mayoritario de países que desaceleran.
-
-Esta tendencia general de América Latina, se inscribe en un contexto donde el comercio mundial, como fracción del producto, también se desaceleró: en el período post crisis financiera creció a un 4,9% promedio anual, menor al 7,5% promedio anual del quinquenio 2003-2008, con un final de período poco auspiciosoÑ se estima que el 2016 el volumen de comercio mundial creció tan sólo un 2,2%, su cifra más baja desde el 2009 (WEO April 2017). El comportamiento de las exportaciones en la mayoría de los países de LAC encuentra su contraparte en la desaceleración de las importaciones en   China y Estados Unidos y en la suma de las economías avanzadas. El que la reducción del crecimiento de las importaciones de USA haya sido leve de 4,7% aual a 4,5% anual) ayuda a explicar por qué  México, Honduras )y hasta cierto punto Costa Rica) frenaron menos o aceleraron sus exportaciones. Sin embargo, el cambio más importante para el producto pontencial de AL y especialemente de los exportadores de commodities es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
 
 
 
@@ -1622,25 +1663,6 @@ knitr::kable(trade_to_gdp_lac_data, digits = 1,
 ```
 
 
-```{r trade_to_gdp_other}
-trade_to_gdp_other_data <- openess_other_list$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-xm_gg_colnames = c(" ", "2003-2008", "2010-2016", "Cambio")
-
-tbl_gg_other_caption = "Growth of trade/gdp (other economies)"
-knitr::kable(trade_to_gdp_other_data, digits = 1,
-             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
-  add_footnote("Source: WB")
-```
-
-
-##### Page brake in Word
-
-
-
-
-##### Page break
 
 ### Formación de capital
 
@@ -1711,9 +1733,8 @@ tbl_gfcf_lacaggs
 
 
 
-##### Page break in Word
 
-### Productivity
+### Productividad
 
 
 ```{r table_avg_prod_lac_agg, results=TRUE}
@@ -1775,6 +1796,50 @@ tbl_prod_lacaggs
 
 ```
 
+Mirando a la región, el caso de la productividad del trabajo es un tanto distinto a las variables que hemos descrito hasta aquí. Comparte, por un lado, el de hecho de emperar en el período post crisis pero a diferencia de las otras, las tasas de crecimeinto son modestas en *ambos* períodos. No hubo un boom de productividad del trabajo junto con el boom de producción, inversión y exportación.
+
+Aquellos paises que lograron acelerar un poco su productividad laboral en el segundo perìodo son Bolivia, Ecuador, Nicargua, Panamá, Paraguay y Uruguay
+
+La anterior se sostiene tanto si consideramos los precios con o sin ajuste por PPP, pero en este último caso, los países que mejoraron su posición tienen a aparecer con mejoras más modestas que sin el ajuste por paridad de poder de compra. Los únicos casos donde es de alguna relevancia esta distinciòn son Perù y Colombia, que revierten una modesta caídad (Colombia) o un modesto aumento (Perù) si se mide su producciòn usando precios PPP.
+
+Estos números están basado en el producto promedio por *persona empleada*. Sólo tenemos datos comparables de producto por *hora trabajada* en el caso de los dos países de LAC que son miembros de la OECD (México y Chile) y en ambos casos, 
+la desaceleración de la prductividad del trabajo se hace más pronunciada, cuando medimos las horas trabajadas en vez de simplemente la cantidad de personas empleadas.
+
+También es cierto, que la producividad o se estancó o se ralentizó en la mayoría de las economías más avanzadas o más importantes (China, USA, Alemania, UK) y donde a excepción de China, la desaceleracion de la productividad es un poco mayor si se mide en producto por hora trabajada.
+  
+
+ 
+
+
+
+### Aspectos financieros
+
+#### Algunas señales de saturación de crédito pueden emerger en el corto plazo 
+
+
+
+
+
+##### Page Break in Word
+
+## Anexos (dejar dos o tres tablas, solamente)
+
+
+
+ 
+```{r table_oecd_hours_prod}
+lp_oecd_table_data <- gdp_hrs_worked_ppp_oecd  
+
+colnames_lp_oecd_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_oecd_caption = "Growth of labor productivity (GDP per hours worked (2011 PPP prices))"
+
+knitr::kable(lp_oecd_table_data , digits = 1,
+             col.names = colnames_lp_oecd_table , caption = tbl_lp_oecd_caption) %>% 
+  add_footnote("Source: OECD")
+  
+```
+
 ```{r table_avg_tg_lac_agg, results=TRUE}
 
 table_avg_tg_lac_agg_data <- trend_growth_list_lac$group_averages %>% 
@@ -1807,72 +1872,8 @@ table_tg_lacagg_notven <- knitr::kable(table_avg_tg_lac_agg_notven_data, digits 
   add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017")
 
 table_tg_lacagg
-table_tg_lacagg_notven
+#table_tg_lacagg_notven
 ```
-
-
-
-Mirando a la región, el caso de la productividad del trabajo es un tanto distinto a las variables que hemos descrito hasta aquí. Comparte, por un lado, el de hecho de emperar en el período post crisis pero a diferencia de las otras, las tasas de crecimeinto son modestas en *ambos* períodos. No hubo un boom de productividad del trabajo junto con el boom de producción, inversión y exportación.
-
-Aquellos paises que lograron acelerar un poco su productividad laboral en el segundo perìodo son Bolivia, Ecuador, Nicargua, Panamá, Paraguay y Uruguay
-
-La anterior se sostiene tanto si consideramos los precios con o sin ajuste por PPP, pero en este último caso, los países que mejoraron su posición tienen a aparecer con mejoras más modestas que sin el ajuste por paridad de poder de compra. Los únicos casos donde es de alguna relevancia esta distinciòn son Perù y Colombia, que revierten una modesta caídad (Colombia) o un modesto aumento (Perù) si se mide su producciòn usando precios PPP.
-
-Estos números están basado en el producto promedio por *persona empleada*. Sólo tenemos datos comparables de producto por *hora trabajada* en el caso de los dos países de LAC que son miembros de la OECD (México y Chile) y en ambos casos, 
-la desaceleración de la prductividad del trabajo se hace más pronunciada, cuando medimos las horas trabajadas en vez de simplemente la cantidad de personas empleadas.
-
-También es cierto, que la producividad o se estancó o se ralentizó en la mayoría de las economías más avanzadas o más importantes (China, USA, Alemania, UK) y donde a excepción de China, la desaceleracion de la productividad es un poco mayor si se mide en producto por hora trabajada.
-  
-
- 
-
-
-
- 
-```{r table_oecd_hours_prod}
-lp_oecd_table_data <- gdp_hrs_worked_ppp_oecd  
-
-colnames_lp_oecd_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-tbl_lp_oecd_caption = "Growth of labor productivity (GDP per hours worked (2011 PPP prices))"
-
-knitr::kable(lp_oecd_table_data , digits = 1,
-             col.names = colnames_lp_oecd_table , caption = tbl_lp_oecd_caption) %>% 
-  add_footnote("Source: OECD")
-  
-```
-
-#### Algunas señales de saturación de crédito pueden emerger en el corto plazo 
-
-```{r tbl_creditgap}
-tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
-  select(eco_id, mean_per1, mean_per2) %>% 
-  rename("1990-1999" = mean_per1, 
-         "2000-2006" = mean_per2) %>% 
-  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
-  select(1:3, mean_per1, mean_per2) %>% 
-  rename("2007-2009" = mean_per1, 
-         "2010-2015" = mean_per2)
-  
-
-bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
-                            "2007-2009", "2010-2015")
-
-bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
-
-bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
-             col.names = bis_cr_gap_notlac_regions_colnames,
-             caption = bis_cr_gap_notlac_regions_caption) %>% 
-  add_footnote("Source: BIS")
-
-bis_cr_gap_notlac_regions_tbl
-
-```
-
-
-
-
-## Anexos
 
 
 
@@ -1924,22 +1925,6 @@ knitr::kable(gfcf_lac_table_data , digits = 1,
   add_footnote("Source: WB")
 
 ```
-
-
-
-
-```{r table_avg_x_g_lac, echo=FALSE, results=TRUE}
-table_avg_x_g_lac_data <- weo_x_growth_lac$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-xm_gg_colnames = c(" ", "Exports 2003-2008", "Exports 2010-2016", "Cambio")
-
-tbl_gg_lac_caption = "Volume of exports, average period growth (LAC-18)"
-knitr::kable(table_avg_x_g_lac_data, digits = 1,
-             col.names = xm_gg_colnames, caption = tbl_gg_lac_caption) %>% 
-  add_footnote("Source: growth rates for each year from WEO April 2017")
-```
-
 
 
 
@@ -2002,3 +1987,31 @@ tbl_trade_x_lacaggs
 
 ```
 
+
+
+
+```{r table_avg_x_g_lac, echo=FALSE, results=TRUE}
+table_avg_x_g_lac_data <- weo_x_growth_lac$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "Exports 2003-2008", "Exports 2010-2016", "Cambio")
+
+tbl_gg_lac_caption = "Volume of exports, average period growth (LAC-18)"
+knitr::kable(table_avg_x_g_lac_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_lac_caption) %>% 
+  add_footnote("Source: growth rates for each year from WEO April 2017")
+```
+
+
+
+```{r trade_to_gdp_other}
+trade_to_gdp_other_data <- openess_other_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "2003-2008", "2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Growth of trade/gdp (other economies)"
+knitr::kable(trade_to_gdp_other_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
+  add_footnote("Source: WB")
+```
