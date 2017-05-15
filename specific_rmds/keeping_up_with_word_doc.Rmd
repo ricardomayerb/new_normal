@@ -919,6 +919,14 @@ cor_tasas_crec_canada
 cor_tasas_crec_francia
 ```
 
+USA:
+![crecimiento beneficios inversion usa](beneficios_inversion_usa.png)
+
+Canada:
+![crecimiento beneficios inversion canada](beneficios_inversion_canada.png)
+
+Francia:
+![crecimiento beneficios inversion francia](beneficios_inversion_francia.png)
 
 ### A partir de esta década se ha sumado una desaceleración del comercio
 
@@ -1051,7 +1059,7 @@ En segundo lugar se ha producido una ralentización del crecimiento de las caden
 Dado que la elasticidad de nuestras exportaciones ante cambios en el  producto mundial no ha aumentado y que  el crecimiento externo potencial se visto notablemente enlentecido, un aumento veloz del producto regional vía exportaciones, aparece como improbable en esta nueva normalidad.
 
 
-#### Precios de commodities disminuyen varianza pero crecen lentamente
+#### Precios de commodities caen y se proyecta un repunte moderado
 
 
 ```{r compute_commodity_price, include=FALSE, cache=TRUE}
@@ -1375,10 +1383,11 @@ knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
 ```
 
-Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
+La relentización de crecimiento potencial es suficientemente extendido en la región como para caracterizarlo de generalizado, por cuanto el número de excepciones es pequeño y con la excepción de México que está prácticamente sin cambios, ninguna de las excepciones es muy gravitante en los mercados vecinos. Sin embargo vale la pena detenerse un poco en ver quienes lograron mantener su ritmo, quienes cayeron levemente y quienes cayeron abruptamente, para lo cual es necesario referirse al Cuadro 9
 
-Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es, como vimos en la sección anterior,  parte de un contexto internacional de desaceleración, pero constituye junto al Oriente Medio y a Africa uno de los casos másagudos dentro del grupo de als economía emergentes. 
+En nuestra muestra, sólo  3 de 18 países, exhiben claramente un mayor dinamismo en el período post-2009. En casi en la mitad de los países (8 de 18) el PIB potencial pierde en promedio 100 o más puntos base de crecimiento en esta década.
 
+El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial, no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
 
 ```{r table_avg_tg_lac,  include=FALSE}
 lac_tbl_caption = "Average growth of potential output, LAC"
@@ -1391,21 +1400,12 @@ knitr::kable(table_data_pot_lac , digits = 1,
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
 ```
 
-
-#### Evolución tendencial del producto (borrar?)
-
-Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009) y su rápido rebote, la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
-
-
-En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
-
-
-El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos,  no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
-
-
+Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es, como vimos en la sección anterior,  parte de un contexto internacional de desaceleración, pero constituye junto al Oriente Medio y a Africa uno de los casos másagudos dentro del grupo de als economía emergentes. 
 ##### Page break in Word
 
-### Exportaciones e Importaciones
+### Evolución de los determinantes
+
+#### Exportaciones e Importaciones
 
 ```{r calcultate_avg_gr_trade_related, include=FALSE}
 
@@ -1491,67 +1491,6 @@ openess_other_list <- trade_wb %>%
 ```
 
 
-
-
-
-
-```{r tbl_trade_x_lac_aggs}
-
-tbl_trade_x_lac18_aggs_data <- weo_x_pct_ch_lac18_92_95_96_00$group_averages %>% 
-  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_lac18_01_07_08_11$group_averages, by = "region_name") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_lac18_92_00_01_16$group_averages, by = "region_name") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) 
-
-
-tbl_trade_x_cardm_aggs_data <- weo_x_pct_ch_cardm_92_95_96_00$group_averages %>% 
-  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_cardm_01_07_08_11$group_averages, by = "region_name") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_cardm_92_00_01_16$group_averages, by = "region_name") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) 
-
-tbl_trade_x_sa_aggs_data <- weo_x_pct_ch_sa_92_95_96_00$group_averages %>% 
-  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_sa_01_07_08_11$group_averages, by = "region_name") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_sa_92_00_01_16$group_averages, by = "region_name") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) 
-
-joined_lacaggs_trade_x_table_data <- tbl_trade_x_lac18_aggs_data %>% 
-  bind_rows(tbl_trade_x_cardm_aggs_data) %>% 
-  bind_rows(tbl_trade_x_sa_aggs_data) 
-  
-trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
-
-tbl_trade_x_caption = "Crecimiento del comercio y las exportacioens, LAC-18 y subregiones"
-
-tbl_trade_x_lacaggs <- knitr::kable(joined_lacaggs_trade_x_table_data, digits = 1,
-             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
-  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
-
-tbl_trade_x_lacaggs 
-
-```
 
 
 
@@ -2000,3 +1939,66 @@ knitr::kable(table_avg_x_g_lac_data, digits = 1,
              col.names = xm_gg_colnames, caption = tbl_gg_lac_caption) %>% 
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
+
+
+
+
+
+```{r tbl_trade_x_lac_aggs}
+
+tbl_trade_x_lac18_aggs_data <- weo_x_pct_ch_lac18_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_lac18_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_lac18_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+
+tbl_trade_x_cardm_aggs_data <- weo_x_pct_ch_cardm_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_cardm_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_cardm_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+tbl_trade_x_sa_aggs_data <- weo_x_pct_ch_sa_92_95_96_00$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_sa_01_07_08_11$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_sa_92_00_01_16$group_averages, by = "region_name") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) 
+
+joined_lacaggs_trade_x_table_data <- tbl_trade_x_lac18_aggs_data %>% 
+  bind_rows(tbl_trade_x_cardm_aggs_data) %>% 
+  bind_rows(tbl_trade_x_sa_aggs_data) 
+  
+trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
+
+tbl_trade_x_caption = "Crecimiento del comercio y las exportacioens, LAC-18 y subregiones"
+
+tbl_trade_x_lacaggs <- knitr::kable(joined_lacaggs_trade_x_table_data, digits = 1,
+             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
+
+tbl_trade_x_lacaggs 
+
+```
+
