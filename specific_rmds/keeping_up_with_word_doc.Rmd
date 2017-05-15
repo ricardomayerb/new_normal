@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(printr)
 ```
 
+
 ```{r, load_libraries, include=FALSE}
 library(dplyr) # use dplyr::first and dplyr::last
 library(ggplot2)
@@ -673,6 +674,52 @@ weo_x_pct_ch_sa_92_00_01_16$group_averages["region_name"] <- "South America"
 
 
 
+```{r labor_produc_dfs}
+
+load("../produced_data/gdp_employ_pop_wb_pwt_ted")
+gdp_hrs_worked_ppp_oecd <- read_excel("../raw_data/gdp_hrs_worked_ppp_oecd.xlsx")
+
+
+not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
+aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
+this_selection_18 <- c(cepal_18_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
+
+wb_agg_cnames = c("World", "High Income", "OECD members", "Euro area", 
+                  "Latin America & Caribbean" )
+
+gdp_emp_lac_list <- pwt_gdp_per_employed %>% 
+  select(isocode, country, year, gdp_to_emp_pwt) %>% 
+  filter(isocode %in% cepal_18_countries[["iso3c"]]) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = isocode,
+         date_id = date,
+         voi = gdp_to_emp_pwt) %>% 
+  growth_report()
+
+  
+gdp_emp_other_list <- pwt_gdp_per_employed %>% 
+  select(isocode, country, year, gdp_to_emp_pwt) %>% 
+  filter(isocode %in% c(not_cepal_countries, aggregates_codes)) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = isocode,
+         date_id = date,
+         voi = gdp_to_emp_pwt) %>% 
+  growth_report()
+
+from_wb <- gdp_per_employed %>% 
+  ungroup() %>% 
+  select(iso3c, country, date, growth_gdp_per_pop, growth_gdp_per_emp) %>% 
+  rename(year = date) %>% 
+  mutate(iso3c = factor(iso3c),
+         year = as.integer(year)) %>% 
+  filter(year >= 1990)
+
+from_ted <- ted_gracc_data
+
+```
+
+
+
 ## Resumen (reescribir al final)
 
 En este capítulo documentamos los siguientes hecho estilizados: en general, el producto potencial en los países de la región crece más lentamente que en el pasado y eso ha estado acompañado de desaceleraciones correspondientes en el volumen de sus exportaciones, en los precios de los commodities y en la formación bruta de capital fijo. Algo similar ocurre con la productividad media del trabajo, que también ve en algo deteriorado su crecimiento en los años recientes; pero , a diferencia de los otros determinantes mencionados, no tuvo un crecimiento acelerado en el período previo a la crisis financiera global.
@@ -713,10 +760,6 @@ La evidencia disponible muestra que a la par con la baja tendencial del crecimie
 La tasa de crecimiento de la productividad laboral para el caso de los Estados Unidos aumentó en la década de los noventa. Esta pasó de  1.7% y 3.1% en promedio para 1990-1995 y 1996-2000 para luego disminuir por debajo de 1% en la década de los noventa y mantenerse en torno a 1% entre 2010-2015. Por su parte tanto la Zona Euro como el resto de las economías industrializadas registran una clara disminución en la tasa de crecimiento de la productividad en los noventa (Cuadro  2).
 
 A  nivel más específico del sector manufacturero también se nota una pérdida de productividad en las economías más desarrolladas. La tasa de crecimiento anual del producto por hora para un conjunto de economías desarrolladas baja de 4.8%  a 1.5% entre 1998-2006 y 2010-2014. Una evolución similar se registra para el producto por trabajador: 4.7% y 1.4% para el mismo periodo. 
-
-
-
-
 
 
 
@@ -1074,129 +1117,15 @@ knitr::kable(table_comm_price_gr_avg_data, digits = 1,
 
 
 
-### Ambiente financiero
+### Los flujos financieros han sido más estables, pero sus componentes más volátiles crecen en importancia
 
 
-```{r credit_gdp_levels_and_gr}
-
-load("../produced_data/wb_credit_to_gdp_dfs")
-load("../produced_data/bis_tidy")
-
-not_lac_country_names <- c("World", "Euro area", "China", "United States",
-                           "Middle East & North Africa", "Middle East & North Africa", "Japan")
-
-wb_privcred2gdp_not_lac <- dom_credit_to_priv_sec_to_gdp %>% 
-  filter((country %in% not_lac_country_names) & date >= 1989 ) %>% 
-   mutate(date =  ymd(paste0(date,  "-12-31"))) 
-
-wb_privcred2gdp_regions <- wb_privcred2gdp_not_lac   %>% 
-  select(country, date, value) %>% 
-  rename(date_id = date, voi = value, eco_id = country)
-
-wb_privcred2gdp_regions_90_99_00_06 <- wb_privcred2gdp_regions %>% 
-  growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
-
-wb_privcred2gdp_regions_07_09_10_15 <- wb_privcred2gdp_regions %>% 
-  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
-                                                                                     
-
-                                     
-
-# Q:CL:P:A:M:770:A
-bis_pri_nfs_alls_gdp <- tc_qs_long %>% 
-  filter(str_detect(code, ":P:A:M:770:A"))
-
-bis_not_lac_country_names <- c("euro_area", "advanced_economies", "G20", "emerging_markets",
-                               "China", "United States of America" , "Japan", 
-                               "all_reporting_economies")
-
-bis_pri_nfs_alls_gdp_region <- bis_pri_nfs_alls_gdp %>% 
-  filter(country_name %in% bis_not_lac_country_names) %>% 
-  select(country_name, date, value) %>% 
-  rename(date_id = date, voi = value, eco_id = country_name)
-
-# demonios, son trimestrales
-# wb_prinfs2gdp_regions_90_99_00_06 <- bis_pri_nfs_alls_gdp_region %>% 
-#   growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
-# 
-# wb_prinfs2gdp_regions_07_09_10_15 <- bis_pri_nfs_alls_gdp_region %>% 
-#   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
-
-bis_gap_other_country_names <- c("euro_area", "China", "United States of America" , "Japan", 
-                               "United Kingdom of Great Britain and Northern Ireland")
-
-bis_credit_gdp_gap_notlac <- cr_gap_bis_gapval %>% 
-  filter(country_name %in% bis_gap_other_country_names) %>% 
-  select(-code) %>% 
-  rename(date_id = date, voi = value, eco_id = country_name)
-
-bis_cr_gap_notlac_avg_lvl_90_99_00_06 <- bis_credit_gdp_gap_notlac %>% 
-   means_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
-  
-bis_cr_gap_notlac_avg_lvl_07_09_10_15 <- bis_credit_gdp_gap_notlac %>% 
-   means_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
-
-```
+A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes. 
 
 
-```{r tbl_privcred2gdp}
-tbl_privcred2gdp_data <- wb_privcred2gdp_regions_90_99_00_06$avgs_df %>%
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1990-1999" = geo_mean_gr_per1, 
-         "2000-2005" = geo_mean_gr_per2) %>% 
-  left_join(wb_privcred2gdp_regions_07_09_10_15$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2007-2009" = geo_mean_gr_per1, 
-         "2010-2015" = geo_mean_gr_per2)
-  
-
-wb_privcred2gdp_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
-                            "2007-2009", "2010-2015")
-
-wb_privcred2gdp_regions_caption = "Tasa de crecimiento anual de Credito/PIB"
-
-wb_privcred2gdp_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
-             col.names = wb_privcred2gdp_regions_colnames,
-             caption = wb_privcred2gdp_regions_caption) %>% 
-  add_footnote("Source: WB")
-
-wb_privcred2gdp_regions_tbl
-
-```
+En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
 
 
-
-```{r tbl_creditgap}
-tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
-  select(eco_id, mean_per1, mean_per2) %>% 
-  rename("1990-1999" = mean_per1, 
-         "2000-2006" = mean_per2) %>% 
-  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
-  select(1:3, mean_per1, mean_per2) %>% 
-  rename("2007-2009" = mean_per1, 
-         "2010-2015" = mean_per2)
-  
-
-bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
-                            "2007-2009", "2010-2015")
-
-bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
-
-bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
-             col.names = bis_cr_gap_notlac_regions_colnames,
-             caption = bis_cr_gap_notlac_regions_caption) %>% 
-  add_footnote("Source: BIS")
-
-bis_cr_gap_notlac_regions_tbl
-
-```
-### Flujos financieros
-
-
-**Las condiciones financieras externas se han estabilizado, la liquidez crece a un ritmo moderado pero su precio aumentará  en el mediano plazo **
-
-
-A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial.  Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes. En la próxima sección analizaremos con más detalle esta mayor estabilidad respecto de los flujos de capitales hacia y desde la región.  Por el momento, baste señalar lo siguiente: la composición de los flujos (tanto netos como brutos i.e. por residentes y por ambos) es  notoriamente más variada en este nuevo escenario que el período 2003-2008, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuestro nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra. Segundo, los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
 
 
 
@@ -1291,15 +1220,14 @@ yearly_net_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
 ```
 
 
-Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de incrementos en las entradas o salidas, netas o brutas,  se han vuelto menos frecuentes. Por ejemplo, en términos de gross inflows y gross outflows, la región exhibe menos episodios extremos  comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis finaciera global, donde los inflow surges fueron más frecuentes. También es cierto si miramos las entradas y salidas etas de capitales: hay menos episodios extremos de salida e igual cantidad de entradas.
+
+Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de incrementos en las entradas o salidas, netas o brutas, se han vuelto menos frecuentes. Por ejemplo, en términos de gross inflows y gross outflows, la región exhibe menos episodios extremos comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis finaciera global, donde los inflow surges fueron más frecuentes. Similar es el caso de las entradas y salidas netas de capitales: hay menos episodios extremos de salida e igual cantidad de episodios de entradas.
 
 
-Concretamente, usando datos de CEPAL sobre flujos *brutos* entrantes y salientes (gross inflows and gross outflows) para Brasil, 
-México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] **encuentra solamente un episodio de sudden stop**, específicamente en Colombia entre 2015Q2 y 2015Q4. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s. 
+Concretamente, usando datos de CEPAL sobre flujos brutos entrantes y salientes (gross inflows and gross outflows) para Brasil, México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] aparece en este período solamente un episodio de sudden stop de gross inflows, específicamente en Colombia entre 2015Q2 y 2015Q4. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s.
 
-Por lado de los flujos de entrada positivo, después del 2009 vemos sólo dos inflow surges, versus tres en los 90s y siete en los 2000s previos a la crisis financiera global.
 
-Aquí hay un cuadro que resume la situación:
+Por lado de los flujos de entrada por no-residentes, después del 2009 vemos sólo dos inflow surges, versus tres en los 90s y siete en los 2000s previos a la crisis financiera global.
 
 ```{r gross_ff_episodes_resumen}
 extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx")
@@ -1323,41 +1251,110 @@ knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>%
 ```
 
 
+#### La liquidez crece a un ritmo moderado pero su precio continuará aumentando en el mediano plazo 
 
-##### Page break in Word
+Salvo en el caso de la zona del euro, el crédito interno se ha expadido al mismo ritmo que PIB (Estados Unidos) o de manera un poco más acelerada que el PIB, notablemente en China que incrementado su volumen de crédito interno bastante más rápidamente que su producción. El capítulo sobre aspectos macro-financieros vemos cómo difieren no sólo las tendencias si no también la composición de este nuevo crédito interno entre economías emergentes , donde en las primeras aparece como destinado a alimentar el consumo y   en las últimas a mejorar las hojas de balance, dejando de momento en relativa orfandad a la inversión real y creando un desbalance que pone señales de alerta el mediano plazo. 
 
-### Box: Determinantes de la inversión en economías avanzadas
-
-
-
+En la sección sobre el desempeño de la región, veremos para algunos países, un indicador de posibles ciclos del crédito interno respecto del PIB.
 
 
-##### Page break in Word
+```{r credit_gdp_levels_and_gr}
 
-## Desempeño de la región en este nuevo normal
+load("../produced_data/wb_credit_to_gdp_dfs")
+load("../produced_data/bis_tidy")
 
+not_lac_country_names <- c("World", "Euro area", "China", "United States",
+                           "Middle East & North Africa", "Middle East & North Africa", "Japan")
 
-#### Evolución tendencial del producto (borrar?)
+wb_privcred2gdp_not_lac <- dom_credit_to_priv_sec_to_gdp %>% 
+  filter((country %in% not_lac_country_names) & date >= 1989 ) %>% 
+   mutate(date =  ymd(paste0(date,  "-12-31"))) 
 
-Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009) y su rápido rebote, la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
+wb_privcred2gdp_regions <- wb_privcred2gdp_not_lac   %>% 
+  select(country, date, value) %>% 
+  rename(date_id = date, voi = value, eco_id = country)
 
+wb_privcred2gdp_regions_90_99_00_06 <- wb_privcred2gdp_regions %>% 
+  growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
 
-En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
+wb_privcred2gdp_regions_07_09_10_15 <- wb_privcred2gdp_regions %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+                                                                                     
 
+                                     
 
-El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos,  no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
+# Q:CL:P:A:M:770:A
+bis_pri_nfs_alls_gdp <- tc_qs_long %>% 
+  filter(str_detect(code, ":P:A:M:770:A"))
 
+bis_not_lac_country_names <- c("euro_area", "advanced_economies", "G20", "emerging_markets",
+                               "China", "United States of America" , "Japan", 
+                               "all_reporting_economies")
 
-```{r table_avg_tg_lac,  include=FALSE}
-lac_tbl_caption = "Average growth of potential output, LAC"
-uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
-table_data_pot_lac <- trend_growth_list_lac$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+bis_pri_nfs_alls_gdp_region <- bis_pri_nfs_alls_gdp %>% 
+  filter(country_name %in% bis_not_lac_country_names) %>% 
+  select(country_name, date, value) %>% 
+  rename(date_id = date, voi = value, eco_id = country_name)
 
-knitr::kable(table_data_pot_lac , digits = 1,
-             col.names = uno_colnames, caption = lac_tbl_caption) %>% 
-  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
+# demonios, son trimestrales
+# wb_prinfs2gdp_regions_90_99_00_06 <- bis_pri_nfs_alls_gdp_region %>% 
+#   growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+# 
+# wb_prinfs2gdp_regions_07_09_10_15 <- bis_pri_nfs_alls_gdp_region %>% 
+#   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+
+bis_gap_other_country_names <- c("euro_area", "China", "United States of America" , "Japan", 
+                               "United Kingdom of Great Britain and Northern Ireland")
+
+bis_credit_gdp_gap_notlac <- cr_gap_bis_gapval %>% 
+  filter(country_name %in% bis_gap_other_country_names) %>% 
+  select(-code) %>% 
+  rename(date_id = date, voi = value, eco_id = country_name)
+
+bis_cr_gap_notlac_avg_lvl_90_99_00_06 <- bis_credit_gdp_gap_notlac %>% 
+   means_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+  
+bis_cr_gap_notlac_avg_lvl_07_09_10_15 <- bis_credit_gdp_gap_notlac %>% 
+   means_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+
 ```
+
+
+```{r tbl_privcred2gdp}
+tbl_privcred2gdp_data <- wb_privcred2gdp_regions_90_99_00_06$avgs_df %>%
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1999" = geo_mean_gr_per1, 
+         "2000-2005" = geo_mean_gr_per2) %>% 
+  left_join(wb_privcred2gdp_regions_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "2010-2015" = geo_mean_gr_per2)
+  
+
+wb_privcred2gdp_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+wb_privcred2gdp_regions_caption = "Tasa de crecimiento anual de Credito/PIB"
+
+wb_privcred2gdp_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
+             col.names = wb_privcred2gdp_regions_colnames,
+             caption = wb_privcred2gdp_regions_caption) %>% 
+  add_footnote("Source: WB")
+
+wb_privcred2gdp_regions_tbl
+
+```
+
+Finalmente, en la medida de que las tasas de política monetaria de Estados Unidos, la Zona del euro y Japón se normalicen paulatinamente en los próximos años, debiéramos ver un encarecimiento del financiamiento, pero de todos modos en niveles bajos o moderados comparados con la historia pre-2007.
+
+
+
+
+## El nuevo normal de la región: menor dinamismo con heterogeneidad acotada.
+
+
+El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una pérdida de dinamismo de su crecimiento de largo plazo.  La evidencia muestra que tanto el Istmo centroamericano extendido (con República Dominicana y México) como América del Sur han perdido impulso en sus productos tendenciales, pero la pérdida de dinamismo es mucho mayor para América del Sur. Lo anterior es aún más relevante si pensamos que la principal economía de la subregión norte, México, no parece haberse desacelerado, versus las dos principales de américa del sur, Brasil y Argentina que tuvieron los frenos más pronunciados de la región, sólo superadas por Venezuela. Interesantemente, las cuatro excepciones a este fenómeno (Bolivia, Paraguay, Nicaragua y México) están repartidas entre ambas subregiones geográficas, tienen productos de exportación distintos (hidrocarburos, alimentos y manufacturas) y socios comerciales principales distintos (China y Estados Unidos), por lo que el fenómeno de desaceleración se resiste a un corte demasiado simple en términos geográficos, estructurales o comerciales.
+
 
 
 ```{r table_avg_tg_lacavg_aes,  results=TRUE}
@@ -1380,7 +1377,30 @@ knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
 
 Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es parte de un contexto interacional de desaceleración, tal como puede verse en el segundo cuadro: Estados Unidos, China, la zona del euro (sus tres principales socios comerciales) y el conjunto de las economías avanzadas (IMF classification) también exhiben menores tasa de crecimiento de sus PIB tendeciales en igual período. Es cierto aún para los Estado Unidos, donde incluímos el año 2008 en el primer período, cuando la crisis ya golpeaba al sector real. Los dos números que resumen este panorama son los de las Economías Avanzadas  y China. En el caso del las economías avanzadas pasamos de un crecimiento potencial de 2.1% promedio a 1.4% y China que pasa de 11.2% a 8%.
 
+Esta nueva realidad que enfrenta la región no es, por supuesto, un mal endémico: es, como vimos en la sección anterior,  parte de un contexto internacional de desaceleración, pero constituye junto al Oriente Medio y a Africa uno de los casos másagudos dentro del grupo de als economía emergentes. 
 
+
+```{r table_avg_tg_lac,  include=FALSE}
+lac_tbl_caption = "Average growth of potential output, LAC"
+uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
+table_data_pot_lac <- trend_growth_list_lac$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+knitr::kable(table_data_pot_lac , digits = 1,
+             col.names = uno_colnames, caption = lac_tbl_caption) %>% 
+  add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
+```
+
+
+#### Evolución tendencial del producto (borrar?)
+
+Después de la gran crisis financiera global (2007-2008) y el posterior derrumbe de los precios de los commodities (2009) y su rápido rebote, la región retomó tasas positivas de crecimiento pero a un ritmo notablemente menor que en el quinquenio 2003-2008. Un cálculo de los PIB tendenciales y su tasa de crecimiento, muestra que prácticamente para todos los países de ALC, la realidad post-2009 involucra tasas de crecimeinto tendencial o potencial bastante menores al mundo pre-crisis, particularmente agudo en los casos de Venezuela, Argentina y Brasil, con pocas pero notables excepciones como Bolivia, Nicaragua y Paraguay.  
+
+
+En nuestra muestra, sólo en 3 de 18 países, el PIB potencial exhibe mayor dinamismo en el período post-2009. Casi en la mitad de los países (8 de 18)  el PIB potencial pierde en promedio 100 o más puntos base de crecimiento cada año.
+
+
+El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial por lejos,  no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
 
 
 ##### Page break in Word
@@ -1593,19 +1613,12 @@ tbl_trade_x_lacaggs_notnic
 
 ```
 
+La relentización de crecimiento potencial es suficientemente extendido en la región como para caracterizarlo de generalizado, por cuanto el número de excepciones es pequeño y con la excepción de México que está prácticamente sin cambios, ninguna de las excepciones es muy gravitante en los mercados vecinos. Sin embargo vale la pena detenerse un poco en ver quienes lograron mantener su ritmo, quienes cayeron levemente y quienes cayeron abruptamente, para lo cual es necesario referirse al Cuadro 9
 
+En nuestra muestra, sólo  3 de 18 países, exhiben claramente un mayor dinamismo en el período post-2009. En casi en la mitad de los países (8 de 18) el PIB potencial pierde en promedio 100 o más puntos base de crecimiento en esta década.
 
-```{r table_avg_x_g_lac, echo=FALSE, results=TRUE}
-table_avg_x_g_lac_data <- weo_x_growth_lac$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+El caso de México es interesante porque exhibe tasas de crecimiento del PIB potencial esencialmente iguales (y modestas) en ambos períodos, probablemente debido a que sus exportaciones están concentradas en manufacturas y no en commodities y también debido a que la desaceleración de Estados Unidos, su principal socio comercial, no es tan pronunciada como la desaceleración de China, que tiende a tener un mayor peso en la exportaciones de los países América del Sur.
 
-xm_gg_colnames = c(" ", "Exports 2003-2008", "Exports 2010-2016", "Cambio")
-
-tbl_gg_lac_caption = "Volume of exports, average period growth (LAC-18)"
-knitr::kable(table_avg_x_g_lac_data, digits = 1,
-             col.names = xm_gg_colnames, caption = tbl_gg_lac_caption) %>% 
-  add_footnote("Source: growth rates for each year from WEO April 2017")
-```
 
 En casi todas las economías de la región, vemos una considerable desaceleración de sus exportaciones 
 (medidas por el volumen de exportación) respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que mejoran su desempeño en el segundo período, vienen de desempeños m+as bien modestos durante 2003-2008.
@@ -1756,21 +1769,6 @@ tbl_gfcf_lacaggs
 
 ```
 
-```{r gfcf_lac_table}
-
-colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-gfcf_lac_table_data <- gfcf_lac_list$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-
-tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation, lac 18 (%)"
-
-knitr::kable(gfcf_lac_table_data , digits = 1,
-             col.names = colnames_fbcf_table, caption = tbl_fbcf_gr_caption) %>% 
-  add_footnote("Source: WB")
-
-```
 
 
 
@@ -1875,51 +1873,6 @@ table_tg_lacagg_notven
 
 
 
-```{r labor_produc_dfs}
-
-load("../produced_data/gdp_employ_pop_wb_pwt_ted")
-gdp_hrs_worked_ppp_oecd <- read_excel("../raw_data/gdp_hrs_worked_ppp_oecd.xlsx")
-
-
-not_cepal_countries <- c("USA", "CHN", "RUS", "JPN", "IND", "DEU", "GBR") 
-aggregates_codes <-  c("WLD", "LCN", "OED", "EMU", "EUU", "LAC", "LCN", "LCR", "HIC")
-this_selection_18 <- c(cepal_18_countries[["iso3c"]], not_cepal_countries, aggregates_codes)
-
-wb_agg_cnames = c("World", "High Income", "OECD members", "Euro area", 
-                  "Latin America & Caribbean" )
-
-gdp_emp_lac_list <- pwt_gdp_per_employed %>% 
-  select(isocode, country, year, gdp_to_emp_pwt) %>% 
-  filter(isocode %in% cepal_18_countries[["iso3c"]]) %>% 
-  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
-  rename(eco_id = isocode,
-         date_id = date,
-         voi = gdp_to_emp_pwt) %>% 
-  growth_report()
-
-  
-gdp_emp_other_list <- pwt_gdp_per_employed %>% 
-  select(isocode, country, year, gdp_to_emp_pwt) %>% 
-  filter(isocode %in% c(not_cepal_countries, aggregates_codes)) %>% 
-  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
-  rename(eco_id = isocode,
-         date_id = date,
-         voi = gdp_to_emp_pwt) %>% 
-  growth_report()
-
-from_wb <- gdp_per_employed %>% 
-  ungroup() %>% 
-  select(iso3c, country, date, growth_gdp_per_pop, growth_gdp_per_emp) %>% 
-  rename(year = date) %>% 
-  mutate(iso3c = factor(iso3c),
-         year = as.integer(year)) %>% 
-  filter(year >= 1990)
-
-from_ted <- ted_gracc_data
-
-```
-
-
 Mirando a la región, el caso de la productividad del trabajo es un tanto distinto a las variables que hemos descrito hasta aquí. Comparte, por un lado, el de hecho de emperar en el período post crisis pero a diferencia de las otras, las tasas de crecimeinto son modestas en *ambos* períodos. No hubo un boom de productividad del trabajo junto con el boom de producción, inversión y exportación.
 
 Aquellos paises que lograron acelerar un poco su productividad laboral en el segundo perìodo son Bolivia, Ecuador, Nicargua, Panamá, Paraguay y Uruguay
@@ -1931,6 +1884,60 @@ la desaceleración de la prductividad del trabajo se hace más pronunciada, cuan
 
 También es cierto, que la producividad o se estancó o se ralentizó en la mayoría de las economías más avanzadas o más importantes (China, USA, Alemania, UK) y donde a excepción de China, la desaceleracion de la productividad es un poco mayor si se mide en producto por hora trabajada.
   
+
+ 
+
+
+
+ 
+```{r table_oecd_hours_prod}
+lp_oecd_table_data <- gdp_hrs_worked_ppp_oecd  
+
+colnames_lp_oecd_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+tbl_lp_oecd_caption = "Growth of labor productivity (GDP per hours worked (2011 PPP prices))"
+
+knitr::kable(lp_oecd_table_data , digits = 1,
+             col.names = colnames_lp_oecd_table , caption = tbl_lp_oecd_caption) %>% 
+  add_footnote("Source: OECD")
+  
+```
+
+#### Algunas señales de saturación de crédito pueden emerger en el corto plazo 
+
+```{r tbl_creditgap}
+tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
+  select(eco_id, mean_per1, mean_per2) %>% 
+  rename("1990-1999" = mean_per1, 
+         "2000-2006" = mean_per2) %>% 
+  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, mean_per1, mean_per2) %>% 
+  rename("2007-2009" = mean_per1, 
+         "2010-2015" = mean_per2)
+  
+
+bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
+
+bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
+             col.names = bis_cr_gap_notlac_regions_colnames,
+             caption = bis_cr_gap_notlac_regions_caption) %>% 
+  add_footnote("Source: BIS")
+
+bis_cr_gap_notlac_regions_tbl
+
+```
+
+
+
+
+## Anexos
+
+
+
+
   
 ```{r table_lac_lab_prod_pwt}
 table_lac_lab_prod_pwt_data <- gdp_emp_lac_list$avgs_df %>% 
@@ -1962,25 +1969,34 @@ knitr::kable(table_other_lab_prod_pwt_data, digits = 1,
   
 ```
 
- 
+
+```{r gfcf_lac_table}
+
+colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+gfcf_lac_table_data <- gfcf_lac_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
 
+tbl_fbcf_gr_caption = "Growth Gross Fixed Cap formation, lac 18 (%)"
 
- 
-```{r table_oecd_hours_prod}
-lp_oecd_table_data <- gdp_hrs_worked_ppp_oecd  
+knitr::kable(gfcf_lac_table_data , digits = 1,
+             col.names = colnames_fbcf_table, caption = tbl_fbcf_gr_caption) %>% 
+  add_footnote("Source: WB")
 
-colnames_lp_oecd_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-tbl_lp_oecd_caption = "Growth of labor productivity (GDP per hours worked (2011 PPP prices))"
-
-knitr::kable(lp_oecd_table_data , digits = 1,
-             col.names = colnames_lp_oecd_table , caption = tbl_lp_oecd_caption) %>% 
-  add_footnote("Source: OECD")
-  
 ```
 
 
 
-## Anexos
 
+```{r table_avg_x_g_lac, echo=FALSE, results=TRUE}
+table_avg_x_g_lac_data <- weo_x_growth_lac$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "Exports 2003-2008", "Exports 2010-2016", "Cambio")
+
+tbl_gg_lac_caption = "Volume of exports, average period growth (LAC-18)"
+knitr::kable(table_avg_x_g_lac_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_lac_caption) %>% 
+  add_footnote("Source: growth rates for each year from WEO April 2017")
+```
