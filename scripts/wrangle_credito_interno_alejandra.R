@@ -3,6 +3,7 @@ library(stringr)
 library(countrycode)
 library(lubridate)
 library(stringi)
+library(purrrlyr)
 
 load("./produced_data/datos_credito_interno_alejandra_messy")
 load("./produced_data/cepal_33_countries")
@@ -20,7 +21,7 @@ country_names_credito_interno <- country_names_mess_ci %>%
 # insert country names founds in credito interno sheet as a column of each data block
 # in the same order as they appeared on top of each block
 
-dates_credito_interno <- seq.Date(from = as.Date("1990-01-01"), to = as.Date("2016-09-01"), by = 'month')
+dates_credito_interno <- seq.Date(from = as.Date("1989-12-01"), to = as.Date("2017-03-01"), by = 'month')
 
 dfs_ci_to_modify = dfs_ci
 lower_case_names = str_to_lower(names(dfs_ci_to_modify[[1]]))

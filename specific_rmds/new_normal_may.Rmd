@@ -675,7 +675,6 @@ weo_x_pct_ch_sa_92_00_01_16$group_averages["region_name"] <- "South America"
 ```
 
 
-
 ```{r labor_produc_dfs}
 
 load("../produced_data/gdp_employ_pop_wb_pwt_ted")
