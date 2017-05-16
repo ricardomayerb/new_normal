@@ -724,9 +724,13 @@ from_ted <- ted_gracc_data
 ## Resumen 
 
 Los principales mensajes de este capítulo se puede resumir de la siguiente manera:
-la región se encuentra en medio de un escenario internacional más restictivo e incierto, con variables reales menos auspiciosas que en el pasado en términos de productividad, crecimiento económico y expansión del comercio. Las  variables financieras han por ahora más estables que en el pasado pero con menor margen de liquidez hacia los países emergentes  que en la última década. Un fenómeno interesante ha sido la menor frecuencia tanto de sudden stops como de surges desde el exterior, a pesar del mayor volumen de flujos experimentados. Hasta ahora, el único sudden stop bruto en esta nueva normalidad corresponde mayormente a flujos de cartera, en Colombia, durante 2015-2016. Es un dato a tomar en cuenta, porque otro razgo distintivo del nuevo normal en la región es el aumento en la importacia absoluta y relativa de flujos de cartera y ligados a la banca.
+la región se encuentra en medio de un escenario internacional más restictivo e incierto. 
 
-La situación en que se encuentra la región es también de un menor dinamismo generalizado, cuando se compara el período posterior a la crisis financiera global (2010-2016) con el que le antecedió (2003-2008). Es un realidad suficientemente compartida por los países para llamarlo un fenómeno regional aunque con excepciones y expresiones más o menos agudas: podríamos llamarla una *heterogeneidad acotada*. Heterogeneidad acotada que no es simple de capturar: es verdad que América Central y México tienen en general números más positivos en el sector real comparados con América del Sur y que esta última sub región incluye consistentemente a los casos más agudos, pero también es cierto que  Bolvia (exporta hidrocarburos) y Paraguay (exporta energía y alimentos) se encuentran regularmente entre las excepciones positivas al menor dinamismo, junto con México  y Nicaragua (exportan manufacturas y alimentos), lo que apunta a que ningún criterio singular, ni geográfico ni de especialización productiva ni de socios comerciales es capaz de describir de manera sencilla esta situación heterogénea. 
+Por un lado, en el sector real, las economías avanzadas y China, principales mercados de la región,  han disminuído el ritmo de crecimiento de la productividad, la inversión, el crecimiento tendencial  y  del comercio. Todo apunta a que en el mediano plazo, el crecimiento vía sector externo va a estar mucho más limitado que en el período previo a la crisis financiera. El precio de los commodities se ha logrado estabilizar pero el menor crecimiento de China, y el débil crecimiento de las economías avanzadas no permiten avizorar grandes choques positivos de precios de productos de exportación.
+
+En cuanto a las variables financieras, en entorno en que se desarrolla la región se carectiza por flujos brutos mayores a los que caracterizaban el período pre-crisis financiera global, con mayor presencia de inversión de cartera y de flujos bancarios. Han sido flujo de esntrada, por ahora, más estables que en el pasado. Un fenómeno interesante ha sido la menor frecuencia tanto de sudden stops como de surges desde el exterior, a pesar del mayor volumen de flujos experimentados. Hasta ahora, el único sudden stop bruto en esta nueva normalidad corresponde mayormente a flujos de cartera, en Colombia, durante 2015-2016. Es un dato a tomar en cuenta, porque otro razgo distintivo del nuevo normal en la región es el aumento en la importacia absoluta y relativa de flujos de cartera y ligados a la banca.
+
+Comparando con el período posterior a la crisis financiera global (2010-2016) con el que le antecedió (2003-2008) vemos que esta nueva normalidad encuentra a la región en una situación se caracteriza también por un menor dinamismo generalizado y con menores chances de poder continuar con el consumo privado como motor del crecimiento. Es un realidad suficientemente compartida por los países para llamarlo un fenómeno regional aunque con excepciones y expresiones más o menos agudas: podríamos llamarla una *heterogeneidad acotada*. Heterogeneidad acotada que no es simple de capturar: es verdad que América Central y México tienen en general números más positivos en el sector real comparados con América del Sur y que esta última sub región incluye consistentemente a los casos más agudos, pero también es cierto que  Bolvia (exporta hidrocarburos) y Paraguay (exporta energía y alimentos) se encuentran regularmente entre las excepciones positivas al menor dinamismo, junto con México  y Nicaragua (exportan manufacturas y alimentos), lo que apunta a que ningún criterio singular, ni geográfico ni de especialización productiva ni de socios comerciales es capaz de describir de manera sencilla esta situación heterogénea. 
 
 Otro mensaje importante es que no deberíamos esperar que el mayor dinamismo en el mediano plazo provenga del sector exportador ni de condiciones más favorables de crédito. El lento aumento de la producción y la productividad mundial no augura shocks postivos importantes de demanda para nuestros países, con Estados unidos creciendo a tasas menores al 2% y Chia estabilizándose en torno al 6%, mientras que la región tampoco a aumentado significativamente su elasticidad de volumen exportador frente a aumentos de la producción mundial. 
 
@@ -1148,10 +1152,6 @@ En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-res
 
 
 
-
-
-
-
 ```{r non_resident_flows}
 load("../produced_data/fin_flows_lac")
 
@@ -1298,6 +1298,7 @@ wb_privcred2gdp_regions <- wb_privcred2gdp_not_lac   %>%
 wb_privcred2gdp_regions_90_99_00_06 <- wb_privcred2gdp_regions %>% 
   growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
 
+
 wb_privcred2gdp_regions_07_09_10_15 <- wb_privcred2gdp_regions %>% 
   growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
                                                                                      
@@ -1337,6 +1338,64 @@ bis_cr_gap_notlac_avg_lvl_90_99_00_06 <- bis_credit_gdp_gap_notlac %>%
   
 bis_cr_gap_notlac_avg_lvl_07_09_10_15 <- bis_credit_gdp_gap_notlac %>% 
    means_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+
+wb_credit_lac_18 <- dom_credit_to_priv_sec_to_gdp %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>%
+  select(iso2c, date, value) %>% 
+  rename(date_id = date, voi = value, eco_id = iso2c)
+
+wb_credit_cardm <- wb_credit_lac_18 %>% 
+  filter(eco_id %in% c("GT", "HN", "MX", "NI", "SV", "PA", "CR", "DO" ))
+
+wb_credit_sa <- wb_credit_lac_18 %>% 
+  filter(eco_id %in% c("AR", "BO", "BR", "CL", "CO", "EC", "PE", "PY", "UY",
+                       "VE"))
+
+
+wb_credit_lac18_90_99_00_06 <- wb_credit_lac_18 %>% 
+  growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+wb_credit_lac18_90_99_00_06$group_averages["region_name"] <- "LAC-18"
+
+wb_credit_lac18_07_09_10_15 <- wb_credit_lac_18 %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+wb_credit_lac18_07_09_10_15$group_averages["region_name"] <- "LAC-18"
+
+
+wb_credit_cardm_90_99_00_06 <- wb_credit_cardm %>% 
+  growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+wb_credit_cardm_90_99_00_06$group_averages["region_name"] <- "América Central y México"
+
+wb_credit_cardm_07_09_10_15 <- wb_credit_cardm %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+wb_credit_cardm_07_09_10_15$group_averages["region_name"] <- "América Central y México"
+
+wb_credit_sa_90_99_00_06 <- wb_credit_sa %>% 
+  growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+wb_credit_sa_90_99_00_06$group_averages["region_name"] <- "América del Sur"
+
+wb_credit_sa_07_09_10_15 <- wb_credit_sa %>% 
+  growth_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+wb_credit_sa_07_09_10_15$group_averages["region_name"] <- "América del Sur"
+
+
+
+
+bis_gap_lac_country_names <- c("Argentina", "Brazil", "Chile", "Colombia", "Mexico")
+
+bis_credit_gdp_gap_lac <- cr_gap_bis_gapval %>% 
+  filter(country_name %in% bis_gap_lac_country_names) %>% 
+  select(-code) %>% 
+  rename(date_id = date, voi = value, eco_id = country_name) %>% 
+  filter(year(date_id) >= 1990 )
+
+# bis_cr_gap_notlac_avg_lvl_90_99_00_06 <- bis_credit_gdp_gap_notlac %>% 
+#    means_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+#   
+# bis_cr_gap_notlac_avg_lvl_07_09_10_15 <- bis_credit_gdp_gap_notlac %>% 
+#    means_report(start1 = 2007, end1 = 2009, start2 = 2010, end2 = 2015)
+
+
 
 ```
 
@@ -1434,8 +1493,6 @@ knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
 
 
 
-
-
 ```{r table_avg_tg_lac,  include=FALSE}
 lac_tbl_caption = "Average growth of potential output, LAC"
 uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
@@ -1446,8 +1503,6 @@ knitr::kable(table_data_pot_lac , digits = 1,
              col.names = uno_colnames, caption = lac_tbl_caption) %>% 
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
 ```
-
-
 
 
 ### Las exportaciones se han desacelerado en el corto y mediano plazo
@@ -1608,9 +1663,6 @@ tbl_trade_x_lacaggs_notnic
 ```
 
 
-
-
-
 ```{r table_avg_trade_g_world, message=FALSE, warning=FALSE,  include=FALSE}
 table_avg_trade_g_world_data <- weo_trade_growth_other$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
@@ -1664,11 +1716,11 @@ knitr::kable(trade_to_gdp_lac_data, digits = 1,
 
 
 
-### Formación de capital
+### La formación de capital fijo se desacelera 
 
-La gran mayoría -- 13 de 18-- de los países de la región en nuestra muestra vieron una 
+La gran mayoría -- 13 de 18 de los países de la región en nuestra muestra-- experimentaron una 
 desaceleración de la inversión real (medida por el gasto real en formación 
-de capital fijo) en este segundo período. De las cinco excepciones, sólo dos de ellas --Panamá y Bolivia--  mejoran de tasas de crecimiento que ya eran altas y sólo Nicaragua presenta un salto absoluto significativo, (de 5,5% en el primer período a 10,9% en el segundo).
+de capital fijo) en este segundo período. De las cinco excepciones, sólo dos de ellas --Panamá y Bolivia--  mejoran tasas de crecimiento que ya eran altas y sólo Nicaragua presenta un salto absoluto significativo, (de 5,5% en el primer período a 10,9% en el segundo).
 
 Dentro de la mayoría de los países donde la inversión se frena durante el segundo período, destacan las desaceleracioes de Argentina, Brasil, Chile y Perú. En el caso de estos dos últimos países, se trata de exportadores de metales, grupo de commodities que, como ya vimos, se caracterizó por una notoria caída en sus precios y son sectores de la economía que explican un buena parte de la inversión en dichos países.
 
@@ -1734,7 +1786,7 @@ tbl_gfcf_lacaggs
 
 
 
-### Productividad
+### La productividad media del trabajo no muestra avances leves y muchos teroceden en el ritmo de crecimiento
 
 
 ```{r table_avg_prod_lac_agg, results=TRUE}
@@ -1816,8 +1868,85 @@ También es cierto, que la producividad o se estancó o se ralentizó en la mayo
 
 #### Algunas señales de saturación de crédito pueden emerger en el corto plazo 
 
+```{r table_privcred2gdp_lac}
+
+# wb_credit_sa_07_09_10_15            
+# wb_credit_lac18_90_99_00_06 <- wb_credit_lac_18 %>% 
+#   growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
+# wb_credit_lac18_90_99_00_06$group_averages["region_name"] <- "LAC-18"
+# 
+# wb_credit_lac18_07_09_10_15
+
+table_privcred2gdp_lac18_data <- wb_credit_lac18_90_99_00_06$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1999" = geo_mean_gr_per1, 
+         "2000-2006" = geo_mean_gr_per2) %>% 
+  left_join(wb_credit_lac18_07_09_10_15$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "20010-2015" = geo_mean_gr_per2) 
 
 
+table_privcred2gdp_sa_data <- wb_credit_sa_90_99_00_06$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1999" = geo_mean_gr_per1, 
+         "2000-2006" = geo_mean_gr_per2) %>% 
+  left_join(wb_credit_sa_07_09_10_15$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "20010-2015" = geo_mean_gr_per2) 
+
+table_privcred2gdp_cardm_data <- wb_credit_cardm_90_99_00_06$group_averages %>% 
+  select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1999" = geo_mean_gr_per1, 
+         "2000-2006" = geo_mean_gr_per2) %>% 
+  left_join(wb_credit_cardm_07_09_10_15$group_averages, by = "region_name") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "20010-2015" = geo_mean_gr_per2) 
+
+joined_lacaggs_credpriv_table_data <- table_privcred2gdp_lac18_data %>% 
+  bind_rows(table_privcred2gdp_cardm_data) %>% 
+  bind_rows(table_privcred2gdp_sa_data) 
+  
+prod_x_colnames <- c("", "1990-1999", "2000-2006", "2007-2009", "2010-2015")
+
+tbl_pricred_caption = "Crecimiento credito privado como % del PIB"
+
+tbl_pricred_lacaggs <- knitr::kable(joined_lacaggs_credpriv_table_data, digits = 1,
+             col.names = prod_x_colnames , caption = tbl_pricred_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos World Bank, 2016")
+
+tbl_pricred_lacaggs 
+
+
+
+```
+
+En toda la región, el período post crisis representa un período de rápida expansión del crédito, pero el fenómeno es más marcado en América del Sur, donde después de los ajustes durante y después de la crisis del sudeste asiático, comenzó un expansión del crédito que ni siquiera se vio desestabilizada por la ocurrencia de la crisis financiera global. 
+
+
+
+Si vemos el cuadro por países, vemos que tanto México, Brasil y Chile han tenido ritmos particularmente rápidos de crecimiento del crédito al sector privado, medido como porcentaje del PIB.
+
+
+Respecto a la brecha de crédito podemos usar los cálculos del BIS para elaborar la siguiente figura
+
+bis_credit_gdp_gap_lac
+
+```{r figure_credit_gap_lac_bis}
+
+plot_credigap_lac <- ggplot(bis_credit_gdp_gap_lac,
+                            aes(x = date_id, y = voi, col = eco_id)) 
+plot_credigap_lac <- plot_credigap_lac + geom_line() + geom_hline(yintercept = 0)
+
+plot_credigap_lac
+  
+  
+
+```
+
+De los cuatro países para los que tenemos esos datos, solamente en Brazil el crédito interno está por debajo de lo que indicaría su tendencia de largo plazo, en los casos de Chile y Colombia más de un 10% arriba de su valor de tendencia y en caso de México casi un 10% y con clara tendencia hacia arriba. Más aún, todo parece indicar que comienzan el período post crisis con sectores financieros que bajo esta métrica no estaban sobre calentados, de hecho al comienzo de la crisis globla México, Argentina y Chile exhibían niveles de credito por debajo de lo que su tendencia histórica habría predicho, posiblemente indicando que había aún espacio para expandir el crédito de forma rápida y viene a reforzar el mensaje del cuadro anterior.
 
 
 ##### Page Break in Word
