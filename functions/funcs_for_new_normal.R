@@ -36,7 +36,7 @@ geomean_growth <- function(x, input_type = "levels") {
 }
 
 
-growth_report <- function(df, input_type = "levels", 
+growth_report <- function(df, input_type = "levels", this_region_name = "", 
                           start1 = 2003, end1 = 2008,
                           start2 = 2010, end2 = 2015) {
 
@@ -107,7 +107,7 @@ growth_report <- function(df, input_type = "levels",
                    "ari_mean_gr_per2","geo_mean_gr_per2"), mean) %>% 
     mutate(change_ari = ari_mean_gr_per2 - ari_mean_gr_per1,
            change_geo = geo_mean_gr_per2 - geo_mean_gr_per1,
-           region_name = "this_region")
+           region_name = this_region_name)
 
 
   return(list(new_df = new_df, avgs_df = means_two_periods,
