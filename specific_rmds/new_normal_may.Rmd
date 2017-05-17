@@ -1,13 +1,13 @@
 ---
-title: "La región y el nuevo normal"
+title: "La regiÃ³n y el nuevo normal"
 author: "DDE"
 date: '`r Sys.Date()`'
 output:
-  html_document: 
-    toc: yes
-  pdf_document: default
   word_document:
     reference_docx: reference_style_for_new_normal.docx
+    toc: yes
+  pdf_document: default
+  html_document:
     toc: yes
 ---
 
@@ -36,6 +36,7 @@ library(readxl)
 source("../functions/funcs_for_new_normal.R")
 
 ```
+
 
 ```{r load_principal_data,  include=FALSE, cache=TRUE}
 load("../produced_data/WEOApr2017_cepal_and_others" )
@@ -723,20 +724,20 @@ from_ted <- ted_gracc_data
 
 ## Resumen 
 
-Los principales mensajes de este capítulo se puede resumir de la siguiente manera:
-la región se encuentra en medio de un escenario internacional más restictivo e incierto. 
 
-Por un lado, en el sector real, las economías avanzadas y China, principales mercados de la región,  han disminuído el ritmo de crecimiento de la productividad, la inversión, el crecimiento tendencial  y  del comercio. Todo apunta a que en el mediano plazo, el crecimiento vía sector externo va a estar mucho más limitado que en el período previo a la crisis financiera. El precio de los commodities se ha logrado estabilizar pero el menor crecimiento de China, y el débil crecimiento de las economías avanzadas no permiten avizorar grandes choques positivos de precios de productos de exportación.
+La región se encuentra en medio de un escenario internacional más restrictivo e incierto y se enfrenta a este escenario con un dinamismo disminuido, con mayor liquidez internacional que en la etapa anterior a la crisis finaciera internacional, con relativa estabilidad externa pero con un aumento ya prolongado e intenso del crédito al sector privado, con menor margen futuro para continuar el estímulo vía consumo. Hay diferencias en los países de la región, pero lo suficientemente acotadas para hablar de una pérdida de dinamismo y margen de maniobra regional.
 
-En cuanto a las variables financieras, en entorno en que se desarrolla la región se carectiza por flujos brutos mayores a los que caracterizaban el período pre-crisis financiera global, con mayor presencia de inversión de cartera y de flujos bancarios. Han sido flujo de esntrada, por ahora, más estables que en el pasado. Un fenómeno interesante ha sido la menor frecuencia tanto de sudden stops como de surges desde el exterior, a pesar del mayor volumen de flujos experimentados. Hasta ahora, el único sudden stop bruto en esta nueva normalidad corresponde mayormente a flujos de cartera, en Colombia, durante 2015-2016. Es un dato a tomar en cuenta, porque otro razgo distintivo del nuevo normal en la región es el aumento en la importacia absoluta y relativa de flujos de cartera y ligados a la banca.
+Por un lado, en el sector real, las economías avanzadas y China, principales mercados de la región,  han disminuido el ritmo de crecimiento de la productividad, la inversión, el crecimiento tendencial  y  del comercio. Todo apunta a que en el mediano plazo, el crecimiento vía sector externo va a estar mucho más limitado que en el período previo a la crisis financiera. El precio de los commodities se ha logrado estabilizar pero el menor crecimiento de China, y el débil crecimiento de las economías avanzadas no permiten avizorar grandes choques positivos de precios de productos de exportación.
+
+En cuanto a las variables financieras, en entorno en que se desarrolla la región se caracteriza por flujos brutos mayores a los que caracterizaban el período pre-crisis financiera global, con mayor presencia de inversión de cartera y de flujos bancarios. Han sido flujo de estrada, por ahora, más estables que en el pasado. Un fenómeno interesante ha sido la menor frecuencia tanto de sudden stops como de surges desde el exterior, a pesar del mayor volumen de flujos experimentados. Hasta ahora, el único sudden stop bruto en esta nueva normalidad corresponde mayormente a flujos de cartera, en Colombia, durante 2015-2016. Es un dato a tomar en cuenta, porque otro rasgo distintivo del nuevo normal en la región es el aumento en la importancia absoluta y relativa de flujos de cartera y ligados a la banca.
 
 Comparando con el período posterior a la crisis financiera global (2010-2016) con el que le antecedió (2003-2008) vemos que esta nueva normalidad encuentra a la región en una situación se caracteriza también por un menor dinamismo generalizado y con menores chances de poder continuar con el consumo privado como motor del crecimiento. Es un realidad suficientemente compartida por los países para llamarlo un fenómeno regional aunque con excepciones y expresiones más o menos agudas: podríamos llamarla una *heterogeneidad acotada*. Heterogeneidad acotada que no es simple de capturar: es verdad que América Central y México tienen en general números más positivos en el sector real comparados con América del Sur y que esta última sub región incluye consistentemente a los casos más agudos, pero también es cierto que  Bolvia (exporta hidrocarburos) y Paraguay (exporta energía y alimentos) se encuentran regularmente entre las excepciones positivas al menor dinamismo, junto con México  y Nicaragua (exportan manufacturas y alimentos), lo que apunta a que ningún criterio singular, ni geográfico ni de especialización productiva ni de socios comerciales es capaz de describir de manera sencilla esta situación heterogénea. 
 
-Otro mensaje importante es que no deberíamos esperar que el mayor dinamismo en el mediano plazo provenga del sector exportador ni de condiciones más favorables de crédito. El lento aumento de la producción y la productividad mundial no augura shocks postivos importantes de demanda para nuestros países, con Estados unidos creciendo a tasas menores al 2% y Chia estabilizándose en torno al 6%, mientras que la región tampoco a aumentado significativamente su elasticidad de volumen exportador frente a aumentos de la producción mundial. 
+Otro mensaje importante es que no deberíamos esperar que el mayor dinamismo en el mediano plazo provenga del sector exportador ni de condiciones más favorables de crédito. El lento aumento de la producción y la productividad mundial no augura choques positivos importantes de demanda para nuestros países, con Estados unidos creciendo a tasas menores al 2% y Chia estabilizándose en torno al 6%, mientras que la región tampoco a aumentado significativamente su elasticidad de volumen exportador frente a aumentos de la producción mundial. 
 
-Mientras que el consumo ha sido hasta ahora el componente más dinamico de la demanda interna en la región (ver el capítulo de ciclos económicos para más detalles), creemos que tiene un espacio cada vez más reducido para seguir cumpliendo ese papel porque se ha apoyado en una expansión importante el crédito interno, pero esa expansión se ve desafiada por el estancamiento de los flujos de liquidez hacia la región, por el aumento en el mediano plazo de las tasas de interés en las economías avanzadas y porque en países donde el sector financiero se encuentra desarrollado, ha estado creciendo más rápido que su tendencia histórica por ya varios años.
+Mientras que el consumo ha sido hasta ahora el componente más dinámico de la demanda interna en la región (ver el capítulo de ciclos económicos para más detalles), creemos que tiene un espacio cada vez más reducido para seguir cumpliendo ese papel porque se ha apoyado en una expansión importante el crédito interno, pero esa expansión se ve desafiada por el estancamiento de los flujos de liquidez hacia la región, por el aumento en el mediano plazo de las tasas de interés en las economías avanzadas y porque en países donde el sector financiero se encuentra desarrollado, ha estado creciendo más rápido que su tendencia histórica por ya varios años.
 
-En el capítulo sobre política económica veremos las dificultades que enfrenta en este escenario la política fiscal para poder expandir el gasto en consumo y en inversión, pero baste notar aquí que el escenario descrito obliga al sector público a ser muy cauto al resgauardar la sostenibilidad de su deuda actual con menores tasas de crecimiento tendencial, mayores tasas de interes y precios de commodities que de aumentar lo harán de forma muy moderada. 
+En el capítulo sobre política económica veremos las dificultades que enfrenta en este escenario la política fiscal para poder expandir el gasto en consumo y en inversión, pero baste notar aquí que el escenario descrito obliga al sector público a ser muy cauto al resguardar la sostenibilidad de su deuda actual con menores tasas de crecimiento tendencial, mayores tasas de interés y precios de commodities que de aumentar lo harán de forma muy moderada. 
 
 
 
@@ -806,7 +807,7 @@ tbl_eco_desa
 
 
 
-En cambio en el caso de las economías en desarrollo se nota un claro aumento de la productividad entre la década de los noventa y los 2000. Este aumento se explica, en gran medida, por el desempeño de China e India. China e India más que duplicaron el crecimiento de la productividad entre la segunda mitad de la década de los noventa y los 2000. Por su parte Asia en desarrollo (sin China e India), Medio Oriente y Africa del Norte y América Latina mostraron un estancamiento en el crecimiento de la productividad.
+En cambio en el caso de las economías en desarrollo se nota un claro aumento de la productividad entre la década de los noventa y los 2000. Este aumento se explica, en gran medida, por el desempeño de China e India. China e India más que duplicaron el crecimiento de la productividad entre la segunda mitad de la década de los noventa y los 2000. Por su parte Asia en desarrollo (sin China e India), Medio Oriente y África del Norte y América Latina mostraron un estancamiento en el crecimiento de la productividad.
 
 
 ```{r tbl_productividad_eco_emerg}
@@ -830,7 +831,7 @@ tbl_eco_emerg
 
 
 
-### La formacion de capital está estancada
+### La formación de capital está estancada
 
 Por otro lado, la inversión real a nivel mundial muestra un desempeño enlentecido. En un contexto de bajo crecimiento del producto, la razón Inversión/Producto apenas aumenta 0,5% al año en este nuevo período, prácticamente la mitad de lo que aumentó en el quinquenio 2001-2006, fenómeno que se repite en el conjunto de las economías avanzadas. Lo anterior se verifica de modo más agudo en  la zona del Euro, América Latina y el Caribe y el Medio Oriente, que no han podido mantener los niveles de inversión del comienzo de la post-crisis.
 
@@ -863,7 +864,7 @@ table_weo_gfcf_gr_regions
 
 ```
 
-Como se discute en el Box.1 los beneficios económicos juegan un papel clave en el corto plazo y más hetorogeneamente en el largo plazo, con mayor intensidad al efecto que puedan tener las políticas moetarias que influencian la tasa de interés real.
+Como se discute en el Box.1 los beneficios económicos juegan un papel clave en el corto plazo y más heterogeneamente en el largo plazo, con mayor intensidad al efecto que puedan tener las políticas monetarias que influencian la tasa de interés real.
 
 
 ```{r gfcf_notlac_table}
@@ -887,11 +888,11 @@ wb_notlac_tbl <- knitr::kable(gfcf_notlac_table_data , digits = 1,
 
 Este ejercicio empírico estima el impacto de distintas variables macro-económicas sobre la inversión en Estados Unidos, Francia y Canadá, utilizando  vectores auto-regresivos estructurales sobre datos trimestrales expresados en logaritmo ^[Las variables de tasas de interés se dejaron expresadas como porcentaje y las importaciones de bienes de capital se dejaron como índice (2009=100).] . Adicionalmente, se estimó la relación de causalidad a largo plazo entre inversión y beneficios mediante un modelo de corrección de errores. Dada la restricción que impone la disponibilidad de información, la presente estimación comprende el periodo que va desde el primer trimestre de 1990 (1990-Q1) al cuarto trimestre de 2014 (2014-Q4) para Estados Unidos, desde el tercer trimestre de 1992 (1992-Q3) al segundo trimestre de 2016 (2016-Q2) para Canadá, y desde el primer trimestre de 1999 (1999-Q1) al primer trimestre de 2015 (2015-Q1) para Francia.
 
-Las variables utilizadas en el modelo fueron seis, cuatro de ellas (‘’Term Spread’’ (diferencial entre tasas cortas y largas), ‘’Investment’’ (formación bruta de capital fijo no residencial), ‘’Profits’’ (beneficios operacionales no financieros) y ‘’Credit’’ (crédito total a entidades no financieras)) siguen la estructura del paper de Banjeree et. al (2015), mientras que las otras dos (Tasa de política monetaria (TPM) – Tasa de interés interbancaria para el caso de Francia – e importación de bienes de capital (Imports)) son adiciones de la presente estimación. Para Estados Unidos, estas dos últimas fueron obtenidas del International Finance Statistics (IMF) y el Federal Reserve Bank of St. Louis ^[Para Estados Unidos, las importaciones consideradas son bienes de capital (excepto del sector automotor) – de acuerdo al criterio del FRED; expresados en un índice – no en logaritmo – donde 2009 = 100. La serie es trimestral y desestacionalizada.] , respectivamente. Para Canadá, la importación de bienes de capital se construyó consultando a Statistics Canada ^[Para Canadá, las importaciones que se consideraron como bienes de capital fueron obtenidas del sistema de clasificación NAPCS (North American Product Classification System), en valores reales. Lamentablemente no se encontró la tabla BEC que realiza la separación directa entre bienes de capital y consumo, al menos no para datos trimestrales ni mensuales. Tampoco se encontraron tablas de equivalencia entre el sistema BEC y NAPCS, sin embargo, se utilizó la equivalencia BEC - HS para aproximarse a dicha separación y realizarla manualmente en base al sistema NAPCS.] , y para Francia, la Federal Reserve Bank of St. Louis (FRED) y Eurostat  ^[Para Francia, las importaciones consideradas son bienes de capital y bienes intermedios – de acuerdo al criterio de Eurostat (NACE rev. 2); expresados en un índice – no en logaritmo – donde 2010 = 100. La serie original es mensual y no desestacionalizada, por lo que se tomó el promedio simple de cada tres meses para transformarla a una serie trimestral. ] se utilizaron como fuentes para ambas variables. 
+Las variables utilizadas en el modelo fueron seis, cuatro de ellas (‘’Term Spread’’ (diferencial entre tasas cortas y largas), ‘’Investment’’ (formación bruta de capital fijo no residencial), ‘’Profits’’ (beneficios operacionales no financieros) y ‘’Credit’’ (crédito total a entidades no financieras)) siguen la estructura del artículo de Banjeree et. al (2015), mientras que las otras dos (Tasa de política monetaria (TPM) – Tasa de interés interbancaria para el caso de Francia – e importación de bienes de capital (Imports)) son adiciones de la presente estimación. Para Estados Unidos, estas dos últimas fueron obtenidas del International Finance Statistics (IMF) y el Federal Reserve Bank of St. Louis ^[Para Estados Unidos, las importaciones consideradas son bienes de capital (excepto del sector automotor) – de acuerdo al criterio del FRED; expresados en un índice – no en logaritmo – donde 2009 = 100. La serie es trimestral y desestacionalizada.] , respectivamente. Para Canadá, la importación de bienes de capital se construyó consultando a Statistics Canada ^[Para Canadá, las importaciones que se consideraron como bienes de capital fueron obtenidas del sistema de clasificación NAPCS (North American Product Classification System), en valores reales. Lamentablemente no se encontró la tabla BEC que realiza la separación directa entre bienes de capital y consumo, al menos no para datos trimestrales ni mensuales. Tampoco se encontraron tablas de equivalencia entre el sistema BEC y NAPCS, sin embargo, se utilizó la equivalencia BEC - HS para aproximarse a dicha separación y realizarla manualmente en base al sistema NAPCS.] , y para Francia, la Federal Reserve Bank of St. Louis (FRED) y Eurostat  ^[Para Francia, las importaciones consideradas son bienes de capital y bienes intermedios – de acuerdo al criterio de Eurostat (NACE rev. 2); expresados en un índice – no en logaritmo – donde 2010 = 100. La serie original es mensual y no desestacionalizada, por lo que se tomó el promedio simple de cada tres meses para transformarla a una serie trimestral. ] se utilizaron como fuentes para ambas variables. 
 
-Guiándonos por las funciones de impulso-respuesta, encontramos –para los tres pasíses analizados-- un impacto positivo de las utilidades sobre el nivel de inversión. Por el contrario, la política monetaria, por medio de la Tasa de Política Monetaria o la diferencia entre las tasas cortas y largas (‘’Term Spread’’), al igual que el acceso al crédito, no encuentran un efecto estadísticamente significativo sobre los niveles de inversión. Francia, por su parte, muestra un resultado contra intuitivo, en el que la tasa de interés interbancaria es la única variable de tasa de interés que parece influir sobre la inversión, pero de forma positiva y recién desde el segundo periodo ^[Una posible explicación es que el modelo SVAR no logre distinguir la doble causalidad entre ambas variables.] .
+Guiándonos por las funciones de impulso-respuesta, encontramos –para los tres países analizados-- un impacto positivo de las utilidades sobre el nivel de inversión. Por el contrario, la política monetaria, por medio de la Tasa de Política Monetaria o la diferencia entre las tasas cortas y largas (‘’Term Spread’’), al igual que el acceso al crédito, no encuentran un efecto estadísticamente significativo sobre los niveles de inversión. Francia, por su parte, muestra un resultado contra intuitivo, en el que la tasa de interés interbancaria es la única variable de tasa de interés que parece influir sobre la inversión, pero de forma positiva y recién desde el segundo periodo ^[Una posible explicación es que el modelo SVAR no logre distinguir la doble causalidad entre ambas variables.] .
 
-Finalmente, encontramos un efecto negativo de los shocks a las importaciones de bienes de capital sobre la inversión para el caso de Estados Unidos y Francia, pero positivo para Canadá.  
+Finalmente, encontramos un efecto negativo de los choques a las importaciones de bienes de capital sobre la inversión para el caso de Estados Unidos y Francia, pero positivo para Canadá.  
 
 En cuanto a la relación entre inversión y beneficios a largo plazo, observamos que el modelo de vector de corrección de errores nos entrega una relación de causalidad temporal unidireccional, desde beneficios hacia inversión para Estados Unidos, mientras que para el caso de Francia y Canadá la relación causal de largo plazo es inversa: esta va de inversión a beneficios. 
 
@@ -957,7 +958,7 @@ A diferencia del declive tendencial que muestra la tasa de crecimiento del produ
 La desaceleración del comercio afecta sobre todo a las economías avanzadas y en menor medida al mundo en desarrollo. En su conjunto las exportaciones para las economías industrializadas han disminuido en promedio de 6%-7% en la década de los 90 a  menos de 4% en la década de los 2000. La desaceleración del comercio afecta con una intensidad similar a la mayor parte de las economías avanzadas.
 
 
-Contrariamente, en el caso de las economías en desarrollo la intensidad de la deceleración es heterogénea. La desaceleración del comercio se concentra en América Latina y el Caribe y Africa y Medio Oriente más que en Asia y Europa del Este y Asia Central  (me falta el dato de Europa del Este y Asia Central) (Cuadro 5)
+Contrariamente, en el caso de las economías en desarrollo la intensidad de la desaceleración es heterogénea. La desaceleración del comercio se concentra en América Latina y el Caribe y África y Medio Oriente más que en Asia y Europa del Este y Asia Central  (me falta el dato de Europa del Este y Asia Central) (Cuadro 5)
 
 
 
@@ -1241,11 +1242,17 @@ yearly_net_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
 ```
 
 
+#### Flujos Brutos a la región han sido más estables
 
-Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de incrementos en las entradas o salidas, netas o brutas, se han vuelto menos frecuentes. Por ejemplo, en términos de gross inflows y gross outflows, la región exhibe menos episodios extremos comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis finaciera global, donde los inflow surges fueron más frecuentes. Similar es el caso de las entradas y salidas netas de capitales: hay menos episodios extremos de salida e igual cantidad de episodios de entradas.
+
+Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de cambios en los flujos totales de inversion, ya sea netas o brutas, se han vuelto menos frecuentes . ^[Las cifras de esta sección provienen de Klein 2016, que hace un examen de episodios extremos para Brasil, Chile, México y Perú, usando una metodología de XYZ 2012, centrada en flujos "brutos" (efectuados por no-residentes). Así, distingue entre sudden stops y flights --no residentes y residentes-- y entre surges y retrenchments, bajo igual criterio] Por ejemplo, en términos de total gross inflows y total gross outflows, la región exhibe menos episodios extremos comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis financiera global, donde los inflow surges fueron más frecuentes. Similar es el caso de las entradas y salidas netas de capitales: hay menos episodios extremos de salida e igual cantidad de episodios de entradas. ^[Para un análisis de sincronicidad de estos episodios extremos, en base a flujos mensuales netos ver Titelman et al (2014), donde encuetran que en general los sudden stops en la región no afectan a grupos numerosos de países, a excepción de la gran crisis financiera del 2008-2009, episodio que además es el último que encuentran, coincidiendo con Klein 2009 en que sólo un episodio aparece a finales del 2015]
 
 
-Concretamente, usando datos de CEPAL sobre flujos brutos entrantes y salientes (gross inflows and gross outflows) para Brasil, México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] aparece en este período solamente un episodio de sudden stop de gross inflows, específicamente en Colombia entre 2015Q2 y 2015Q4. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s.
+Concretamente, usando datos de CEPAL sobre flujos brutos entrantes y salientes (gross inflows y gross outflows) para Brasil, México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] aparece en este período solamente un episodio de sudden stop de gross inflows, específicamente en Colombia entre 2015Q2 y 2016Q2. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s. De todos modos, coincidiendo con los primeros gráficos de esta sección, 2015-2016 fueron años de mayor debilidad de flujos brutos, pues Brasil, y en menor medida México, estuvieron cerca de un sudden stop de flujos brutos totales por primera vez post-crisis financiera.
+
+Cuando consideramos los componentes de los gross inflows, vemos que las reversiones súbitas de este período han sido motivadas más bien por caídas o reversiones en la inversión de cartera, seguido por la IED. En el caso de Colombia, fueron particularmente los *gross inflows de cartera* los que cayeron rápidamente (siendo negativos en el último trimestre de 2015 y constituyendo un sudden stop de esta categoría de inversión) y explican gran parte de la caída de inflows totales. En el mismo período la IED también mostró cierta debilidad pero no tan aguda como la ya señalada.
+
+En el caso mexicano, la disminución de total gross inflows de fines de 2014 a fines de 2015 que se acercó a un sudden stop, también es explicada en mayor medida por una larga y aguda caída de los flujos de cartera (que fueron negativos en 2016:Q2) y por una menos aguda y más breve debilidad de la IED que la precedió.
 
 
 Por lado de los flujos de entrada por no-residentes, después del 2009 vemos sólo dos inflow surges, versus tres en los 90s y siete en los 2000s previos a la crisis financiera global.
@@ -1274,7 +1281,7 @@ knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>%
 
 #### La liquidez crece a un ritmo moderado pero su precio continuará aumentando en el mediano plazo 
 
-Salvo en el caso de la zona del euro, el crédito interno se ha expadido al mismo ritmo que PIB (Estados Unidos) o de manera un poco más acelerada que el PIB, notablemente en China que incrementado su volumen de crédito interno bastante más rápidamente que su producción. El capítulo sobre aspectos macro-financieros vemos cómo difieren no sólo las tendencias si no también la composición de este nuevo crédito interno entre economías emergentes , donde en las primeras aparece como destinado a alimentar el consumo y   en las últimas a mejorar las hojas de balance, dejando de momento en relativa orfandad a la inversión real y creando un desbalance que pone señales de alerta el mediano plazo. 
+Salvo en el caso de la zona del euro, el crédito interno se ha expandido al mismo ritmo que PIB (Estados Unidos) o de manera un poco más acelerada que el PIB, notablemente en China que incrementado su volumen de crédito interno bastante más rápidamente que su producción. El capítulo sobre aspectos macro-financieros vemos cómo difieren no sólo las tendencias si no también la composición de este nuevo crédito interno entre economías emergentes , donde en las primeras aparece como destinado a alimentar el consumo y   en las últimas a mejorar las hojas de balance, dejando de momento en relativa orfandad a la inversión real y creando un desbalance que pone señales de alerta el mediano plazo. 
 
 En la sección sobre el desempeño de la región, veremos para algunos países, un indicador de posibles ciclos del crédito interno respecto del PIB.
 
@@ -1426,7 +1433,7 @@ wb_privcred2gdp_regions_tbl
 ```
 
 Respecto del componente cíclico que del crédito, es interesante observar lo que ocurre en el siguiente cuadro 
-que se contruye a partir de una medida de brecha de credito respecto a su tendecia de largo plazo, por el BIS
+que se construye a partir de una medida de brecha de crédito respecto a su tendencia de largo plazo, por el BIS
 
 
 ```{r tbl_creditgap}
@@ -1463,7 +1470,7 @@ Finalmente, en la medida de que las tasas de política monetaria de Estados Unid
 ## El nuevo normal de la región: menor dinamismo con heterogeneidad acotada.
 
 
-El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una clara pérdida de dinamismo de su crecimiento de largo plazo (15 de 18 países) y en casi la mitad el promedio anual de crecimiento tendencial caye más de 100 puntos bases.
+El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una clara pérdida de dinamismo de su crecimiento de largo plazo (15 de 18 países) y en casi la mitad el promedio anual de crecimiento tendencial cae más de 100 puntos bases.
 
 La evidencia muestra que en ambas subregiones la mayoría de los países han perdido impulso en sus productos tendenciales, pero la pérdida de dinamismo es mucho mayor para América del Sur. Mientras la principal economía de la subregión norte, México, mantuvo su ritmo moderado,  las dos economías principales de América del Sur, Brasil y Argentina, tuvieron los frenos más pronunciados de la región, sólo superadas por Venezuela. 
 
@@ -1594,11 +1601,11 @@ openess_other_list <- trade_wb %>%
 Entre los determinantes de esta deslucida performance del producto tendencial, vemos entre 2010 y 2016 una considerable desaceleración de su volumen de  exportaciones 
  respecto del período 2003-2008. En el período más reciente sólo 5 de las 18 economías lograron expandir sus exportaciones a un ritmo promedio mayor al 5% anual y ninguna alcanza crecimientos promedios de dos dígitos, mientras que durante el quinquenio pre-crisis seis de ellas crecían por sobre el 10% anual y 11 de ellas crecen cómodamente más de 5% al año. Y aquellas que sí mejoran su desempeño en el segundo período, lo hacen desde promedios más bien modestos durante 2003-2008.
 
-Todas las excepciones se encuentran fuera de América del Sur, pero el panorama está lejos de ser homogéneo, pues junto a los casos de México, Honduras, Guatemala y notablemente Republica Dominicana --que pasa de una contracción promedio a una rápida expansión--  está también Nicaragua, Costa Rica, Panamá y EL Salvador, que sufrieron un freno importante en su sector exportador. Después de República Dominicana, es México quien presenta el caso más interesante: tiene un sólido incremento de la tasa de crecimiento de sus exportaciones y se ubica en esta nueva etapa como la segunda economía más dinámica de la región. 
+Todas las excepciones se encuentran fuera de América del Sur, pero el panorama está lejos de ser homogéneo, pues junto a los casos de México, Honduras, Guatemala y notablemente República Dominicana --que pasa de una contracción promedio a una rápida expansión--  está también Nicaragua, Costa Rica, Panamá y EL Salvador, que sufrieron un freno importante en su sector exportador. Después de República Dominicana, es México quien presenta el caso más interesante: tiene un sólido incremento de la tasa de crecimiento de sus exportaciones y se ubica en esta nueva etapa como la segunda economía más dinámica de la región. 
 
 En el caso de la importaciones tenemos una situación muy similar a las de las exportaciones: las única economías que han logrado aumentar la tasa de expansión de sus importaciones son las mismas que lograron acelerar su sector exportador, menos Honduras, que se suma en este caso al grupo mayoritario de países que desaceleran.
 
-El comportamiento de las exportaciones en la mayoría de los países de LAC encuentra su contraparte en la desaceleración de las importaciones en   China y Estados Unidos y en la suma de las economías avanzadas. El que la reducción del crecimiento de las importaciones de los Estados Unidos haya sido muy leve (de 4,7% anual a 4,5% anual) ayuda a explicar por qué  México, Honduras (y hasta cierto punto Costa Rica) frenaron en menor medida o aceleraron sus exportaciones. Sin embargo, el cambio más importante para el producto potencial de la región, especialemente de los exportadores de commodities, es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
+El comportamiento de las exportaciones en la mayoría de los países de LAC encuentra su contraparte en la desaceleración de las importaciones en   China y Estados Unidos y en la suma de las economías avanzadas. El que la reducción del crecimiento de las importaciones de los Estados Unidos haya sido muy leve (de 4,7% anual a 4,5% anual) ayuda a explicar por qué  México, Honduras (y hasta cierto punto Costa Rica) frenaron en menor medida o aceleraron sus exportaciones. Sin embargo, el cambio más importante para el producto potencial de la región, especialmente de los exportadores de commodities, es la ralentización de las importaciones chinas, que pasaron de crecer en promedio 17% al año a un 8.4% en el segundo período. 
 
 
 
@@ -1707,7 +1714,7 @@ Continuando con los determinantes del cambio de tendencia del crecimiento region
 desaceleración de la inversión real (medida por el gasto real en formación 
 de capital fijo) en este segundo período. De las cinco excepciones, sólo dos de ellas --Panamá y Bolivia-- logran mejorar tasas de crecimiento que ya eran altas y sólo Nicaragua presenta un salto absoluto significativo, (de 5,5% en el primer período a 10,9% en el segundo).
 
-Dentro de la mayoría de los países donde la inversión se frena durante el segundo período, destacan las desaceleracioes de Argentina, Brasil, Chile y Perú. En el caso de estos dos últimos países, se trata de exportadores de metales, grupo de commodities que, como ya vimos, se caracterizó por una notoria caída en sus precios y son sectores de la economía que explican un buena parte de la inversión en dichos países.
+Dentro de la mayoría de los países donde la inversión se frena durante el segundo período, destacan las desaceleraciones de Argentina, Brasil, Chile y Perú. En el caso de estos dos últimos países, se trata de exportadores de metales, grupo de commodities que, como ya vimos, se caracterizó por una notoria caída en sus precios y son sectores de la economía que explican un buena parte de la inversión en dichos países.
 
 
 ```{r table_avg_gfcf_lacaggs, results=TRUE}
@@ -1833,13 +1840,13 @@ tbl_prod_lacaggs
 
 ```
 
-Tampoco ha sido mucho mejor la performance de la productividad laboral. Comparte con el resto de las varibales examiadas el de hecho de empeorar en el período post crisis pero a diferencia de las otras, las tasas de crecimiento promedio son muy modestas en *ambos* períodos. No hubo un boom de productividad del trabajo junto con el boom de producción, inversión y exportación en el período 2003-2008.
+Tampoco ha sido mucho mejor la performance de la productividad laboral. Comparte con el resto de las variables examinadas el de hecho de empeorar en el período post crisis pero a diferencia de las otras, las tasas de crecimiento promedio son muy modestas en *ambos* períodos. No hubo un boom de productividad del trabajo junto con el boom de producción, inversión y exportación en el período 2003-2008.
 
-Aquellos paises que lograron acelerar un poco su productividad laboral en el segundo período son Bolivia, Ecuador, Nicargua, Panamá, Paraguay y Uruguay.
+Aquellos países que lograron acelerar un poco su productividad laboral en el segundo período son Bolivia, Ecuador, Nicaragua, Panamá, Paraguay y Uruguay.
 
 La anterior se sostiene tanto si consideramos los precios con o sin ajuste por PPP, pero en este último caso, los países que mejoraron su posición tienen a aparecer con mejoras más modestas que sin el ajuste por paridad de poder de compra. Los únicos casos donde es de alguna relevancia esta distinción son Perú y Colombia que de todas maneras tienen promedios similares en ambos períodos y que revierten una modesta caída (Colombia) o un modesto aumento (Perú) si se mide su producción usando precios PPP.
 
-Estos números están basadow en el producto promedio por *persona empleada*. Sólo tenemos datos comparables de producto por *hora trabajada* en el caso de los dos países de LAC que son miembros de la OECD (México y Chile) y en ambos casos, 
+Estos números están basados en el producto promedio por *persona empleada*. Sólo tenemos datos comparables de producto por *hora trabajada* en el caso de los dos países de LAC que son miembros de la OECD (México y Chile) y en ambos casos, 
 la desaceleración de la productividad del trabajo se hace más pronunciada cuando calculamos el producto medio por hora trabajada.
 
 
@@ -1907,7 +1914,7 @@ En toda la región, el período post crisis representa un período de rápida ex
 
 Si vemos el cuadro por países, vemos que tanto México, Brasil y Chile han tenido ritmos particularmente rápidos de crecimiento del crédito al sector privado, medido como porcentaje del PIB.
 
-Una métrica interesante es separar la trayectoria del crédito (como fracción del PIB) entre un componente tendencial y uno cíclico, esperando distinguir flujos de crédito anormalmente acelerados para la trajectoria 
+Una métrica interesante es separar la trayectoria del crédito (como fracción del PIB) entre un componente tendencial y uno cíclico, esperando distinguir flujos de crédito anormalmente acelerados para la trayectoria 
 histórica de una economía, que pudiera poner en riesgo la recuperación futura de créditos o al menos señalar una rápida saturación del crédito para estimular la demanda.
 
 
@@ -1923,7 +1930,7 @@ plot_credigap_lac
 
 ```
 
-De los cuatro países para los que tenemos esos datos, solamente en Brazil el crédito interno está por debajo de lo que indicaría su tendencia de largo plazo, en los casos de Chile y Colombia más de un 10% arriba de su valor de tendencia y en caso de México casi un 10% y con clara tendencia hacia arriba. Más aún, todo parece indicar que comienzan el período post crisis con sectores financieros que bajo esta métrica no estaban sobre calentados, de hecho al comienzo de la crisis globla México, Argentina y Chile exhibían niveles de credito por debajo de lo que su tendencia histórica habría predicho, posiblemente indicando que había aún espacio para expandir el crédito de forma rápida y viene a reforzar el mensaje del cuadro anterior.
+De los cuatro países para los que tenemos esos datos, solamente en Brasil el crédito interno está por debajo de lo que indicaría su tendencia de largo plazo, en los casos de Chile y Colombia más de un 10% arriba de su valor de tendencia y en caso de México casi un 10% y con clara tendencia hacia arriba. Más aún, todo parece indicar que comienzan el período post crisis con sectores financieros que bajo esta métrica no estaban sobre calentados, de hecho al comienzo de la crisis global México, Argentina y Chile exhibían niveles de crédito por debajo de lo que su tendencia histórica habría predicho, posiblemente indicando que había aún espacio para expandir el crédito de forma rápida y viene a reforzar el mensaje del cuadro anterior.
 
 
 ##### Page Break in Word
