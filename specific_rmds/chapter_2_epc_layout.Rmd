@@ -1,5 +1,5 @@
 ---
-title: "La región y el nuevo normal"
+title: "Capítulo II: La región y el nuevo normal"
 author: "DDE"
 date: '`r Sys.Date()`'
 output:
@@ -16,7 +16,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 library(printr)
 ```
-
 
 ```{r, load_libraries, include=FALSE}
 library(dplyr) # use dplyr::first and dplyr::last
@@ -36,7 +35,6 @@ library(readxl)
 source("../functions/funcs_for_new_normal.R")
 
 ```
-
 
 ```{r load_principal_data,  include=FALSE, cache=TRUE}
 load("../produced_data/WEOApr2017_cepal_and_others" )
@@ -94,7 +92,6 @@ sa_countries_notven <- cepal_18_countries %>%
 load("../produced_data/selected_oecd_vars")
 load("../produced_data/ted_productivity_2016_nov")
 ```
-
 
 ```{r calculate_gdp_gaps_trends, include=FALSE, cache=TRUE}
 
@@ -213,7 +210,6 @@ weo_pot_list_EU_AE_G7_USA <- weo_cwide_EU_AE_G7_USA %>%
 avgs_china_usa_ez_g7 <- bind_rows(weo_pot_list_EU_AE_G7_USA$avgs_df,
                                   trend_growth_list_china$avgs_df)
 ```
-
 
 ```{r productivity_gr, cache=TRUE}
 
@@ -344,7 +340,6 @@ ted_emplo_prod_avg_sa_07_09_10_16$group_averages["region_name"] <- "SA"
 
 
 ```
-
 
 ```{r fbc, warning=FALSE, cache=TRUE}
 load("../produced_data/cs_fbcf_ratio_pib")
@@ -493,7 +488,6 @@ fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
   mutate(cambio = avg_10_16 - avg_03_08)
 
 ```
-
 
 ```{r avg_gr_trade_x_m, include=FALSE, cache=TRUE}
 
@@ -675,7 +669,6 @@ weo_x_pct_ch_sa_92_00_01_16$group_averages["region_name"] <- "South America"
 
 ```
 
-
 ```{r labor_produc_dfs}
 
 load("../produced_data/gdp_employ_pop_wb_pwt_ted")
@@ -744,8 +737,17 @@ En el capítulo sobre política económica veremos las dificultades que enfrenta
 ##### Page Brake in Word
 
 
-## La región enfrenta un contexto externo más restrictivo y más incierto
+## Un nuevo "patrón de comportamiento" en el mundo desarrollado
 
+
+El ciclo actual que vive la región (Capítulo I) y sus características responde, en parte, a los cambios acaecidos en la economía internacional y a la vista de estos cambios, la manera en la cual se transmiten los impulsos desde los países más avanzados hacia las economías en desarrollo.
+
+A partir de la crisis global financiera las economías desarrollodas han experimentado importantes cambios que afectan sobre todo a la esfera real de la actividad económica.
+
+Estos cambios incluyen, por una parte, un menor dinamismo reflejada en una menos tasa de crecimeinto del PIB tendencial de las economías desarrolladas, el estancamiento de la formación de capital fijo, la caída abruta del dinamismo del comercio y un aumento sin precedentes en la desigualdad. Estos cambios configuran, en efecto, un nuevo patrón de comportamiento de las economías avanzadas.
+
+
+### *descripción con datos del nuevo patrón de coportamiento, inversión etc.)
 A partir de la crisis global financiera el contexto internacional se ha vuelto más restrictivo. 
 Las tasas de crecimiento de la economía mundial y de los principales socios de América Latina 
 y el Caribe han disminuido restringiendo las posibilidades de crecimiento de la región a través del sector externo.
@@ -1467,7 +1469,20 @@ Finalmente, en la medida de que las tasas de política monetaria de Estados Unid
 
 
 
-## El nuevo normal de la región: menor dinamismo con heterogeneidad acotada.
+## Mecansimos de transmisión hacia la región y el papel de la estructura productiva) . (aka. El nuevo normal de la región: menor dinamismo con heterogeneidad acotada).
+
+
++  Este nuevo contexto ha incidido en el desempeño de la región esencialmente a través de canales ligados a variables reales, exportaciones y términos de intercambio (poner distribución del ingreso)
+
++  Esto explica que los choques externos estén ligados a la estructura productiva y por consiguiente sean heterogéneos dentro de la región.
+
++  En este ciclo no se han detectado como en ciclos anteriores choques financeros importantes, denominado sudden stops.
+
++  Existen elementos para hablar de un boom de crédito y endeudamiento (especialmente Brasil y Chile, aumento considerable en méxico también)
+
++ Un análisis de la inversión en la región.
+
+
 
 
 El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una clara pérdida de dinamismo de su crecimiento de largo plazo (15 de 18 países) y en casi la mitad el promedio anual de crecimiento tendencial cae más de 100 puntos bases.
