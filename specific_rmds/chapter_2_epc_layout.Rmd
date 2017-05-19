@@ -1494,6 +1494,89 @@ Interesantemente, las cuatro excepciones a este freno (Bolivia, Paraguay, Nicara
 
 
 
+**Párrafo con deudas de hogares**
+
+### Nuevo 1: distribucion ingreso
+
+```{r income_distrib}
+load("../produced_data/wb_income_share_decile_10")
+load("../produced_data/cepalstat_q5_to_q1")
+
+q5toq1_lac18 <- cepalstat_q5_to_q1_tidy %>% 
+  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+
+q5toq1_cardm <- cepalstat_q5_to_q1_tidy %>% 
+  filter(iso3c %in% cardm_countries[["iso3c"]])
+
+q5toq1_sa <- cepalstat_q5_to_q1_tidy %>% 
+  filter(iso3c %in% sa_countries[["iso3c"]])
+
+
+share_d10_lac18 <- wb_income_share_decile_10 %>% 
+  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+
+share_d10_lac18 <- wb_income_share_decile_10 %>% 
+  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+
+```
+
+```{r plot_income_dist}
+plot_q5q1_sa <- q5toq1_sa %>% 
+  filter(year >= 2000) %>% ggplot(aes(x = year, y = q5_to_q1)) + 
+  geom_line(aes(group = iso3c, color = iso3c))
+
+plot_q5q1_cardm <- q5toq1_cardm %>% 
+  filter(year >= 2000) %>% ggplot(aes(x = year, y = q5_to_q1)) + 
+  geom_line(aes(group = iso3c, color = iso3c))
+
+plot_q5q1_sa
+plot_q5q1_cardm
+
+```
+
+foo
+
+
+
+
+
+### Nuevo 2: terms of trade
+
+```{r tot_cepal}
+load("../produced_data/tot_cepal_b2000")
+
+
+cstats_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+
+cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% cardm_countries)
+
+cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% sa_countries)
+  
+  
+```
+
+
+```{r tot_wb}
+load("../produced_data/tot_wb_data")
+
+cstats_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+
+cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% cardm_countries)
+
+cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% sa_countries)
+  
+  
+```
+
+
+### Antiguo
+
 ```{r table_avg_tg_lacavg_aes,  results=TRUE}
 lac_aes_tbl_caption = "Average growth of potential output"
 uno_colnames = c("Región"," 2003-2008 ", " 2010-2016 ", " cambio ")
@@ -1529,15 +1612,6 @@ knitr::kable(table_data_pot_lac , digits = 1,
 **Las exportaciones se han desacelerado en el corto y mediano plazo**
 
 ```{r calcultate_avg_gr_trade_related, include=FALSE}
-
-# "TM_RPCH": Volume of imports of goods and services, Percent change 
-# "TMG_RPCH": Volume of Imports of goods, Percent change 
-# "TX_RPCH": Volume of exports of goods and services Percent change 
-# "TXG_RPCH": Volume of exports of goods, Percent change 
-# "BCA_NGDPD": Current account balance, Percentage of GDP
-# TRADEPCH	World	Trade volume of goods and services		Percent change
-
-
 weo_trade <- WEOApr2017cepal18_others_long %>% 
   select(iso, country, year, weo_subject_code, value) %>% 
   filter(weo_subject_code %in% c("TRADEPCH","TM_RPCH", "TMG_RPCH", "TX_RPCH", "TXG_RPCH",
@@ -1721,6 +1795,9 @@ knitr::kable(table_avg_x_g_other_data, digits = 1,
              col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
+
+
+
 
 
 **La formación de capital fijo se desacelera en la la gran mayoría de los casos**
@@ -2035,7 +2112,6 @@ knitr::kable(table_lac_lab_prod_pwt_data, digits = 1,
   add_footnote("Source: PWT 9.0")
   
 ```
-
 
 
 ```{r table_other_lab_prod_pwt}
