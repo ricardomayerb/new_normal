@@ -3,12 +3,13 @@ title: "Capítulo II: La región y el nuevo normal"
 author: "DDE"
 date: '`r Sys.Date()`'
 output:
+  html_document:
+    toc: yes
   word_document:
     reference_docx: reference_style_for_new_normal.docx
     toc: yes
   pdf_document: default
-  html_document:
-    toc: yes
+
 ---
 
 
@@ -1468,6 +1469,11 @@ Finalmente, en la medida de que las tasas de política monetaria de Estados Unid
 
 
 
+### Otra caracteristica el aumento de la desigualdad en las economías avanzadas.
+Desde los 70s se aprecia un aumento sostenido en la desiguadad en las economías avanzadas y además en China. Mientras la fracción del igreso que se lleva el 1% de los igresos más altos ha crecido, la fracción del ingreso que se lleva el 50% más pobre ha disminuído establemente. En el caso de Estados Unidos entre 1978 prácticamente se duplico el share del 1%, de 11% a 20%, en Francia comienza en 8, llega 12% y luego se estabiliza justo por encima del 10%, mientras que en china igualmete se duplica, de un poco menos de 6% a más del 12%.  
+Para el share de los 50%, los datos son USA de 20 a 12, Francia se mantiene más o menos 
+estable en 22% y en China cae de 28% a 15%
+
 
 ## Mecansimos de transmisión hacia la región y el papel de la estructura productiva) . (aka. El nuevo normal de la región: menor dinamismo con heterogeneidad acotada).
 
@@ -1479,7 +1485,7 @@ En el caso de las exportaciones podemos apreciar con mayor detalle el impacto di
 
 +  En este ciclo no se han detectado como en ciclos anteriores choques financeros importantes, denominado sudden stops.
 
-+  Existen elementos para hablar de un boom de crédito y endeudamiento (especialmente Brasil y Chile, aumento considerable en méxico también)
++  Existen elementos para hablar de un boom de crédito y endeudamiento (especialmente Brasil y Chile)
 
 + Un análisis de la inversión en la región.
 
@@ -1488,6 +1494,7 @@ En el caso de las exportaciones podemos apreciar con mayor detalle el impacto di
 
 El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una clara pérdida de dinamismo de su crecimiento de largo plazo (15 de 18 países) y en casi la mitad el promedio anual de crecimiento tendencial cae más de 100 puntos bases.
 
+
 La evidencia muestra que en ambas subregiones la mayoría de los países han perdido impulso en sus productos tendenciales, pero la pérdida de dinamismo es mucho mayor para América del Sur. Mientras la principal economía de la subregión norte, México, mantuvo su ritmo moderado,  las dos economías principales de América del Sur, Brasil y Argentina, tuvieron los frenos más pronunciados de la región, sólo superadas por Venezuela. 
 
 Interesantemente, las cuatro excepciones a este freno (Bolivia, Paraguay, Nicaragua y México) están repartidas entre ambas subregiones geográficas, tienen productos de exportación distintos (hidrocarburos, alimentos y manufacturas) y socios comerciales principales distintos (China y Estados Unidos), por lo que el fenómeno de desaceleración se resiste a un corte demasiado simple en términos geográficos, estructurales o comerciales. Dicho esto, en el caso de México y Nicaragua, es sin duda un factor importante el que Estados Unidos haya padecido una desaceleración menos pronunciada que China o la Unión Europea.
@@ -1495,6 +1502,15 @@ Interesantemente, las cuatro excepciones a este freno (Bolivia, Paraguay, Nicara
 
 
 **Párrafo con deudas de hogares**
+
+La evidencia dispoible muestra signos de un boom de crédito en varios países de la región. Específicamente en Chile y en Brasil ha tenido lugar un rápido y masivo aumento del nivel de 
+deudas de los hogares. En el caso de Brasil la deuda promedio de los hogares, como porcentaje de su ingreso disponible, se duplicó en diez años, con un 21% en el 2006 y 42% en el 2016, con el serivio de la deuda consumiendo un 22% del ingreso disponible. Aunque no hay de momento un fenómeno extendido de morosidad, si se anotó durante el 2016 un pequeño aumento en la cartera vencida de grupos específicos de deudores. Por su lado en Chile, el Banco Central nota que en el los últimos años el endeudamiento de los hogares ha aumentado moderada pero persistentemente de un 50% en el 2006 a 65% en el 2016 y que la razón por la cual el servicio de la deuda, estabilizado en un 15% durante el mismo período, no ha generado mayores tensiones financieras es que las condiciones de interés han sido hasta ahora muy favorables. La contínua falta de dinamismo del ingreso y el prospecto de tasa de interés de largo plazo más altas han puesto en alerta a la autoridad monetaria sobre futuros problemas de morosidad.
+Menos intenso es el panoramo en Colombia y México. Durante el 2016, la deuda promedio de los hogares, como porcentaje de su ingreso disponible , de 28% a 32% en Colombia y el servicio promedio de la deuda aumentó ligeramete de 9% a 9.5% del ingreso dispoible. Los datos dispobibles para México, en tanto, señalan que en 2016 la deuda de los hogares alcanzó un 22% de su igreso disponible.
+
+La situación de la deuda corporativa es bastante similar a la de los hogares, con Brasil mostrando una mayor preocupación por el nivel de apalancamiento y vulnerabilidad financiera de su sector corporativo. En Chile la deuda corporativa promedio como porcentaje del patrimonio ha crecido de 64% a 73% desde el año 2009, en tanto como porcentaje del PIB la deuda no bancaria total alcanza 119%, el nivel más alto por lejos de los países para lso cuales se tienen datos consistentes. Colombia tiene una deuda corporativa moderada, equivalente al 45% de su PIB el 2016, pero es de todos modos un aumento sustantivo desde 30% en el año 2004, cuando comienza una tendencia al alza.
+
+
+
 
 ### Nuevo 1: distribucion ingreso
 
