@@ -1498,6 +1498,9 @@ Interesantemente, las cuatro excepciones a este freno (Bolivia, Paraguay, Nicara
 
 ### Nuevo 1: distribucion ingreso
 
+
+de Zucman 2017
+
 ```{r income_distrib}
 load("../produced_data/wb_income_share_decile_10")
 load("../produced_data/cepalstat_q5_to_q1")
@@ -1513,14 +1516,18 @@ q5toq1_sa <- cepalstat_q5_to_q1_tidy %>%
 
 
 share_d10_lac18 <- wb_income_share_decile_10 %>% 
-  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+  filter(iso2c %in% cepal_18_countries[["iso2c"]])
 
-share_d10_lac18 <- wb_income_share_decile_10 %>% 
-  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+share_d10_cardm <- wb_income_share_decile_10 %>% 
+  filter(iso2c %in% cardm_countries[["iso2c"]])
+
+share_d10_sa <- wb_income_share_decile_10 %>% 
+  filter(iso2c %in% sa_countries[["iso2c"]])
+
 
 ```
 
-```{r plot_income_dist}
+```{r plot_income_dist_q5q1}
 plot_q5q1_sa <- q5toq1_sa %>% 
   filter(year >= 2000) %>% ggplot(aes(x = year, y = q5_to_q1)) + 
   geom_line(aes(group = iso3c, color = iso3c))
@@ -1537,7 +1544,21 @@ plot_q5q1_cardm
 foo
 
 
+```{r plot_income_dist_d10sh}
+plot_d10sh_sa <- share_d10_sa %>% 
+  filter(date >= 2000) %>% ggplot(aes(x = date, y = value)) + 
+  geom_line(aes(group = iso2c, color = iso2c))
 
+plot_d10sh_cardm <- share_d10_cardm %>% 
+  filter(date >= 2000) %>% ggplot(aes(x = date, y = value)) + 
+  geom_line(aes(group = iso2c, color = iso2c))
+
+plot_d10sh_sa
+plot_d10sh_cardm
+
+```
+
+foo2
 
 
 ### Nuevo 2: terms of trade
@@ -1550,10 +1571,10 @@ cstats_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>%
   filter(iso3c %in% cepal_18_countries[["iso3c"]])
 
 cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% cardm_countries)
+  filter(iso3c %in% cardm_countries[["iso3c"]])
 
 cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% sa_countries)
+  filter(iso3c %in% sa_countries[["iso3c"]])
   
   
 ```
@@ -1562,17 +1583,35 @@ cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>%
 ```{r tot_wb}
 load("../produced_data/tot_wb_data")
 
-cstats_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
+wb_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
   filter(iso3c %in% cepal_18_countries[["iso3c"]])
 
-cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
+wb_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
   filter(iso3c %in% cardm_countries)
 
-cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
+wb_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
   filter(iso3c %in% sa_countries)
   
   
 ```
+
+
+```{r plot_tot_cepal}
+plot_tot_cepal_sa <-  cstats_tot_sa %>% 
+  filter(year >= 2000) %>% 
+    ggplot(aes(x = year, y = tot_2000)) +
+    geom_line(aes(group = iso2c, color = iso2c))
+  
+plot_tot_cepal_cardm <-  cstats_tot_cardm %>% 
+  filter(year >= 2000) %>% 
+    ggplot(aes(x = year, y = tot_2000)) +
+    geom_line(aes(group = iso2c, color = iso2c))
+  
+plot_tot_cepal_sa
+plot_tot_cepal_cardm
+  
+```
+
 
 
 ### Antiguo
