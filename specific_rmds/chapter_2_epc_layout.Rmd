@@ -762,12 +762,9 @@ table_avg_tg_others_data <- avgs_china_usa_ez_g7 %>%
 tg_others_colnames <- c("Región"," 2003-2008 ", " 2010-2016 ", "Caída (%)")
   
 tbl_be_caption = "Tasas de crecimiento de las economías a nivel mundial (% anual del PIB tendencial)"
-table_avg_tg_ae_usa_chn <-  knitr::kable(table_avg_tg_others_data, digits = 1,
-             col.names = tg_others_colnames, caption = tbl_be_caption) %>% 
-  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017") %>% 
-  kable_styling(bootstrap_options = "striped", full_width = T)
+knitr::kable(table_avg_tg_others_data, format = "html", digits = 1, col.names = tg_others_colnames, caption = tbl_be_caption) %>%
+  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017") 
 
-table_avg_tg_ae_usa_chn 
 
 ```
 
