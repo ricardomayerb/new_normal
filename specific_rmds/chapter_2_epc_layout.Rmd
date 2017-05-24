@@ -541,6 +541,9 @@ region_names_emerg <- c("Emerging and developing Asia",
 weo_x_pct_ch_world <- weo_x_pct_ch %>% 
   filter(eco_id == "World")
 
+weo_x_pct_ch_china <- weo_x_pct_ch %>% 
+  filter(eco_id == "China")
+
 weo_x_pct_ch_desa <- weo_x_pct_ch %>% 
   filter(eco_id %in% region_names_desa)
 
@@ -596,6 +599,15 @@ weo_x_pct_ch_emerg_01_07_08_11 <-  weo_x_pct_ch_emerg %>%
   growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011)
 weo_x_pct_ch_emerg_92_00_01_16 <-  weo_x_pct_ch_emerg %>% 
   growth_report(input_type = "gross_rates", start1 = 1992, end1 = 2000, start2 = 2001, end2 = 2016)
+
+
+weo_x_pct_ch_china_95_95_96_00 <-  weo_x_pct_ch_china %>% 
+  growth_report(input_type = "gross_rates", start1 = 1995, end1 = 1995, start2 = 1996, end2 = 2000, this_region_name = "China")
+weo_x_pct_ch_china_01_07_08_11 <-  weo_x_pct_ch_china %>% 
+  growth_report(input_type = "gross_rates", start1 = 2001, end1 = 2007, start2 = 2008, end2 = 2011, this_region_name = "China")
+weo_x_pct_ch_china_98_00_01_16 <-  weo_x_pct_ch_china %>% 
+  growth_report(input_type = "gross_rates", start1 = 1998, end1 = 2000, start2 = 2001, end2 = 2016, this_region_name = "China")
+
 
 
 weo_x_pct_ch_lac18_92_95_96_00 <-  weo_x_pct_ch_lac18 %>% 
@@ -713,581 +725,6 @@ from_wb <- gdp_per_employed %>%
 from_ted <- ted_gracc_data
 
 ```
-
-
-
-## Resumen 
-
-
-La región se encuentra en medio de un escenario internacional más restrictivo e incierto y se enfrenta a este escenario con un dinamismo disminuido, con mayor liquidez internacional que en la etapa anterior a la crisis finaciera internacional, con relativa estabilidad externa pero con un aumento ya prolongado e intenso del crédito al sector privado, con menor margen futuro para continuar el estímulo vía consumo. Hay diferencias en los países de la región, pero lo suficientemente acotadas para hablar de una pérdida de dinamismo y margen de maniobra regional.
-
-Por un lado, en el sector real, las economías avanzadas y China, principales mercados de la región,  han disminuido el ritmo de crecimiento de la productividad, la inversión, el crecimiento tendencial  y  del comercio. Todo apunta a que en el mediano plazo, el crecimiento vía sector externo va a estar mucho más limitado que en el período previo a la crisis financiera. El precio de los commodities se ha logrado estabilizar pero el menor crecimiento de China, y el débil crecimiento de las economías avanzadas no permiten avizorar grandes choques positivos de precios de productos de exportación.
-
-En cuanto a las variables financieras, en entorno en que se desarrolla la región se caracteriza por flujos brutos mayores a los que caracterizaban el período pre-crisis financiera global, con mayor presencia de inversión de cartera y de flujos bancarios. Han sido flujo de estrada, por ahora, más estables que en el pasado. Un fenómeno interesante ha sido la menor frecuencia tanto de sudden stops como de surges desde el exterior, a pesar del mayor volumen de flujos experimentados. Hasta ahora, el único sudden stop bruto en esta nueva normalidad corresponde mayormente a flujos de cartera, en Colombia, durante 2015-2016. Es un dato a tomar en cuenta, porque otro rasgo distintivo del nuevo normal en la región es el aumento en la importancia absoluta y relativa de flujos de cartera y ligados a la banca.
-
-Comparando con el período posterior a la crisis financiera global (2010-2016) con el que le antecedió (2003-2008) vemos que esta nueva normalidad encuentra a la región en una situación se caracteriza también por un menor dinamismo generalizado y con menores chances de poder continuar con el consumo privado como motor del crecimiento. Es un realidad suficientemente compartida por los países para llamarlo un fenómeno regional aunque con excepciones y expresiones más o menos agudas: podríamos llamarla una *heterogeneidad acotada*. Heterogeneidad acotada que no es simple de capturar: es verdad que América Central y México tienen en general números más positivos en el sector real comparados con América del Sur y que esta última sub región incluye consistentemente a los casos más agudos, pero también es cierto que  Bolvia (exporta hidrocarburos) y Paraguay (exporta energía y alimentos) se encuentran regularmente entre las excepciones positivas al menor dinamismo, junto con México  y Nicaragua (exportan manufacturas y alimentos), lo que apunta a que ningún criterio singular, ni geográfico ni de especialización productiva ni de socios comerciales es capaz de describir de manera sencilla esta situación heterogénea. 
-
-Otro mensaje importante es que no deberíamos esperar que el mayor dinamismo en el mediano plazo provenga del sector exportador ni de condiciones más favorables de crédito. El lento aumento de la producción y la productividad mundial no augura choques positivos importantes de demanda para nuestros países, con Estados unidos creciendo a tasas menores al 2% y Chia estabilizándose en torno al 6%, mientras que la región tampoco a aumentado significativamente su elasticidad de volumen exportador frente a aumentos de la producción mundial. 
-
-Mientras que el consumo ha sido hasta ahora el componente más dinámico de la demanda interna en la región (ver el capítulo de ciclos económicos para más detalles), creemos que tiene un espacio cada vez más reducido para seguir cumpliendo ese papel porque se ha apoyado en una expansión importante el crédito interno, pero esa expansión se ve desafiada por el estancamiento de los flujos de liquidez hacia la región, por el aumento en el mediano plazo de las tasas de interés en las economías avanzadas y porque en países donde el sector financiero se encuentra desarrollado, ha estado creciendo más rápido que su tendencia histórica por ya varios años.
-
-En el capítulo sobre política económica veremos las dificultades que enfrenta en este escenario la política fiscal para poder expandir el gasto en consumo y en inversión, pero baste notar aquí que el escenario descrito obliga al sector público a ser muy cauto al resguardar la sostenibilidad de su deuda actual con menores tasas de crecimiento tendencial, mayores tasas de interés y precios de commodities que de aumentar lo harán de forma muy moderada. 
-
-
-
-##### Page Brake in Word
-
-
-## Un nuevo "patrón de comportamiento" en el mundo desarrollado
-
-
-El ciclo actual que vive la región (Capítulo I) y sus características responde, en parte, a los cambios acaecidos en la economía internacional y a la  manera, en vista de estos cambios,  en la cual se transmiten los impulsos desde los países más avanzados hacia las economías en desarrollo.
-
-A partir de la crisis global financiera las economías desarrolladas han experimentado importantes cambios que afectan sobre todo a la esfera real de la actividad económica. Estos cambios en el entorno en que se inserta la region incluyen, por una parte, un menor dinamismo -- reflejado en una menor tasa de crecimiento del PIB tendencial de las economías desarrolladas -- el estancamiento de la formación de capital fijo, la caída abruta del dinamismo del comercio y un aumento sin precedentes en la desigualdad. Estos cambios configuran, en efecto, un nuevo patrón de comportamiento de las economías avanzadas.
-
-Revisemos algunos datos que ilustran estos cambios. En el período anterior a la gran crisis financiera global, caracterizado por un rápido crecimiento del precio de los commodities, la tasa de crecimiento promedio del PIB tendencial de las economías avazadas era 50% mayor al promedio que han mostrado desde el 2010 al 2016 (Ver cuadro 1) y algo muy similar ocurrió al crecimiento promedio con Estados Unidos y China, cuyas tasas de crecimiento cayeron de 2,4% a 1,5% y de 9,4% a 6,6%, respectivamete.
-
-### *descripción con datos del nuevo patrón de comportamiento, inversión etc.)
-A partir de la crisis global financiera el contexto internacional se ha vuelto más restrictivo. 
-Las tasas de crecimiento de la economía mundial y de los principales socios de América Latina 
-y el Caribe han disminuido restringiendo las posibilidades de crecimiento de la región a través del sector externo.
-
-```{r table_avg_tg_others, results=TRUE, message=FALSE}
-
-table_avg_tg_others_data <- avgs_china_usa_ez_g7 %>% 
-  mutate(change_geo_pct = 100 * change_geo/geo_mean_gr_per1) %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo_pct) %>% 
-  filter(!str_detect(eco_id, "Major") )
-
-tg_others_colnames <- c("Región"," 2003-2008 ", " 2010-2016 ", "Caída (%)")
-  
-tbl_be_caption = "Tasas de crecimiento de las economías a nivel mundial (% anual del PIB tendencial)"
-knitr::kable(table_avg_tg_others_data, format = "html", digits = 1, col.names = tg_others_colnames, caption = tbl_be_caption) %>%
-  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017") 
-
-
-```
-
-
-Si miramos las estimaciones para el PIB de las economías avanzadas y de nuestros principales socios comerciales, vemos que más allá de los ciclos –- con todas las imperfecciones que estas estimaciones pueden tener— la velocidad a la que nuestros principales compradores pueden aumentar sus ingresos y producción es más limitada. 
-La evidencia disponible muestra que a la par con la baja tendencial del crecimiento económico y de la inversión el ritmo de crecimiento de la productividad ha tendido a desacelerarse (o estancarse) sobre todo en el mundo desarrollado. 
-
-La tasa de crecimiento de la productividad laboral para el caso de los Estados Unidos aumentó en la década de los noventa. Esta pasó de  1.7% y 3.1% en promedio para 1990-1995 y 1996-2000 para luego disminuir por debajo de 1% en la década de los noventa y mantenerse en torno a 1% entre 2010-2015. Por su parte tanto la Zona Euro como el resto de las economías industrializadas registran una clara disminución en la tasa de crecimiento de la productividad en los noventa (Cuadro  2).
-
-A  nivel más específico del sector manufacturero también se nota una pérdida de productividad en las economías más desarrolladas. La tasa de crecimiento anual del producto por hora para un conjunto de economías desarrolladas baja de 4.8%  a 1.5% entre 1998-2006 y 2010-2014. Una evolución similar se registra para el producto por trabajador: 4.7% y 1.4% para el mismo periodo. 
-
-
-
-```{r tbl_productividad_eco_desa, cache=TRUE}
-tbl_prod_world_data <- ted_emplo_prod_avg_90_95_96_00$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1990-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(ted_emplo_prod_avg_01_06_07_09$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2006" = geo_mean_gr_per1, 
-         "2007-2009" = geo_mean_gr_per2) %>% 
-  left_join(ted_emplo_prod_avg_07_09_10_16$avgs_df, by = "eco_id") %>% 
-  select(1:5,  geo_mean_gr_per2) %>% 
-  rename("2010-2016" = geo_mean_gr_per2)
-
-period_esteban_colnames <- c("Región", "1990-1995 ", "1996-2000",
-                            "2001-2006", "2007-2009", "2010-2016")
-
-eco_desa_id <- c("Euro Area", "United States", "Other Mature Economies")
-
-tbl_prod_eco_desa_data <- tbl_prod_world_data %>% 
-  filter(eco_id %in% eco_desa_id)
-
-tbl_eco_desa_caption = "Crecimiento de la productividad, economías desarrolladas"
-
-tbl_eco_desa <- knitr::kable(tbl_prod_eco_desa_data, digits = 1,
-             col.names = period_esteban_colnames , caption = tbl_eco_desa_caption) %>% 
-  add_footnote("Fuente: CEPAL sobre datos Conference Board, 2016")
-
-tbl_eco_desa
-```
-
-
-
-
-En cambio en el caso de las economías en desarrollo se nota un claro aumento de la productividad entre la década de los noventa y los 2000. Este aumento se explica, en gran medida, por el desempeño de China e India. China e India más que duplicaron el crecimiento de la productividad entre la segunda mitad de la década de los noventa y los 2000. Por su parte Asia en desarrollo (sin China e India), Medio Oriente y África del Norte y América Latina mostraron un estancamiento en el crecimiento de la productividad.
-
-
-```{r tbl_productividad_eco_emerg}
-eco_emerg_id <- c("China", "India", "Emerging Markets and Developing Economies",
-                  "Latin America", "Other Developing Asia",
-                  "Middle East & North Africa" , "Sub-Saharan Africa",
-                  "Russia, Central Asia and Southeast Europe")
-
-tbl_prod_eco_emerg_data <- tbl_prod_world_data %>% 
-  filter(eco_id %in% eco_emerg_id)
-
-tbl_eco_emerg_caption = "Crecimiento de la productividad, economías emergentes"
-tbl_eco_emerg <- knitr::kable(tbl_prod_eco_emerg_data, digits = 1,
-             col.names = period_esteban_colnames , caption = tbl_eco_emerg_caption) %>% 
-  add_footnote("Fuente: CEPAL sobre datos Conference Board, 2016")
-
-tbl_eco_emerg
-```
-
-
-
-
-
-### La formación de capital está estancada
-
-Por otro lado, la inversión real a nivel mundial muestra un desempeño enlentecido. En un contexto de bajo crecimiento del producto, la razón Inversión/Producto apenas aumenta 0,5% al año en este nuevo período, prácticamente la mitad de lo que aumentó en el quinquenio 2001-2006, fenómeno que se repite en el conjunto de las economías avanzadas. Lo anterior se verifica de modo más agudo en  la zona del Euro, América Latina y el Caribe y el Medio Oriente, que no han podido mantener los niveles de inversión del comienzo de la post-crisis.
-
-
-```{r tbl_weo_gfcf_gr_regions}
-
-tbl_weo_gfcf_gr_regions_data <- weo_gfcf_to_gdp_regions_90_95_96_00$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1991-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_gfcf_to_gdp_regions_01_06_07_09$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2006" = geo_mean_gr_per1, 
-         "2007-2009" = geo_mean_gr_per2) %>% 
-  left_join(weo_gfcf_to_gdp_regions_07_09_10_16$avgs_df, by = "eco_id") %>% 
-  select(1:5,  geo_mean_gr_per2) %>% 
-  rename("2010-2016" = geo_mean_gr_per2)
-
-weo_gfcf_regions_colnames <- c("Región", "1991-1995 ", "1996-2000",
-                            "2001-2006", "2007-2009", "2010-2016")
-
-weo_gfcf_regions_caption = "Tasa de crecimiento anual de Formación de capital/PIB"
-
-table_weo_gfcf_gr_regions <- knitr::kable(tbl_weo_gfcf_gr_regions_data , digits = 1,
-             col.names = weo_gfcf_regions_colnames,
-             caption = weo_gfcf_regions_caption) %>% 
-  add_footnote("Fuente: IMF, Abril, 2017")
-
-table_weo_gfcf_gr_regions
-
-```
-
-Como se discute en el Box.1 los beneficios económicos juegan un papel clave en el corto plazo y más heterogeneamente en el largo plazo, con mayor intensidad al efecto que puedan tener las políticas monetarias que influencian la tasa de interés real.
-
-
-```{r gfcf_notlac_table}
-
-colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
-
-gfcf_notlac_table_data <- gfcf_other_list$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-tbl_fbcf_gr_caption_notlac = "Growth Gross Fixed Cap formation, other economies (%)"
-
-wb_notlac_tbl <- knitr::kable(gfcf_notlac_table_data , digits = 1,
-             col.names = colnames_fbcf_table,
-             caption = tbl_fbcf_gr_caption_notlac) %>% 
-  add_footnote("Source: WB")
-
-```
-
-
-#### Box 1. Determinantes de la inversión real: el papel de los beneficios
-
-Este ejercicio empírico estima el impacto de distintas variables macro-económicas sobre la inversión en Estados Unidos, Francia y Canadá, utilizando  vectores auto-regresivos estructurales sobre datos trimestrales expresados en logaritmo ^[Las variables de tasas de interés se dejaron expresadas como porcentaje y las importaciones de bienes de capital se dejaron como índice (2009=100).] . Adicionalmente, se estimó la relación de causalidad a largo plazo entre inversión y beneficios mediante un modelo de corrección de errores. Dada la restricción que impone la disponibilidad de información, la presente estimación comprende el periodo que va desde el primer trimestre de 1990 (1990-Q1) al cuarto trimestre de 2014 (2014-Q4) para Estados Unidos, desde el tercer trimestre de 1992 (1992-Q3) al segundo trimestre de 2016 (2016-Q2) para Canadá, y desde el primer trimestre de 1999 (1999-Q1) al primer trimestre de 2015 (2015-Q1) para Francia.
-
-Las variables utilizadas en el modelo fueron seis, cuatro de ellas (‘’Term Spread’’ (diferencial entre tasas cortas y largas), ‘’Investment’’ (formación bruta de capital fijo no residencial), ‘’Profits’’ (beneficios operacionales no financieros) y ‘’Credit’’ (crédito total a entidades no financieras)) siguen la estructura del artículo de Banjeree et. al (2015), mientras que las otras dos (Tasa de política monetaria (TPM) – Tasa de interés interbancaria para el caso de Francia – e importación de bienes de capital (Imports)) son adiciones de la presente estimación. Para Estados Unidos, estas dos últimas fueron obtenidas del International Finance Statistics (IMF) y el Federal Reserve Bank of St. Louis ^[Para Estados Unidos, las importaciones consideradas son bienes de capital (excepto del sector automotor) – de acuerdo al criterio del FRED; expresados en un índice – no en logaritmo – donde 2009 = 100. La serie es trimestral y desestacionalizada.] , respectivamente. Para Canadá, la importación de bienes de capital se construyó consultando a Statistics Canada ^[Para Canadá, las importaciones que se consideraron como bienes de capital fueron obtenidas del sistema de clasificación NAPCS (North American Product Classification System), en valores reales. Lamentablemente no se encontró la tabla BEC que realiza la separación directa entre bienes de capital y consumo, al menos no para datos trimestrales ni mensuales. Tampoco se encontraron tablas de equivalencia entre el sistema BEC y NAPCS, sin embargo, se utilizó la equivalencia BEC - HS para aproximarse a dicha separación y realizarla manualmente en base al sistema NAPCS.] , y para Francia, la Federal Reserve Bank of St. Louis (FRED) y Eurostat  ^[Para Francia, las importaciones consideradas son bienes de capital y bienes intermedios – de acuerdo al criterio de Eurostat (NACE rev. 2); expresados en un índice – no en logaritmo – donde 2010 = 100. La serie original es mensual y no desestacionalizada, por lo que se tomó el promedio simple de cada tres meses para transformarla a una serie trimestral. ] se utilizaron como fuentes para ambas variables. 
-
-Guiándonos por las funciones de impulso-respuesta, encontramos –para los tres países analizados-- un impacto positivo de las utilidades sobre el nivel de inversión. Por el contrario, la política monetaria, por medio de la Tasa de Política Monetaria o la diferencia entre las tasas cortas y largas (‘’Term Spread’’), al igual que el acceso al crédito, no encuentran un efecto estadísticamente significativo sobre los niveles de inversión. Francia, por su parte, muestra un resultado contra intuitivo, en el que la tasa de interés interbancaria es la única variable de tasa de interés que parece influir sobre la inversión, pero de forma positiva y recién desde el segundo periodo ^[Una posible explicación es que el modelo SVAR no logre distinguir la doble causalidad entre ambas variables.] .
-
-Finalmente, encontramos un efecto negativo de los choques a las importaciones de bienes de capital sobre la inversión para el caso de Estados Unidos y Francia, pero positivo para Canadá.  
-
-En cuanto a la relación entre inversión y beneficios a largo plazo, observamos que el modelo de vector de corrección de errores nos entrega una relación de causalidad temporal unidireccional, desde beneficios hacia inversión para Estados Unidos, mientras que para el caso de Francia y Canadá la relación causal de largo plazo es inversa: esta va de inversión a beneficios. 
-
-En conclusión, la evidencia se inclina por un efecto positivo y significativo por parte de los beneficios sobre la inversión, al menos en el corto plazo. Las variables de política monetaria y el acceso al crédito, por otro lado, no presentan un impacto significativo sobre la inversión, al menos no para el periodo analizado. Finalmente, dado el efecto negativo de las importaciones sobre la inversión para los casos de Estados Unidos y Francia, podríamos pensar que la importación de bienes de capital sustituye a la inversión bruta de capital fijo en estos países, mientras que en Canadá podría darse el caso de una posible complementariedad entre ambas.
-
-USA:
-![IRF USA investment](irf_usa.png)
-
-
-Canadá:
-![IRF Canada investment](irf_canada.png)
-
-
-Francia:
-![IRF Francia investment usa](irf_francia.png)
-
-USA:
-![inversion beneficios crecimiento usa](beneficios_inversion_usa.png)
-
-
-Canadá:
-![inversion beneficios crecimiento canada](beneficios_inversion_canada.png)
-
-
-
-Francia:
-![inversion beneficios crecimiento francia](beneficios_inversion_francia.png)
-
-
-```{r correlation_matrices_from_esteban}
-
-cor_tasas_crec_usa = data.frame( inversion = c(1, 0.275365029), 
-                                 beneficios = c(0.275365029, 1), 
-                                 row.names = c("inversion", "beneficios") )
-
-cor_tasas_crec_canada = data.frame( inversion = c(1, 0.414469), 
-                                 beneficios = c(0.414469, 1), 
-                                 row.names = c("inversion", "beneficios") )
-
-
-cor_tasas_crec_francia = data.frame( inversion = c(1, 0.73079889), 
-                                 beneficios = c(0.73079889, 1), 
-                                 row.names = c("inversion", "beneficios") )
-
-cor_tasas_crec_usa
-cor_tasas_crec_canada
-cor_tasas_crec_francia
-```
-
-
-
-
-
-### A partir de esta década se ha sumado una desaceleración del comercio
-
-**A los efectos que ha tenido el comportamiento de la inversión y la productividad en el PIB tendencial hay que sumar la desaceleración del comercio que se produce a partir de la década de los 2000.**
-
-
-
-A diferencia del declive tendencial que muestra la tasa de crecimiento del producto y de la inversión a partir de la década de los setenta, el comercio mantuvo hasta el inicio de la Crisis Global Financiera (2007-2009) un elevado dinamismo.   No obstante desde entonces también ha mostrado señales de desaceleración. La evidencia disponible desde 1990 hasta  2016 muestra que la tasa de crecimiento del comercio a nivel mundial pasó, en promedio, de  7.3% en la década de los noventa a  4.5% en los 2000. 
-
-
-La desaceleración del comercio afecta sobre todo a las economías avanzadas y en menor medida al mundo en desarrollo. En su conjunto las exportaciones para las economías industrializadas han disminuido en promedio de 6%-7% en la década de los 90 a  menos de 4% en la década de los 2000. La desaceleración del comercio afecta con una intensidad similar a la mayor parte de las economías avanzadas.
-
-
-Contrariamente, en el caso de las economías en desarrollo la intensidad de la desaceleración es heterogénea. La desaceleración del comercio se concentra en América Latina y el Caribe y África y Medio Oriente más que en Asia y Europa del Este y Asia Central  (me falta el dato de Europa del Este y Asia Central) (Cuadro 5)
-
-
-
-
-```{r tbl_trade_x_eco_desa}
-
-tbl_trade_gr_data_world <- weo_trade_pct_ch_world_92_95_96_00$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_trade_pct_ch_world_01_07_08_11$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_trade_pct_ch_world_92_00_01_16$avgs_df, by = "eco_id") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) %>% 
-  mutate(eco_id = recode(eco_id, "World" = "Comercio mundial"))
-
-
-tbl_x_gr_data_world <- weo_x_pct_ch_world_92_95_96_00$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_world_01_07_08_11$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_world_92_00_01_16$avgs_df, by = "eco_id") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) %>% 
-  mutate(eco_id = recode(eco_id, "World" = "Exportaciones mundiales"))
-
-
-tbl_x_gr_data_eco_desa <- weo_x_pct_ch_desa_92_95_96_00$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_desa_01_07_08_11$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_desa_92_00_01_16$avgs_df, by = "eco_id") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) %>% 
-  mutate(eco_id = recode(eco_id, 
-                         "Japan" = "Japón",
-                         "Advanced economies" = "Economías avanzadas",
-                         "United States" = "Estados Unidos",
-                         "Other advanced economies (Advanced economies excluding G7 and euro area)" = "Otras economías avanzadas"))
-
-
-tbl_x_gr_data_eco_emerg <- weo_x_pct_ch_emerg_92_95_96_00$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-1995" = geo_mean_gr_per1, 
-         "1996-2000" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_emerg_01_07_08_11$avgs_df, by = "eco_id") %>% 
-  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2001-2007" = geo_mean_gr_per1, 
-         "2008-2011" = geo_mean_gr_per2) %>% 
-  left_join(weo_x_pct_ch_emerg_92_00_01_16$avgs_df, by = "eco_id") %>% 
-  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1992-2000" = geo_mean_gr_per1, 
-         "2001-2016" = geo_mean_gr_per2) %>% 
-  mutate(eco_id = recode(eco_id, 
-                         "Latin America and the Caribbean" = "América Latina y el Caribe",
-                         "Emerging market and developing economies" = "Economías emergentes y en desarrollo",
-                         "Emerging and developing Asia" = "Asia emergente y en desarrollo",
-                         "Middle East and North Africa" = "Medio Oriente y Norte de África"))
-
-big_trade_x_table_data <- tbl_trade_gr_data_world %>% 
-  bind_rows(tbl_x_gr_data_world) %>% 
-  bind_rows(tbl_x_gr_data_eco_desa) %>% 
-  bind_rows(tbl_x_gr_data_eco_emerg)
-  
-trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
-
-tbl_trade_x_caption = "Crecimiento del comercio y las exportacioens, mundial y por región"
-
-tbl_trade_x <- knitr::kable(big_trade_x_table_data, digits = 1,
-             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
-  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
-
-tbl_trade_x 
-
-```
-
-La desaceleración del comercio responde en parte a factores de carácter cíclico pero también se explica por razones de carácter estructural tal y como lo indica el hecho que el comercio se ha vuelto menos sensible a los cambios en el ingreso. Esto se ejemplifica la disminución de la elasticidad de largo plazo de las exportaciones global con respecto a la producción mundial. 
-
-La evidencia disponible para el periodo 1990-2015 muestra que la elasticidad de largo plazo del índice de volumen de las exportaciones respecto a la producción industrial del mundo disminuyó de 2 entre 1991-2000 a 1.7 entre 2002-2008 a 1.0 entre el 2010 y el 2015 (Figura 7). A nivel regional se produce el mismo fenómeno. Las estimaciones para la elasticidad ingreso de las exportaciones de América Latina con respecto al ingreso de las economías avanzadas y Asia emergente también muestra una disminución en el periodo 1991-2015.
-
-Estimaciones de la descomposición de la elasticidad a nivel de grupos de producto muestra que la caída de la elasticidad se explica por la disminución de la elasticidad de manufacturas. La elasticidad de importaciones de largo plazo para las manufacturas disminuyó de 2.6 entre 1986-2000 a 0.8 para el periodo 2001-2013 ^[Nota: Las elasticidades del volumen de importaciones y exportaciones respecto al índice de producción industrial ponderado por producción fueron obtenidas mediante el test de cointegración de Johansen, siendo las series mencionadas integradas del mismo orden.  La fuente de los datos fueron las series trimestralizadas de CPB World Trade Monitor (incluyendo dato de abril 2015).  Los números de rezagos óptimos de los modelos fueron escogidos en función de los criterios de información Akaike y Schwarz. .* Datos al primer trimestre.
-Fuente: CEPAL en base a CPB World Trade Monitor		
-]
-
-Figura: XYZ
-![Elasticidad largo plazo exportaciones mundiales a produccion industrial](elast_lp_expo_mund_prod.png)
-
-
-
-
-Figura: XYZ2
-![Elasticidad largo plazo exportaciones LAC a produccion industrial e EAs y Asia](elast_lp_lac_ae_asia.png)
-
-La caída de la elasticidad del comercio con respecto al ingreso responde a dos conjuntos de factores. En primer lugar, cabe destacar el cambio en la composición de la demanda agregada mundial y los determinantes del crecimiento global. Los distintos componentes de la demanda agregada mundial tienen distintas intensidades comerciales. Tanto en cuanto la disminución de la tasa de crecimiento a nivel mundial se explica por los componentes de la demanda agregada con un mayor contenido de comercio como es el caso de la inversión, una baja en el PIB mundial tendrá un mayor efecto en el comercio que una baja en el los componentes de la demanda agregada que son menos intensivos en comercio. 
-
-
-En segundo lugar se ha producido una ralentización del crecimiento de las cadenas de valor a nivel mundial. La evidencia disponible muestra que la razón del valor añadido externo al valor añadido interno para las exportaciones mundiales aumentó en 8.4 puntos porcentuales entre 1995-2005 y en sólo 2.5 puntos porcentuales para el periodo 2005-2012.  Una forma alternativa de medir esto es a través del crecimiento del comercio de bienes intermedios que según las últimas estimaciones disponibles se ha estancado (Figura 11).
-
-![composicion importaciones](composicion_importanciones.png)
-
-
-Dado que la elasticidad de nuestras exportaciones ante cambios en el  producto mundial no ha aumentado y que  el crecimiento externo potencial se visto notablemente enlentecido, un aumento veloz del producto regional vía exportaciones, aparece como improbable en esta nueva normalidad.
-
-
-#### Precios de commodities disminuyen varianza pero crecen lentamente
-
-
-```{r compute_commodity_price, include=FALSE, cache=TRUE}
-
-# PMETAW, World, Commodity Metals Price Index includes Copper, Alumin, Index, 2005=100
-# PCOPP, World, Copper, grade A cathode, LME spot price, CIF European ... in U.S. dollars 
-# PALLFNFW, World, Commodity Price Index includes both Fuel and Non-Fuel Price Indices, Index, 2005=100
-# POILAPSPW, World, Crude Oil (petroleum), Price index simple average of three spot prices (APSP); Dated Brent, West Texas Intermediate, and the Dubai Fateh, Index, 2005=100
-# 
-# PCOFFW, World, Commodity Coffee Price Index includes Other Mild Arabicas and Robusta,Index, 2005=100
-# PNGASW, World, Commodity Natural Gas Price Index includes European, Japanese, and American Natural Gas Price Indices, Index, 2005=100
-# PNRGW, World, Commodity Fuel (energy) Index includes Crude oil (petroleum), Natural Gas, and Coal Price Indices, Index, 2005=100
-# PVOILW, World, Commodity Vegetable Oil Index includes Soybean, Soybean Meal, Soybean Oil, Rapeseed Oil, Palm Oil, Sunflower Oil, Olive Oil, Fishmeal, and Groundnut Price Indices, Index, 2005=100
-# PFOODW, World, Commodity Food Price Index includes Cereal, Vegetable Oils, Meat, Seafood, Sugar, Bananas, and Oranges Price Indices Index, 2005=100
-
-
-
-weo_commo <- WEOApr2017cepal18_others_long %>% 
-  filter(country == "World") %>% select(weo_subject_code, year, value) %>% 
-  filter(weo_subject_code %in% c("PMETAW", "PCOPP", "PALLFNFW",
-                                 "POILAPSPW", "PCOFFW", "PNGASW",
-                                 "PNRGW", "PVOILW", "PFOODW")) %>% 
-  arrange(weo_subject_code, year) %>%   
-  group_by(weo_subject_code) %>% 
-  mutate(gross_growth = simple_gross_growth(value),
-         date =  ymd(paste0(year,  "-12-31"))) 
-
-
-weo_commo_gr_list <- weo_commo %>% 
-  rename(eco_id = weo_subject_code,
-         date_id = date,
-         voi = value) %>% 
-  growth_report(end2 = 2016)
-
-```
-
-En cuanto al precio de los commodities, si bien es cierto que en todos los grupos de bienes 
-se observa un quiebre en sus trayectorias pre y post 2009 --pasan de crecer vigorosamente a tasas de crecimiento pequeñas o simplemente decrecen-- es en el caso de los hidrocarburos y los metales, donde el freno ha sido más fuerte: mientras que el grupo de los alimentos pasa de crecer desde  11.6% anual a una leve caída anual de 1.6% en el segundo período, para los metales e hidrocarburos la caída es desde tasas de crecimiento 25% promedio anual  a tasas de decrecimeinto cercanas al 7% y 8% promedio al año. 
-
-
-```{r table_comm_price_gr_avg}
-
-selected_comm <- c("PMETAW", "POILAPSPW", "PNGASW", "PFOODW")
-
-table_comm_price_gr_avg_data <- weo_commo_gr_list$avgs_df %>% 
-  filter(eco_id %in% selected_comm) %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-colnames_comm_table <- c("Commodity", "2003-2008", "2010-2016", "Cambio")
-
-
-table_comm_price_gr_avg_data[ , 1] <- c("Food", "Gas", "Metals", "Oil")
-
-tbl_comm_gr_caption = "Growth commodity price indexes (%)"
-
-knitr::kable(table_comm_price_gr_avg_data, digits = 1,
-             col.names = colnames_comm_table, caption = tbl_comm_gr_caption) %>% 
-  add_footnote("Source: Price indexes (2005=100) for each year, from WEO April 2017")
-
-```
-
-##### Page Brake in Word
-
-
-
-### Los flujos financieros han sido más estables, pero sus componentes más volátiles crecen en importancia
-
-
-A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes. 
-
-
-En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
-
-
-
-```{r non_resident_flows}
-load("../produced_data/fin_flows_lac")
-
-gross_inflows_cols <- c("year", "inversion_directa_en_la_economia_declarante",
-                        "pasivos_de_inversion_de_cartera", "pasivos_de_otra_inversion")
-
-gross_inflows_lac17_by_type_y <- fin_flows_long_lac_17_yearly %>% 
-  gather(key = inflow, value = value, -year) %>% 
-  filter(inflow %in% gross_inflows_cols) %>% 
-  group_by(year) 
-
-gross_inflows_lac18_by_type_y <- fin_flows_long_lac_18_yearly %>% 
-  gather(key = inflow, value = value, -year) %>% 
-  filter(inflow %in% gross_inflows_cols) %>%  
-  group_by(year) 
-
-gross_inflows_lac17_by_type_q <- fin_flows_long_lac_17%>% 
-  gather(key = inflow, value = value, -date) %>% 
-  filter(inflow %in% gross_inflows_cols) %>%  
-  group_by(date) 
-
-gross_inflows_lac18_by_type_q <- fin_flows_long_lac_18 %>% 
-  gather(key = inflow, value = value, -date) %>% 
-  filter(inflow %in% gross_inflows_cols) %>% 
-  group_by(date)   
-
-yearly_gross_inflows = ggplot(data = gross_inflows_lac17_by_type_y,
-       aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
-  ggtitle("Flujos de capitales, no-residentes, LAC-17")
-
-quarterly_gross_inflows = ggplot(data = gross_inflows_lac17_by_type_q,
-       aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
-  ggtitle("Flujos de capitales, no-residentes, LAC-17, trimestral")
-
-```
-
-```{r resident_flows}
-load("../produced_data/fin_flows_lac")
-
-net_inflows_cols <- c("year", "net_fdi",
-                        "net_portfolio", "net_other_inversion", "net_other")
-
-net_inflows_lac17_by_type_y <- fin_flows_long_lac_17_yearly %>% 
-  gather(key = inflow, value = value, -year) %>% 
-  filter(inflow %in% net_inflows_cols) %>% 
-  group_by(year) 
-
-net_inflows_lac18_by_type_y <- fin_flows_long_lac_18_yearly %>% 
-  gather(key = inflow, value = value, -year) %>% 
-  filter(inflow %in% net_inflows_cols) %>%  
-  group_by(year) 
-
-net_inflows_lac17_by_type_q <- fin_flows_long_lac_17%>% 
-  gather(key = inflow, value = value, -date) %>% 
-  filter(inflow %in% net_inflows_cols) %>%  
-  group_by(date) 
-
-net_inflows_lac18_by_type_q <- fin_flows_long_lac_18 %>% 
-  gather(key = inflow, value = value, -date) %>% 
-  filter(inflow %in% net_inflows_cols) %>% 
-  group_by(date)   
-
-yearly_net_inflows = ggplot(data = net_inflows_lac17_by_type_y,
-       aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
-  ggtitle("Flujos netos por tipo de capital, LAC-17, anual")
-
-quarterly_net_inflows = ggplot(data = net_inflows_lac17_by_type_q,
-       aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
-  ggtitle("Flujos netos por tipo de capital, LAC-17, trimestral")
-
-```
-
-
-Flujos netos y flujos brutos:
-
-```{r plot_gross_inflows_by_type}
-
-yearly_gross_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
-
-```
-
-
-```{r plot_net_inflows_by_type}
-
-yearly_net_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
-
-```
-
-
-#### Flujos Brutos a la región han sido más estables
-
-
-Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de cambios en los flujos totales de inversion, ya sea netas o brutas, se han vuelto menos frecuentes . ^[Las cifras de esta sección provienen de Klein 2016, que hace un examen de episodios extremos para Brasil, Chile, México y Perú, usando una metodología de XYZ 2012, centrada en flujos "brutos" (efectuados por no-residentes). Así, distingue entre sudden stops y flights --no residentes y residentes-- y entre surges y retrenchments, bajo igual criterio] Por ejemplo, en términos de total gross inflows y total gross outflows, la región exhibe menos episodios extremos comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis financiera global, donde los inflow surges fueron más frecuentes. Similar es el caso de las entradas y salidas netas de capitales: hay menos episodios extremos de salida e igual cantidad de episodios de entradas. ^[Para un análisis de sincronicidad de estos episodios extremos, en base a flujos mensuales netos ver Titelman et al (2014), donde encuetran que en general los sudden stops en la región no afectan a grupos numerosos de países, a excepción de la gran crisis financiera del 2008-2009, episodio que además es el último que encuentran, coincidiendo con Klein 2009 en que sólo un episodio aparece a finales del 2015]
-
-
-Concretamente, usando datos de CEPAL sobre flujos brutos entrantes y salientes (gross inflows y gross outflows) para Brasil, México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] aparece en este período solamente un episodio de sudden stop de gross inflows, específicamente en Colombia entre 2015Q2 y 2016Q2. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s. De todos modos, coincidiendo con los primeros gráficos de esta sección, 2015-2016 fueron años de mayor debilidad de flujos brutos, pues Brasil, y en menor medida México, estuvieron cerca de un sudden stop de flujos brutos totales por primera vez post-crisis financiera.
-
-Cuando consideramos los componentes de los gross inflows, vemos que las reversiones súbitas de este período han sido motivadas más bien por caídas o reversiones en la inversión de cartera, seguido por la IED. En el caso de Colombia, fueron particularmente los *gross inflows de cartera* los que cayeron rápidamente (siendo negativos en el último trimestre de 2015 y constituyendo un sudden stop de esta categoría de inversión) y explican gran parte de la caída de inflows totales. En el mismo período la IED también mostró cierta debilidad pero no tan aguda como la ya señalada.
-
-En el caso mexicano, la disminución de total gross inflows de fines de 2014 a fines de 2015 que se acercó a un sudden stop, también es explicada en mayor medida por una larga y aguda caída de los flujos de cartera (que fueron negativos en 2016:Q2) y por una menos aguda y más breve debilidad de la IED que la precedió.
-
-
-Por lado de los flujos de entrada por no-residentes, después del 2009 vemos sólo dos inflow surges, versus tres en los 90s y siete en los 2000s previos a la crisis financiera global.
-
-```{r gross_ff_episodes_resumen}
-extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx")
-ee_table_data <- extreme_episodes_by_period %>% select(-`prom anual`)
-names(ee_table_data) <- c("Period", "Sudden Stops", "Surges", "Flights", "Retrenchment", "Total")
-tbl_ee_caption <- "Gross Financial flows: Number of extreme episodos"
-  
-knitr::kable(ee_table_data , digits = 1, caption = tbl_ee_caption) %>% 
-  add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
-```
-
-```{r}
-net_extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx", 
-                                             sheet = "net_data_ee_by_period")
-net_ee_table_data <- net_extreme_episodes_by_period %>% select(-`prom anual`)
-names(net_ee_table_data) <- c("Period", "Sudden Stops", "Surges", "Total")
-net_tbl_ee_caption <- "Net Financial flows: Number of extreme episodos"
-  
-knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>% 
-  add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
-```
-
-
-#### La liquidez crece a un ritmo moderado pero su precio continuará aumentando en el mediano plazo 
-
-Salvo en el caso de la zona del euro, el crédito interno se ha expandido al mismo ritmo que PIB (Estados Unidos) o de manera un poco más acelerada que el PIB, notablemente en China que incrementado su volumen de crédito interno bastante más rápidamente que su producción. El capítulo sobre aspectos macro-financieros vemos cómo difieren no sólo las tendencias si no también la composición de este nuevo crédito interno entre economías emergentes , donde en las primeras aparece como destinado a alimentar el consumo y   en las últimas a mejorar las hojas de balance, dejando de momento en relativa orfandad a la inversión real y creando un desbalance que pone señales de alerta el mediano plazo. 
-
-En la sección sobre el desempeño de la región, veremos para algunos países, un indicador de posibles ciclos del crédito interno respecto del PIB.
 
 
 ```{r credit_gdp_levels_and_gr}
@@ -1411,70 +848,345 @@ bis_credit_gdp_gap_lac <- cr_gap_bis_gapval %>%
 ```
 
 
-```{r tbl_privcred2gdp}
-tbl_privcred2gdp_data <- wb_privcred2gdp_regions_90_99_00_06$avgs_df %>%
+
+## Un nuevo "patrón de comportamiento" en el mundo desarrollado
+
+
+El ciclo actual que vive la región (Capítulo I) y sus características responde, en parte, a los cambios acaecidos en la economía internacional y a la  manera, en vista de estos cambios,  en la cual se transmiten los impulsos desde los países más avanzados hacia las economías en desarrollo.
+
+A partir de la crisis global financiera, las economías desarrolladas han experimentado importantes cambios que afectan sobre todo a la esfera real de la actividad económica. Estos cambios en el entorno en que se inserta la region incluyen, por una parte, un menor dinamismo de la producción, reflejado en una menor tasa de crecimiento del PIB tendencial de las economías desarrolladas, el estancamiento de la formación de capital fijo, la caída abruta del dinamismo del comercio y un aumento sin precedentes en la desigualdad. Estos cambios configuran, en efecto, un nuevo patrón de comportamiento de las economías avanzadas. Para la región esto significa que en el mediano plazo el foco de los posibles riesgos pasan del sector financiero al real.
+
+Revisemos algunos datos que ilustran estos cambios. 
+
+En primer lugar tenemos el ralentizamiento general de la actividad económica, que puede resumirse en el comportamiento de los PIB tendeciales. En el período anterior a la gran crisis financiera global, caracterizado por un rápido incremento del precio de los commodities, es decir el quinquenio 2003-2008, la tasa de crecimiento promedio del PIB tendencial de las economías avazadas era 50% mayor al promedio que han mostrado desde el 2010 al 2016 (Ver cuadro 1) y algo muy similar ocurrió al crecimiento promedio con Estados Unidos y China, cuyas tasas de crecimiento cayeron de 2,4% a 1,5% y de 9,4% a 6,6%, respectivamete. 
+
+
+
+```{r table_avg_tg_others, cache=TRUE}
+table_avg_tg_others_data <- avgs_china_usa_ez_g7 %>% 
+  mutate(change_geo_pct = 100 * change_geo/geo_mean_gr_per1) %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo_pct) %>% 
+  filter(!str_detect(eco_id, "Major") )
+
+tg_others_colnames <- c("Región"," 2003-2008 ", " 2010-2016 ", "Caída (%)")
+  
+tbl_be_caption = "Tasas de crecimiento de las economías a nivel mundial (% anual del PIB tendencial)"
+
+foo <- knitr::kable(table_avg_tg_others_data, digits = 1, col.names = tg_others_colnames, caption = tbl_be_caption) %>%
+  add_footnote("Fuente: CEPAL sobre datos IMF, WEO, Abril 2017") 
+
+foo
+```
+
+
+
+Íntimamente ligados a este resultado tenemos un virtual estancamiento de la inversión y de la productividad en los países desarrollados. Por ejemplo, si tomamos el caso de los Estados Unidos vemos que la productividad media del trabajo aumentó en la década de los noventa. Esta pasó de  1.7% y 3.1% en promedio para 1990-1995 y 1996-2000 para luego disminuir por debajo de 1% en la década de los noventa y mantenerse en torno a 1% entre 2010-2015. Por su parte tanto la Zona Euro como el resto de las economías industrializadas registran una clara disminución en la tasa de crecimiento de la productividad en los noventa (Cuadro  2).
+
+A  nivel más específico del sector manufacturero también se nota una pérdida de productividad en las economías más desarrolladas. La tasa de crecimiento anual del producto por hora para un conjunto de economías desarrolladas baja de 4.8%  a 1.5% entre 1998-2006 y 2010-2014. Una evolución similar se registra para el producto por trabajador: 4.7% y 1.4% para el mismo periodo. 
+
+
+En cambio en el caso de las economías en desarrollo se nota un claro aumento de la productividad entre la década de los noventa y los 2000. Este aumento se explica, en gran medida, por el desempeño de China e India. China e India más que duplicaron el crecimiento de la productividad entre la segunda mitad de la década de los noventa y los 2000. Por su parte Asia en desarrollo (sin China e India), Medio Oriente y África del Norte y América Latina mostraron un estancamiento en el crecimiento de la productividad.
+
+
+
+```{r tbl_productividad_eco_desa, cache=TRUE}
+tbl_prod_world_data <- ted_emplo_prod_avg_90_95_96_00$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("1990-1999" = geo_mean_gr_per1, 
-         "2000-2005" = geo_mean_gr_per2) %>% 
-  left_join(wb_privcred2gdp_regions_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  rename("1990-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_01_06_07_09$avgs_df, by = "eco_id") %>% 
   select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
-  rename("2007-2009" = geo_mean_gr_per1, 
-         "2010-2015" = geo_mean_gr_per2)
-  
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(ted_emplo_prod_avg_07_09_10_16$avgs_df, by = "eco_id") %>% 
+  select(1:5,  geo_mean_gr_per2) %>% 
+  rename("2010-2016" = geo_mean_gr_per2)
 
-wb_privcred2gdp_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
-                            "2007-2009", "2010-2015")
+period_esteban_colnames <- c("Región", "1990-1995 ", "1996-2000",
+                            "2001-2006", "2007-2009", "2010-2016")
 
-wb_privcred2gdp_regions_caption = "Tasa de crecimiento anual de Credito/PIB"
+eco_desa_id <- c("Euro Area", "United States", "Other Mature Economies")
 
-wb_privcred2gdp_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
-             col.names = wb_privcred2gdp_regions_colnames,
-             caption = wb_privcred2gdp_regions_caption) %>% 
-  add_footnote("Source: WB")
+tbl_prod_eco_desa_data <- tbl_prod_world_data %>% 
+  filter(eco_id %in% eco_desa_id)
 
-wb_privcred2gdp_regions_tbl
+tbl_eco_desa_caption = "Crecimiento de la productividad, economías desarrolladas"
 
-```
+tbl_eco_desa <- knitr::kable(tbl_prod_eco_desa_data, digits = 1,
+             col.names = period_esteban_colnames , caption = tbl_eco_desa_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos Conference Board, 2016")
 
-Respecto del componente cíclico que del crédito, es interesante observar lo que ocurre en el siguiente cuadro 
-que se construye a partir de una medida de brecha de crédito respecto a su tendencia de largo plazo, por el BIS
-
-
-```{r tbl_creditgap}
-tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
-  select(eco_id, mean_per1, mean_per2) %>% 
-  rename("1990-1999" = mean_per1, 
-         "2000-2006" = mean_per2) %>% 
-  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
-  select(1:3, mean_per1, mean_per2) %>% 
-  rename("2007-2009" = mean_per1, 
-         "2010-2015" = mean_per2)
-  
-
-bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
-                            "2007-2009", "2010-2015")
-
-bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
-
-bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
-             col.names = bis_cr_gap_notlac_regions_colnames,
-             caption = bis_cr_gap_notlac_regions_caption) %>% 
-  add_footnote("Source: BIS")
-
-bis_cr_gap_notlac_regions_tbl
-
+tbl_eco_desa
 ```
 
 
-Finalmente, en la medida de que las tasas de política monetaria de Estados Unidos, la Zona del euro y Japón se normalicen paulatinamente en los próximos años, debiéramos ver un encarecimiento del financiamiento, pero de todos modos en niveles bajos o moderados comparados con la historia pre-2007.
 
 
 
-### Esto ocurre en un contexto de un marcado aumento de la desigualdad en Estados Unidos y China y de un cambio de rol en las fuentes de ahorro en la economía mundial.
 
-En efecto, junto a una caída global del labor share desde los años 70, toma lugar un cambio de rol entre el ahorro de los hogares, que medido como fracción del PIB mundial, cae entre 1980 y 2014 a casi la mitad de su nivel y por por otro lado el ahorro corporativo que aumenta a casi el doble en igual período. Ver al respecto Peter Chen, Loukas Karabarbounis, Brent Neiman, NBER 2017. 
+```{r tbl_productividad_eco_emerg}
+eco_emerg_id <- c("China", "India", "Emerging Markets and Developing Economies",
+                  "Latin America", "Other Developing Asia",
+                  "Middle East & North Africa" , "Sub-Saharan Africa",
+                  "Russia, Central Asia and Southeast Europe")
 
-Respecto a las dinámicas de distribución del ingreso, Zucman y Alvaredo ( AER 2017, Papers and Porceedings) usando datos de la World Income  and Wealth Database, calculan  que el income share del 1% de ingresos más altos de Estados Unidos pasó del 11% al 20% entre los años 1978 y 2014, al tiempo que el income share del 50% más pobre caía desde un 20% del ingreso nacional a tan solo 11% en 2014. Es decir, el 1% comienza representando la mitad del los igreso del 50% superior y termia duplicándolos. China, por su lado, muestra una tendencia similar, donde el income share del 1% más alto pasa de 6% a 13% en igual período y el income share del 50% más pobre comienza en casi 28% en 1978 y termina estabilizandose alrededor del 15% del ingreso nacional en la última década, es decir el sector de ingresos más altos pasa de representar menos de la cuarta parte de ingresos de la mitad más pobre a práctivamente igualarlos.
+tbl_prod_eco_emerg_data <- tbl_prod_world_data %>% 
+  filter(eco_id %in% eco_emerg_id)
+
+tbl_eco_emerg_caption = "Crecimiento de la productividad, economías emergentes"
+tbl_eco_emerg <- knitr::kable(tbl_prod_eco_emerg_data, digits = 1,
+             col.names = period_esteban_colnames , caption = tbl_eco_emerg_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos Conference Board, 2016")
+
+tbl_eco_emerg
+```
+
+
+
+
+
+El estancamiento de la inversión en esta década se resume en que la razón Inversión/Producto, a nivel del agregado mundial,  apenas aumentó 0,5% al año en este nuevo período, prácticamente la mitad de lo que aumentó en el quinquenio 2001-2006, fenómeno que se repite en el conjunto de las economías avanzadas. Peor es la situación de la zona del conjunto de las economías emergentes y en desarrollo, que no pudieron manter su tasa de crecimiento anterior y la situación de la zoa del Euro y de América Latina y el Caribe, que no han podido mantener ya no la tasa de crecimiento si no si siquiera los niveles de Inversión/PIB. Otro fenómeno interesante que exhibe la formación de capital en este período y que se discute con mayor detalle  en el Box.1, se refiere al papel que juegan sus determinantes:  son los beneficios económicos los que  juegan un papel clave en el corto plazo y más heterogeneamente en el largo plazo, con mayor intensidad al efecto que puedan tener las políticas monetarias que influencian la tasa de interés real. Finalmente, otro antecedente importante al respecto lo aporta el cambio de largo plazo que ha tomado en el mundo la composición del ahorro y que parece continuar o al menos estabilizarse en este período: desde los años ochentas el ahorro ha ido pasando de ser un fenómeno de los hogares a uno de las empresas. En efecto, mientras el ahorro total como fracción del PIB no ha variado mucho desde 1980, en aquel entonces la mayoría provenía de los hogares, mientras que a partir del 2010 dos terceras partes del ahorro proviene de las empresas, son los nuevos acreedores netos, ahorro que en una buena proporción no se tradujo en formación de capital fijo si no en compra de activos financieros, notablemente en efectivo y en recompras accionarias (Peter Chen, Loukas Karabarbounis, and Brent Neiman, 2017). Un fenómeno relacionado con esta tendencia es la mayor participación del capital y la correspodiente caída de la porción del ingreso que percibe el factor trabajo, cambio distributivo  que ayuda a explicar el aumento en la desigualdad de ingresos totales a las que nos referimos más abajo.
+
+En efecto, otra tendencia de mediano o largo plazo que se ha profundizado en este nuevo período es el aumento en la desigualdad en el mundo desarrollado, que comienza en los 1970s pero que toma fuerza en las últimas dos décadas, especialmente en las economías avanzadas anglosajonas (Estados Unidos, Reino Unido, Canadá y Australia). Respecto a las dinámicas de distribución del ingreso, Zucman y Alvaredo ( AER 2017, Papers and Proceedings) usando datos de la World Wealth and Income Database, calculan  que la fracción del ingreso nacional que percibe el 1% de ingresos más altos de Estados Unidos se duplicó entre 1978 y 2014 (de 11% a 20%) al tiempo que la participación en el ingreso del 50% más pobre caía casi a la mitad en igual período (de 20% de a 12%). China, en el mismo período, muestra una tendencia similar, donde el 1% más de ingresos más altos  más que duplica su participación (pasa de 6% a 13% del ingreso nacional) mientras que las participación del 50% más pobre cae a dos tercios de su nivel de 1978, desde un  28%  a un 15%: si antes como grupo superaba cuatro veces al 1% más rico, ahora están prácticamente empatados. Francia, por su parte, que de acuerdo a Zucman y Alvaredo es en términos gruesos de Europa continental occidental, tiene un aumento más leve de la desigualdad porque por un lado la fracción que se lleva el 50% más pobre no ha caído y la fracción que se lleva el 1% más rico si bien ha aumentado, el aumento es mucho menor al que se observa en China y Estados Unidos: el grupo de ingresos más altos eleva su participación del 8% al 11%, y el grupo de ingresos más bajos se mantiene alrededor del 22%.
+
+
+
+
+```{r tbl_weo_gfcf_gr_regions}
+
+tbl_weo_gfcf_gr_regions_data <- weo_gfcf_to_gdp_regions_90_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1991-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_gfcf_to_gdp_regions_01_06_07_09$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2006" = geo_mean_gr_per1, 
+         "2007-2009" = geo_mean_gr_per2) %>% 
+  left_join(weo_gfcf_to_gdp_regions_07_09_10_16$avgs_df, by = "eco_id") %>% 
+  select(1:5,  geo_mean_gr_per2) %>% 
+  rename("2010-2016" = geo_mean_gr_per2) %>% 
+  filter(eco_id %in% c("World", "Advanced economies", "Emerging market and developing economies",
+                       "Latin America and the Caribbean", "Euro area"))
+
+weo_gfcf_regions_colnames <- c("Región", "1991-1995 ", "1996-2000",
+                            "2001-2006", "2007-2009", "2010-2016")
+
+weo_gfcf_regions_caption = "Tasa de crecimiento anual de Formación de capital/PIB"
+
+table_weo_gfcf_gr_regions <- knitr::kable(tbl_weo_gfcf_gr_regions_data , digits = 1,
+             col.names = weo_gfcf_regions_colnames,
+             caption = weo_gfcf_regions_caption) %>% 
+  add_footnote("Fuente: IMF, Abril, 2017")
+
+table_weo_gfcf_gr_regions
+
+```
+
+
+
+
+A diferencia del declive tendencial que muestra la tasa de crecimiento del producto y de la inversión a partir de la década de los setenta, el comercio mantuvo hasta el inicio de la Crisis Global Financiera (2007-2009) un elevado dinamismo.   No obstante desde entonces también ha mostrado señales de desaceleración. La evidencia disponible desde 1990 hasta  2016 muestra que la tasa de crecimiento del comercio a nivel mundial pasó, en promedio, de  7.3% en la década de los noventa a  4.5% en los 2000. 
+
+
+La desaceleración del comercio afecta sobre todo a las economías avanzadas y en menor medida al mundo en desarrollo. En su conjunto las exportaciones para las economías industrializadas han disminuido en promedio de 6%-7% en la década de los 90 a  menos de 4% en la década de los 2000. La desaceleración del comercio afecta con una intensidad similar a la mayor parte de las economías avanzadas.
+
+
+Contrariamente, en el caso de las economías en desarrollo la intensidad de la desaceleración es heterogénea. La desaceleración del comercio se concentra en América Latina y el Caribe y África y Medio Oriente más que en Asia   (me falta el dato de Europa del Este y Asia Central) (Cuadro 5)
+
+
+
+
+```{r tbl_trade_x_eco_desa}
+
+tbl_trade_gr_data_world <- weo_trade_pct_ch_world_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_trade_pct_ch_world_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_trade_pct_ch_world_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, "World" = "Comercio mundial"))
+
+
+tbl_x_gr_data_world <- weo_x_pct_ch_world_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_world_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_world_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, "World" = "Exportaciones mundiales"))
+
+
+tbl_x_gr_data_eco_desa <- weo_x_pct_ch_desa_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_desa_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_desa_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, 
+                         "Japan" = "Japón",
+                         "Advanced economies" = "Economías avanzadas",
+                         "United States" = "Estados Unidos",
+                         "Other advanced economies (Advanced economies excluding G7 and euro area)" = "Otras economías avanzadas"))
+
+
+tbl_x_gr_data_eco_emerg <- weo_x_pct_ch_emerg_92_95_96_00$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-1995" = geo_mean_gr_per1, 
+         "1996-2000" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_emerg_01_07_08_11$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2001-2007" = geo_mean_gr_per1, 
+         "2008-2011" = geo_mean_gr_per2) %>% 
+  left_join(weo_x_pct_ch_emerg_92_00_01_16$avgs_df, by = "eco_id") %>% 
+  select(1:5, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1992-2000" = geo_mean_gr_per1, 
+         "2001-2016" = geo_mean_gr_per2) %>% 
+  mutate(eco_id = recode(eco_id, 
+                         "Latin America and the Caribbean" = "América Latina y el Caribe",
+                         "Emerging market and developing economies" = "Economías emergentes y en desarrollo",
+                         "Emerging and developing Asia" = "Asia emergente y en desarrollo",
+                         "Middle East and North Africa" = "Medio Oriente y Norte de África"))
+
+big_trade_x_table_data <- tbl_trade_gr_data_world %>% 
+  bind_rows(tbl_x_gr_data_world) %>% 
+  bind_rows(tbl_x_gr_data_eco_desa) %>% 
+  bind_rows(tbl_x_gr_data_eco_emerg) %>% 
+  filter(!eco_id %in% c("Japón", "Otras economías avanzadas"))
+
+
+  
+trade_x_colnames <- c("", "1992-1995", "1996-2000", "2001-2007", "2008-2011", "1992-2000", "2001-2016")
+
+tbl_trade_x_caption = "Crecimiento de las exportaciones, regiones seleccionadas"
+
+tbl_trade_x <- knitr::kable(big_trade_x_table_data, digits = 1,
+             col.names = trade_x_colnames , caption = tbl_trade_x_caption) %>% 
+  add_footnote("Fuente: CEPAL sobre datos IMF, Abril, 2017")
+
+tbl_trade_x 
+
+```
+
+La desaceleración del comercio responde en parte a factores de carácter cíclico pero también se explica por razones de carácter estructural tal y como lo indica el hecho que el comercio se ha vuelto menos sensible a los cambios en el ingreso. Esto se ejemplifica la disminución de la elasticidad de largo plazo de las exportaciones global con respecto a la producción mundial. 
+
+La evidencia disponible para el periodo 1990-2015 muestra que la elasticidad de largo plazo del índice de volumen de las exportaciones respecto a la producción industrial del mundo disminuyó de 2 entre 1991-2000 a 1.7 entre 2002-2008 a 1.0 entre el 2010 y el 2015 (Figura 7). A nivel regional se produce el mismo fenómeno. Las estimaciones para la elasticidad ingreso de las exportaciones de América Latina con respecto al ingreso de las economías avanzadas y Asia emergente también muestra una disminución en el periodo 1991-2015.
+
+Estimaciones de la descomposición de la elasticidad a nivel de grupos de producto muestra que la caída de la elasticidad se explica por la disminución de la elasticidad de manufacturas. La elasticidad de importaciones de largo plazo para las manufacturas disminuyó de 2.6 entre 1986-2000 a 0.8 para el periodo 2001-2013 ^[Nota: Las elasticidades del volumen de importaciones y exportaciones respecto al índice de producción industrial ponderado por producción fueron obtenidas mediante el test de cointegración de Johansen, siendo las series mencionadas integradas del mismo orden.  La fuente de los datos fueron las series trimestralizadas de CPB World Trade Monitor (incluyendo dato de abril 2015).  Los números de rezagos óptimos de los modelos fueron escogidos en función de los criterios de información Akaike y Schwarz. .* Datos al primer trimestre.
+Fuente: CEPAL en base a CPB World Trade Monitor		
+]
+
+Figura: XYZ
+![Elasticidad largo plazo exportaciones mundiales a produccion industrial](elast_lp_expo_mund_prod.png)
+
+
+
+
+Figura: XYZ2
+![Elasticidad largo plazo exportaciones LAC a produccion industrial e EAs y Asia](elast_lp_lac_ae_asia.png)
+
+La caída de la elasticidad del comercio con respecto al ingreso responde a dos conjuntos de factores. En primer lugar, cabe destacar el cambio en la composición de la demanda agregada mundial y los determinantes del crecimiento global. Los distintos componentes de la demanda agregada mundial tienen distintas intensidades comerciales. Tanto en cuanto la disminución de la tasa de crecimiento a nivel mundial se explica por los componentes de la demanda agregada con un mayor contenido de comercio como es el caso de la inversión, una baja en el PIB mundial tendrá un mayor efecto en el comercio que una baja en el los componentes de la demanda agregada que son menos intensivos en comercio. 
+
+
+En segundo lugar se ha producido una ralentización del crecimiento de las cadenas de valor a nivel mundial. La evidencia disponible muestra que la razón del valor añadido externo al valor añadido interno para las exportaciones mundiales aumentó en 8.4 puntos porcentuales entre 1995-2005 y en sólo 2.5 puntos porcentuales para el periodo 2005-2012.  Una forma alternativa de medir esto es a través del crecimiento del comercio de bienes intermedios que según las últimas estimaciones disponibles se ha estancado (Figura 11).
+
+![composicion importaciones](composicion_importanciones.png)
+
+
+Dado que la elasticidad de nuestras exportaciones ante cambios en el  producto mundial no ha aumentado y que  el crecimiento externo potencial se visto notablemente enlentecido, un aumento veloz del producto regional vía exportaciones, aparece como improbable en esta nueva normalidad.
+
+
+
+#### Box 1. Determinantes de la inversión real: el papel de los beneficios
+
+Este ejercicio empírico estima el impacto de distintas variables macro-económicas sobre la inversión en Estados Unidos, Francia y Canadá, utilizando  vectores auto-regresivos estructurales sobre datos trimestrales expresados en logaritmo ^[Las variables de tasas de interés se dejaron expresadas como porcentaje y las importaciones de bienes de capital se dejaron como índice (2009=100).] . Adicionalmente, se estimó la relación de causalidad a largo plazo entre inversión y beneficios mediante un modelo de corrección de errores. Dada la restricción que impone la disponibilidad de información, la presente estimación comprende el periodo que va desde el primer trimestre de 1990 (1990-Q1) al cuarto trimestre de 2014 (2014-Q4) para Estados Unidos, desde el tercer trimestre de 1992 (1992-Q3) al segundo trimestre de 2016 (2016-Q2) para Canadá, y desde el primer trimestre de 1999 (1999-Q1) al primer trimestre de 2015 (2015-Q1) para Francia.
+
+Las variables utilizadas en el modelo fueron seis, cuatro de ellas (‘’Term Spread’’ (diferencial entre tasas cortas y largas), ‘’Investment’’ (formación bruta de capital fijo no residencial), ‘’Profits’’ (beneficios operacionales no financieros) y ‘’Credit’’ (crédito total a entidades no financieras)) siguen la estructura del artículo de Banjeree et. al (2015), mientras que las otras dos (Tasa de política monetaria (TPM) – Tasa de interés interbancaria para el caso de Francia – e importación de bienes de capital (Imports)) son adiciones de la presente estimación. Para Estados Unidos, estas dos últimas fueron obtenidas del International Finance Statistics (IMF) y el Federal Reserve Bank of St. Louis ^[Para Estados Unidos, las importaciones consideradas son bienes de capital (excepto del sector automotor) – de acuerdo al criterio del FRED; expresados en un índice – no en logaritmo – donde 2009 = 100. La serie es trimestral y desestacionalizada.] , respectivamente. Para Canadá, la importación de bienes de capital se construyó consultando a Statistics Canada ^[Para Canadá, las importaciones que se consideraron como bienes de capital fueron obtenidas del sistema de clasificación NAPCS (North American Product Classification System), en valores reales. Lamentablemente no se encontró la tabla BEC que realiza la separación directa entre bienes de capital y consumo, al menos no para datos trimestrales ni mensuales. Tampoco se encontraron tablas de equivalencia entre el sistema BEC y NAPCS, sin embargo, se utilizó la equivalencia BEC - HS para aproximarse a dicha separación y realizarla manualmente en base al sistema NAPCS.] , y para Francia, la Federal Reserve Bank of St. Louis (FRED) y Eurostat  ^[Para Francia, las importaciones consideradas son bienes de capital y bienes intermedios – de acuerdo al criterio de Eurostat (NACE rev. 2); expresados en un índice – no en logaritmo – donde 2010 = 100. La serie original es mensual y no desestacionalizada, por lo que se tomó el promedio simple de cada tres meses para transformarla a una serie trimestral. ] se utilizaron como fuentes para ambas variables. 
+
+Guiándonos por las funciones de impulso-respuesta, encontramos –para los tres países analizados-- un impacto positivo de las utilidades sobre el nivel de inversión. Por el contrario, la política monetaria, por medio de la Tasa de Política Monetaria o la diferencia entre las tasas cortas y largas (‘’Term Spread’’), al igual que el acceso al crédito, no encuentran un efecto estadísticamente significativo sobre los niveles de inversión. Francia, por su parte, muestra un resultado contra intuitivo, en el que la tasa de interés interbancaria es la única variable de tasa de interés que parece influir sobre la inversión, pero de forma positiva y recién desde el segundo periodo ^[Una posible explicación es que el modelo SVAR no logre distinguir la doble causalidad entre ambas variables.] .
+
+Finalmente, encontramos un efecto negativo de los choques a las importaciones de bienes de capital sobre la inversión para el caso de Estados Unidos y Francia, pero positivo para Canadá.  
+
+En cuanto a la relación entre inversión y beneficios a largo plazo, observamos que el modelo de vector de corrección de errores nos entrega una relación de causalidad temporal unidireccional, desde beneficios hacia inversión para Estados Unidos, mientras que para el caso de Francia y Canadá la relación causal de largo plazo es inversa: esta va de inversión a beneficios. 
+
+En conclusión, la evidencia se inclina por un efecto positivo y significativo por parte de los beneficios sobre la inversión, al menos en el corto plazo. Las variables de política monetaria y el acceso al crédito, por otro lado, no presentan un impacto significativo sobre la inversión, al menos no para el periodo analizado. Finalmente, dado el efecto negativo de las importaciones sobre la inversión para los casos de Estados Unidos y Francia, podríamos pensar que la importación de bienes de capital sustituye a la inversión bruta de capital fijo en estos países, mientras que en Canadá podría darse el caso de una posible complementariedad entre ambas.
+
+USA:
+![IRF USA investment](irf_usa.png)
+
+
+Canadá:
+![IRF Canada investment](irf_canada.png)
+
+
+Francia:
+![IRF Francia investment usa](irf_francia.png)
+
+USA:
+![inversion beneficios crecimiento usa](beneficios_inversion_usa.png)
+
+
+Canadá:
+![inversion beneficios crecimiento canada](beneficios_inversion_canada.png)
+
+
+
+Francia:
+![inversion beneficios crecimiento francia](beneficios_inversion_francia.png)
+
+
+```{r correlation_matrices_from_esteban}
+
+cor_tasas_crec_usa = data.frame( inversion = c(1, 0.275365029), 
+                                 beneficios = c(0.275365029, 1), 
+                                 row.names = c("inversion", "beneficios") )
+
+cor_tasas_crec_canada = data.frame( inversion = c(1, 0.414469), 
+                                 beneficios = c(0.414469, 1), 
+                                 row.names = c("inversion", "beneficios") )
+
+
+cor_tasas_crec_francia = data.frame( inversion = c(1, 0.73079889), 
+                                 beneficios = c(0.73079889, 1), 
+                                 row.names = c("inversion", "beneficios") )
+
+
+correlations_i_b <- data.frame( Estados_Unidos = c(0.275365029), 
+                                Canada = c(0.414469), 
+                                Francia = c(0.73079889) ,
+                                row.names = c("crecimiento inversión vs. crecimiento beneficios"))
+
+correlations_i_b
+```
+
+
+
+xxxxxxxxxx
+
+xxxxxxxxxx
+
+xxxxxxxxxx
+
+
+
+
 
 
 
@@ -1514,70 +1226,12 @@ La situación de la deuda corporativa es bastante similar a la de los hogares, c
 
 
 
-
-### Nuevo 1: distribucion ingreso
-
-
-de Zucman 2017
-
-```{r income_distrib}
-load("../produced_data/wb_income_share_decile_10")
-load("../produced_data/cepalstat_q5_to_q1")
-
-q5toq1_lac18 <- cepalstat_q5_to_q1_tidy %>% 
-  filter(iso3c %in% cepal_18_countries[["iso3c"]])
-
-q5toq1_cardm <- cepalstat_q5_to_q1_tidy %>% 
-  filter(iso3c %in% cardm_countries[["iso3c"]])
-
-q5toq1_sa <- cepalstat_q5_to_q1_tidy %>% 
-  filter(iso3c %in% sa_countries[["iso3c"]])
-
-
-share_d10_lac18 <- wb_income_share_decile_10 %>% 
-  filter(iso2c %in% cepal_18_countries[["iso2c"]])
-
-share_d10_cardm <- wb_income_share_decile_10 %>% 
-  filter(iso2c %in% cardm_countries[["iso2c"]])
-
-share_d10_sa <- wb_income_share_decile_10 %>% 
-  filter(iso2c %in% sa_countries[["iso2c"]])
-
-
-```
-
-```{r plot_income_dist_q5q1}
-plot_q5q1_sa <- q5toq1_sa %>% 
-  filter(year >= 2000) %>% ggplot(aes(x = year, y = q5_to_q1)) + 
-  geom_line(aes(group = iso3c, color = iso3c))
-
-plot_q5q1_cardm <- q5toq1_cardm %>% 
-  filter(year >= 2000) %>% ggplot(aes(x = year, y = q5_to_q1)) + 
-  geom_line(aes(group = iso3c, color = iso3c))
-
-plot_q5q1_sa
-plot_q5q1_cardm
-
-```
-
-foo
-
-
-```{r plot_income_dist_d10sh}
-plot_d10sh_sa <- share_d10_sa %>% 
-  filter(date >= 2000) %>% ggplot(aes(x = date, y = value)) + 
-  geom_line(aes(group = iso2c, color = iso2c))
-
-plot_d10sh_cardm <- share_d10_cardm %>% 
-  filter(date >= 2000) %>% ggplot(aes(x = date, y = value)) + 
-  geom_line(aes(group = iso2c, color = iso2c))
-
-plot_d10sh_sa
-plot_d10sh_cardm
-
-```
-
-foo2
+### deuda hogares to merge with credit
+2.	Deuda de hogares en LAC
+La evidencia disponible, reciente y para relativamente pocos países,  muestra  elevados niveles de endeudamiento de los hogares en Chile y Brasil, que han venido al alza al menos desde el año 2006, tendencia al aumento que es compartida por México y Colombia, aunque en estos últimos los niveles de deuda son relativamente bajos.
+ En Brasil (ver IMF 2016, Article IV Consultation) la deuda promedio de los hogares, como porcentaje de su ingreso disponible, se duplicó en diez años, desde 21% en el 2006 a 42% en el 2016, mientras que el servicio de la deuda del hogar promedio aumentó de 15% a 22% de su ingreso disponible. Aunque no hay de momento un fenómeno extendido de morosidad, si se anotó durante el 2016 un pequeño aumento en la cartera vencida de grupos específicos de deudores. En el caso de  Chile, el Banco Central nota que  en los últimos años el endeudamiento de los hogares ha aumentado moderada pero persistentemente, desde representar en promedio un 50% del ingreso disponible en el 2006 a un 65% en el 2016. El servicio promedio de la deuda se ha estabilizado en torno a un  15% del ingreso durante el mismo período, lo no ha generado mayores tensiones financieras, pero advierte que esta relativamente baja carga financiera está influída por las inusualmente bajas tasas de interés vigentes en el último lustro. 
+Menos intenso es el panorama en Colombia y México. Durante el 2015, la deuda promedio de los hogares, como porcentaje de su ingreso disponible, pasó de 28% a 32% en Colombia y el servicio promedio de la deuda aumentó ligeramente de 9% a 9.5% del ingreso disponible. Finalmente, para México, los datos disponibles señalan que en entre el 2010 y  el 2015 la deuda promedio de los hogares pasó de representar  un 18,4% del ingreso disponible a un 21,7%. Para el 2016  no habían datos comparable, pero en términos de fracción del PIB la deuda, a Junio del 2016,  había aumentado  desde 15%  a 16% (IMF country report 16/361, Fig 4a).
+.
 
 
 ### Nuevo 2: terms of trade
@@ -1594,22 +1248,87 @@ cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>%
 
 cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
   filter(iso3c %in% sa_countries[["iso3c"]])
+
+
+cstats_tot_cardm_avgs <- cstats_tot_cardm %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end2 = 2014, this_region_name = "CARDM")
   
+
+cstats_tot_sa_avgs <- cstats_tot_sa %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end2 = 2014, this_region_name = "SA")
+
+
+
+cstats_tot_cardm_avgs_03_11_14 <- cstats_tot_cardm %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2014, this_region_name = "CARDM")
   
+
+cstats_tot_sa_avgs_03_11_14 <- cstats_tot_sa %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2014, this_region_name = "SA")
+
+
+
 ```
 
 
 ```{r tot_wb}
 load("../produced_data/tot_wb_data")
 
-wb_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+wb_tot_lac18 <- wb_tot_y2000_100 %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]])
 
-wb_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% cardm_countries)
+wb_tot_cardm <- wb_tot_y2000_100  %>% 
+  filter(iso2c %in% cardm_countries[["iso2c"]])
 
-wb_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% sa_countries)
+wb_tot_sa <- wb_tot_y2000_100  %>% 
+  filter(iso2c %in% sa_countries[["iso2c"]])
+
+
+wb_tot_cardm_avgs <- wb_tot_cardm %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end2 = 2015, this_region_name = "CARDM")
+  
+
+wb_tot_sa_avgs <- wb_tot_sa %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end2 = 2015, this_region_name = "SA")
+
+wb_tot_cardm_avgs_03_11_14 <- wb_tot_cardm %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2015, this_region_name = "CARDM")
+  
+
+wb_tot_sa_avgs_03_11_14 <- wb_tot_sa %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2015, this_region_name = "SA")
   
   
 ```
@@ -1631,6 +1350,100 @@ plot_tot_cepal_cardm
   
 ```
 
+
+```{r plot_tot_wb}
+plot_tot_wb_sa <-  wb_tot_sa %>% 
+  filter(date >= 2000) %>% 
+    ggplot(aes(x = date, y = value)) +
+    geom_line(aes(group = iso2c, color = iso2c))
+  
+plot_tot_wb_cardm <-  wb_tot_cardm %>% 
+  filter(date >= 2000) %>% 
+    ggplot(aes(x = date, y = value)) +
+    geom_line(aes(group = iso2c, color = iso2c))
+  
+plot_tot_wb_sa
+plot_tot_wb_cardm
+  
+```
+
+```{r table_tot_cepal_countries}
+
+table_tot_cepal_sa_countries_data <- cstats_tot_sa_avgs$avgs_df %>% 
+   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2014" = geo_mean_gr_per2) 
+
+table_tot_cepal_cardm_countries_data <-cstats_tot_cardm_avgs$avgs_df %>% 
+   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2014" = geo_mean_gr_per2) 
+
+table_tot_cepal_sa_group <- cstats_tot_sa_avgs$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_cepal_cardm_group <- cstats_tot_cardm_avgs$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_cepal_sa_card_groups <- table_tot_cepal_cardm_group %>% 
+  bind_rows(table_tot_cepal_sa_group) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2014" = geo_mean_gr_per2) 
+
+
+table_tot_cepal_sa_group_03_11_14 <- cstats_tot_sa_avgs_03_11_14$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_cepal_cardm_group_03_11_14  <- cstats_tot_cardm_avgs_03_11_14$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_cepal_sa_card_groups_03_11_14  <- table_tot_cepal_cardm_group_03_11_14 %>% 
+  bind_rows(table_tot_cepal_sa_group_03_11_14) %>% 
+  rename("2003-2011" = geo_mean_gr_per1, 
+         "2011-2014" = geo_mean_gr_per2) 
+
+table_tot_cepal_sa_card_groups
+table_tot_cepal_sa_card_groups_03_11_14
+```
+
+```{r table_tot_wb_countries}
+
+table_tot_wb_sa_countries_data <- wb_tot_sa_avgs$avgs_df %>% 
+   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2015" = geo_mean_gr_per2) 
+
+table_tot_wb_cardm_countries_data <- wb_tot_cardm_avgs$avgs_df %>% 
+   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2015" = geo_mean_gr_per2) 
+
+table_tot_wb_sa_group <- wb_tot_sa_avgs$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_wb_cardm_group <- wb_tot_cardm_avgs$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_wb_sa_card_groups <- table_tot_wb_cardm_group %>% 
+  bind_rows(table_tot_cepal_sa_group) %>% 
+  rename("2003-2008" = geo_mean_gr_per1, 
+         "2010-2015" = geo_mean_gr_per2) 
+
+table_tot_wb_sa_group_03_11_14 <- wb_tot_sa_avgs_03_11_14$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_wb_cardm_group_03_11_14 <- wb_tot_cardm_avgs_03_11_14$group_averages %>% 
+   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2)
+
+table_tot_wb_sa_card_groups_03_11_14 <- table_tot_wb_cardm_group_03_11_14 %>% 
+  bind_rows(table_tot_cepal_sa_group_03_11_14) %>% 
+  rename("2003-2011" = geo_mean_gr_per1, 
+         "2011-2015" = geo_mean_gr_per2) 
+
+table_tot_wb_sa_card_groups 
+table_tot_wb_sa_card_groups_03_11_14 
+
+```
 
 
 ### Antiguo
@@ -2007,13 +1820,6 @@ la desaceleración de la productividad del trabajo se hace más pronunciada cuan
 
 ```{r table_privcred2gdp_lac}
 
-# wb_credit_sa_07_09_10_15            
-# wb_credit_lac18_90_99_00_06 <- wb_credit_lac_18 %>% 
-#   growth_report(start1 = 1990, end1 = 1999, start2 = 2000, end2 = 2006)
-# wb_credit_lac18_90_99_00_06$group_averages["region_name"] <- "LAC-18"
-# 
-# wb_credit_lac18_07_09_10_15
-
 table_privcred2gdp_lac18_data <- wb_credit_lac18_90_99_00_06$group_averages %>% 
   select(region_name, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
   rename("1990-1999" = geo_mean_gr_per1, 
@@ -2086,10 +1892,309 @@ De los cuatro países para los que tenemos esos datos, solamente en Brasil el cr
 
 ##### Page Break in Word
 
+
+
+
+
+#### Precios de commodities disminuyen varianza pero crecen lentamente
+
+
+```{r compute_commodity_price, include=FALSE, cache=TRUE}
+
+# PMETAW, World, Commodity Metals Price Index includes Copper, Alumin, Index, 2005=100
+# PCOPP, World, Copper, grade A cathode, LME spot price, CIF European ... in U.S. dollars 
+# PALLFNFW, World, Commodity Price Index includes both Fuel and Non-Fuel Price Indices, Index, 2005=100
+# POILAPSPW, World, Crude Oil (petroleum), Price index simple average of three spot prices (APSP); Dated Brent, West Texas Intermediate, and the Dubai Fateh, Index, 2005=100
+# 
+# PCOFFW, World, Commodity Coffee Price Index includes Other Mild Arabicas and Robusta,Index, 2005=100
+# PNGASW, World, Commodity Natural Gas Price Index includes European, Japanese, and American Natural Gas Price Indices, Index, 2005=100
+# PNRGW, World, Commodity Fuel (energy) Index includes Crude oil (petroleum), Natural Gas, and Coal Price Indices, Index, 2005=100
+# PVOILW, World, Commodity Vegetable Oil Index includes Soybean, Soybean Meal, Soybean Oil, Rapeseed Oil, Palm Oil, Sunflower Oil, Olive Oil, Fishmeal, and Groundnut Price Indices, Index, 2005=100
+# PFOODW, World, Commodity Food Price Index includes Cereal, Vegetable Oils, Meat, Seafood, Sugar, Bananas, and Oranges Price Indices Index, 2005=100
+
+
+
+weo_commo <- WEOApr2017cepal18_others_long %>% 
+  filter(country == "World") %>% select(weo_subject_code, year, value) %>% 
+  filter(weo_subject_code %in% c("PMETAW", "PCOPP", "PALLFNFW",
+                                 "POILAPSPW", "PCOFFW", "PNGASW",
+                                 "PNRGW", "PVOILW", "PFOODW")) %>% 
+  arrange(weo_subject_code, year) %>%   
+  group_by(weo_subject_code) %>% 
+  mutate(gross_growth = simple_gross_growth(value),
+         date =  ymd(paste0(year,  "-12-31"))) 
+
+
+weo_commo_gr_list <- weo_commo %>% 
+  rename(eco_id = weo_subject_code,
+         date_id = date,
+         voi = value) %>% 
+  growth_report(end2 = 2016)
+
+```
+
+En cuanto al precio de los commodities, si bien es cierto que en todos los grupos de bienes 
+se observa un quiebre en sus trayectorias pre y post 2009 --pasan de crecer vigorosamente a tasas de crecimiento pequeñas o simplemente decrecen-- es en el caso de los hidrocarburos y los metales, donde el freno ha sido más fuerte: mientras que el grupo de los alimentos pasa de crecer desde  11.6% anual a una leve caída anual de 1.6% en el segundo período, para los metales e hidrocarburos la caída es desde tasas de crecimiento 25% promedio anual  a tasas de decrecimeinto cercanas al 7% y 8% promedio al año. 
+
+
+```{r table_comm_price_gr_avg}
+
+selected_comm <- c("PMETAW", "POILAPSPW", "PNGASW", "PFOODW")
+
+table_comm_price_gr_avg_data <- weo_commo_gr_list$avgs_df %>% 
+  filter(eco_id %in% selected_comm) %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+colnames_comm_table <- c("Commodity", "2003-2008", "2010-2016", "Cambio")
+
+
+table_comm_price_gr_avg_data[ , 1] <- c("Food", "Gas", "Metals", "Oil")
+
+tbl_comm_gr_caption = "Growth commodity price indexes (%)"
+
+knitr::kable(table_comm_price_gr_avg_data, digits = 1,
+             col.names = colnames_comm_table, caption = tbl_comm_gr_caption) %>% 
+  add_footnote("Source: Price indexes (2005=100) for each year, from WEO April 2017")
+
+```
+
+##### Page Brake in Word
+
+
+
+### Los flujos financieros han sido más estables, pero sus componentes más volátiles crecen en importancia
+
+
+A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes. 
+
+
+En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
+
+
+
+```{r non_resident_flows}
+load("../produced_data/fin_flows_lac")
+
+gross_inflows_cols <- c("year", "inversion_directa_en_la_economia_declarante",
+                        "pasivos_de_inversion_de_cartera", "pasivos_de_otra_inversion")
+
+gross_inflows_lac17_by_type_y <- fin_flows_long_lac_17_yearly %>% 
+  gather(key = inflow, value = value, -year) %>% 
+  filter(inflow %in% gross_inflows_cols) %>% 
+  group_by(year) 
+
+gross_inflows_lac18_by_type_y <- fin_flows_long_lac_18_yearly %>% 
+  gather(key = inflow, value = value, -year) %>% 
+  filter(inflow %in% gross_inflows_cols) %>%  
+  group_by(year) 
+
+gross_inflows_lac17_by_type_q <- fin_flows_long_lac_17%>% 
+  gather(key = inflow, value = value, -date) %>% 
+  filter(inflow %in% gross_inflows_cols) %>%  
+  group_by(date) 
+
+gross_inflows_lac18_by_type_q <- fin_flows_long_lac_18 %>% 
+  gather(key = inflow, value = value, -date) %>% 
+  filter(inflow %in% gross_inflows_cols) %>% 
+  group_by(date)   
+
+yearly_gross_inflows = ggplot(data = gross_inflows_lac17_by_type_y,
+       aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
+  ggtitle("Flujos de capitales, no-residentes, LAC-17")
+
+quarterly_gross_inflows = ggplot(data = gross_inflows_lac17_by_type_q,
+       aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
+  ggtitle("Flujos de capitales, no-residentes, LAC-17, trimestral")
+
+```
+
+```{r resident_flows}
+load("../produced_data/fin_flows_lac")
+
+net_inflows_cols <- c("year", "net_fdi",
+                        "net_portfolio", "net_other_inversion", "net_other")
+
+net_inflows_lac17_by_type_y <- fin_flows_long_lac_17_yearly %>% 
+  gather(key = inflow, value = value, -year) %>% 
+  filter(inflow %in% net_inflows_cols) %>% 
+  group_by(year) 
+
+net_inflows_lac18_by_type_y <- fin_flows_long_lac_18_yearly %>% 
+  gather(key = inflow, value = value, -year) %>% 
+  filter(inflow %in% net_inflows_cols) %>%  
+  group_by(year) 
+
+net_inflows_lac17_by_type_q <- fin_flows_long_lac_17%>% 
+  gather(key = inflow, value = value, -date) %>% 
+  filter(inflow %in% net_inflows_cols) %>%  
+  group_by(date) 
+
+net_inflows_lac18_by_type_q <- fin_flows_long_lac_18 %>% 
+  gather(key = inflow, value = value, -date) %>% 
+  filter(inflow %in% net_inflows_cols) %>% 
+  group_by(date)   
+
+yearly_net_inflows = ggplot(data = net_inflows_lac17_by_type_y,
+       aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
+  ggtitle("Flujos netos por tipo de capital, LAC-17, anual")
+
+quarterly_net_inflows = ggplot(data = net_inflows_lac17_by_type_q,
+       aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
+  ggtitle("Flujos netos por tipo de capital, LAC-17, trimestral")
+
+```
+
+
+Flujos netos y flujos brutos:
+
+```{r plot_gross_inflows_by_type}
+
+yearly_gross_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
+
+```
+
+
+```{r plot_net_inflows_by_type}
+
+yearly_net_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
+
+```
+
+
+#### Flujos Brutos a la región han sido más estables
+
+
+Otro hecho estilizado de este nuevo período es cierta estabilidad de los flujos financieros a la región, donde los episodios extremos de cambios en los flujos totales de inversion, ya sea netas o brutas, se han vuelto menos frecuentes . ^[Las cifras de esta sección provienen de Klein 2016, que hace un examen de episodios extremos para Brasil, Chile, México y Perú, usando una metodología de XYZ 2012, centrada en flujos "brutos" (efectuados por no-residentes). Así, distingue entre sudden stops y flights --no residentes y residentes-- y entre surges y retrenchments, bajo igual criterio] Por ejemplo, en términos de total gross inflows y total gross outflows, la región exhibe menos episodios extremos comparados con los años 90s --relativamente generosos en sudden stops-- o con el sexenio previo a la crisis financiera global, donde los inflow surges fueron más frecuentes. Similar es el caso de las entradas y salidas netas de capitales: hay menos episodios extremos de salida e igual cantidad de episodios de entradas. ^[Para un análisis de sincronicidad de estos episodios extremos, en base a flujos mensuales netos ver Titelman et al (2014), donde encuetran que en general los sudden stops en la región no afectan a grupos numerosos de países, a excepción de la gran crisis financiera del 2008-2009, episodio que además es el último que encuentran, coincidiendo con Klein 2009 en que sólo un episodio aparece a finales del 2015]
+
+
+Concretamente, usando datos de CEPAL sobre flujos brutos entrantes y salientes (gross inflows y gross outflows) para Brasil, México, Colombia, Chile y Perú -- que representan el 80% de los flujos financieros de la región) [poner referencia] aparece en este período solamente un episodio de sudden stop de gross inflows, específicamente en Colombia entre 2015Q2 y 2016Q2. Ese único caso se puede comparar con los 5 que encontramos en los 2000s previo a la crisis financiera y a los 7 episodios durante los 90s. De todos modos, coincidiendo con los primeros gráficos de esta sección, 2015-2016 fueron años de mayor debilidad de flujos brutos, pues Brasil, y en menor medida México, estuvieron cerca de un sudden stop de flujos brutos totales por primera vez post-crisis financiera.
+
+Cuando consideramos los componentes de los gross inflows, vemos que las reversiones súbitas de este período han sido motivadas más bien por caídas o reversiones en la inversión de cartera, seguido por la IED. En el caso de Colombia, fueron particularmente los *gross inflows de cartera* los que cayeron rápidamente (siendo negativos en el último trimestre de 2015 y constituyendo un sudden stop de esta categoría de inversión) y explican gran parte de la caída de inflows totales. En el mismo período la IED también mostró cierta debilidad pero no tan aguda como la ya señalada.
+
+En el caso mexicano, la disminución de total gross inflows de fines de 2014 a fines de 2015 que se acercó a un sudden stop, también es explicada en mayor medida por una larga y aguda caída de los flujos de cartera (que fueron negativos en 2016:Q2) y por una menos aguda y más breve debilidad de la IED que la precedió.
+
+
+Por lado de los flujos de entrada por no-residentes, después del 2009 vemos sólo dos inflow surges, versus tres en los 90s y siete en los 2000s previos a la crisis financiera global.
+
+```{r gross_ff_episodes_resumen}
+extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx")
+ee_table_data <- extreme_episodes_by_period %>% select(-`prom anual`)
+names(ee_table_data) <- c("Period", "Sudden Stops", "Surges", "Flights", "Retrenchment", "Total")
+tbl_ee_caption <- "Gross Financial flows: Number of extreme episodos"
+  
+knitr::kable(ee_table_data , digits = 1, caption = tbl_ee_caption) %>% 
+  add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
+```
+
+```{r}
+net_extreme_episodes_by_period <- read_excel("../raw_data/extreme_episodes_by_period.xlsx", 
+                                             sheet = "net_data_ee_by_period")
+net_ee_table_data <- net_extreme_episodes_by_period %>% select(-`prom anual`)
+names(net_ee_table_data) <- c("Period", "Sudden Stops", "Surges", "Total")
+net_tbl_ee_caption <- "Net Financial flows: Number of extreme episodos"
+  
+knitr::kable(net_ee_table_data , digits = 1, caption = net_tbl_ee_caption) %>% 
+  add_footnote("Considers episodes for Brasil, Chile, Colombia, Mexico and Peru")
+```
+
+
+#### La liquidez crece a un ritmo moderado pero su precio continuará aumentando en el mediano plazo 
+
+Salvo en el caso de la zona del euro, el crédito interno se ha expandido al mismo ritmo que PIB (Estados Unidos) o de manera un poco más acelerada que el PIB, notablemente en China que incrementado su volumen de crédito interno bastante más rápidamente que su producción. El capítulo sobre aspectos macro-financieros vemos cómo difieren no sólo las tendencias si no también la composición de este nuevo crédito interno entre economías emergentes , donde en las primeras aparece como destinado a alimentar el consumo y   en las últimas a mejorar las hojas de balance, dejando de momento en relativa orfandad a la inversión real y creando un desbalance que pone señales de alerta el mediano plazo. 
+
+En la sección sobre el desempeño de la región, veremos para algunos países, un indicador de posibles ciclos del crédito interno respecto del PIB.
+
+
+```{r tbl_privcred2gdp}
+tbl_privcred2gdp_data <- wb_privcred2gdp_regions_90_99_00_06$avgs_df %>%
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("1990-1999" = geo_mean_gr_per1, 
+         "2000-2005" = geo_mean_gr_per2) %>% 
+  left_join(wb_privcred2gdp_regions_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, geo_mean_gr_per1, geo_mean_gr_per2) %>% 
+  rename("2007-2009" = geo_mean_gr_per1, 
+         "2010-2015" = geo_mean_gr_per2)
+  
+
+wb_privcred2gdp_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+wb_privcred2gdp_regions_caption = "Tasa de crecimiento anual de Credito/PIB"
+
+wb_privcred2gdp_regions_tbl <- knitr::kable(tbl_privcred2gdp_data , digits = 1,
+             col.names = wb_privcred2gdp_regions_colnames,
+             caption = wb_privcred2gdp_regions_caption) %>% 
+  add_footnote("Source: WB")
+
+wb_privcred2gdp_regions_tbl
+
+```
+
+Respecto del componente cíclico que del crédito, es interesante observar lo que ocurre en el siguiente cuadro 
+que se construye a partir de una medida de brecha de crédito respecto a su tendencia de largo plazo, por el BIS
+
+
+```{r tbl_creditgap}
+tbl_creditgap_data <- bis_cr_gap_notlac_avg_lvl_90_99_00_06$avgs_df %>%
+  select(eco_id, mean_per1, mean_per2) %>% 
+  rename("1990-1999" = mean_per1, 
+         "2000-2006" = mean_per2) %>% 
+  left_join(bis_cr_gap_notlac_avg_lvl_07_09_10_15$avgs_df, by = "eco_id") %>% 
+  select(1:3, mean_per1, mean_per2) %>% 
+  rename("2007-2009" = mean_per1, 
+         "2010-2015" = mean_per2)
+  
+
+bis_cr_gap_notlac_regions_colnames <- c("Región", "1990-1999 ", "2000-2006",
+                            "2007-2009", "2010-2015")
+
+bis_cr_gap_notlac_regions_caption = "Componente ciclico de Credito/PIB (% del valor de tendencia)"
+
+bis_cr_gap_notlac_regions_tbl <- knitr::kable(tbl_creditgap_data , digits = 1,
+             col.names = bis_cr_gap_notlac_regions_colnames,
+             caption = bis_cr_gap_notlac_regions_caption) %>% 
+  add_footnote("Source: BIS")
+
+bis_cr_gap_notlac_regions_tbl
+
+```
+
+
+Finalmente, en la medida de que las tasas de política monetaria de Estados Unidos, la Zona del euro y Japón se normalicen paulatinamente en los próximos años, debiéramos ver un encarecimiento del financiamiento, pero de todos modos en niveles bajos o moderados comparados con la historia pre-2007.
+
+
+
+### Esto ocurre en un contexto de un marcado aumento de la desigualdad en Estados Unidos y China y de un cambio de rol en las fuentes de ahorro en la economía mundial.
+
+En efecto, junto a una caída global del labor share desde los años 70, toma lugar un cambio de rol entre el ahorro de los hogares, que medido como fracción del PIB mundial, cae entre 1980 y 2014 a casi la mitad de su nivel y por por otro lado el ahorro corporativo que aumenta a casi el doble en igual período. Ver al respecto Peter Chen, Loukas Karabarbounis, Brent Neiman, NBER 2017. 
+
+Respecto a las dinámicas de distribución del ingreso, Zucman y Alvaredo ( AER 2017, Papers and Porceedings) usando datos de la World Income  and Wealth Database, calculan  que el income share del 1% de ingresos más altos de Estados Unidos pasó del 11% al 20% entre los años 1978 y 2014, al tiempo que el income share del 50% más pobre caía desde un 20% del ingreso nacional a tan solo 11% en 2014. Es decir, el 1% comienza representando la mitad del los igreso del 50% superior y termia duplicándolos. China, por su lado, muestra una tendencia similar, donde el income share del 1% más alto pasa de 6% a 13% en igual período y el income share del 50% más pobre comienza en casi 28% en 1978 y termina estabilizandose alrededor del 15% del ingreso nacional en la última década, es decir el sector de ingresos más altos pasa de representar menos de la cuarta parte de ingresos de la mitad más pobre a práctivamente igualarlos.
+
+
+
+
 ## Anexos (dejar dos o tres tablas, solamente)
 
 
 
+
+```{r gfcf_notlac_table}
+
+colnames_fbcf_table <- c("", "2003-2008", "2010-2015", "Cambio")
+
+gfcf_notlac_table_data <- gfcf_other_list$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+tbl_fbcf_gr_caption_notlac = "Growth Gross Fixed Cap formation, other economies (%)"
+
+wb_notlac_tbl <- knitr::kable(gfcf_notlac_table_data , digits = 1,
+             col.names = colnames_fbcf_table,
+             caption = tbl_fbcf_gr_caption_notlac) %>% 
+  add_footnote("Source: WB")
+
+wb_notlac_tbl
+
+```
 
 ```{r trade_to_gdp_lac}
 trade_to_gdp_lac_data <- openess_lac_list$avgs_df %>% 
