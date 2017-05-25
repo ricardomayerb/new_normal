@@ -1193,12 +1193,33 @@ xxxxxxxxxx
 ## Mecansimos de transmisión hacia la región y el papel de la estructura productiva) . (aka. El nuevo normal de la región: menor dinamismo con heterogeneidad acotada).
 
 
-Este nuevo contexto ha incidido en el desempeño de la región esencialmente a través de canales ligados a variables reales como las  exportaciones y los términos de intercambio, repercutiendo además en la distribución del ingreso. Estas variables que son parte de la estructura productiva de cada economía, están heterogénemente conformadas dentro de la región por los que los efectos del cambio de escenario internacional han sido consecuentemete heterogéneo. Por ejemplo, los países que exportan mayoritariamente manufacturas y tienen como principal socio comercial a Estados Unidos, han experimentado un shock de demanda externa menor y se han desacelerado relativamente poco porque, como vimos en la sección anterior, su recesión ha sido menos intensa que la experimentada por Europa y el cambio de tendencia en sus importaciones ha sido menor al de China. Como la mayoría de estos países se ubican al norte de Colombia, la performance promedio de América Central y México es mejor a la del promedio sudamericano, ya sea en niveles o experimentando menores deterioros en estas variables, ver cuadro XYZ1. Un resumen estadístico de las disimíles trayectorias de las sub regiones, es la tasa promedio de crecimiento de los PIB tendenciales, que en el caso de América Central y México, cae muy poco (de 3,6% en 2003-2008 a 3,4% en 2010-2016) y bastante más en América del Sur (de 4,2% a 2,3% en iguales períodos), inviertiendo de paso el ranking de crecimiento entre ambas. 
-
-En el caso de las exportaciones podemos apreciar con mayor detalle el impacto diferenciado de choque real de demanda externa, cuando vemos la tabla con las exportaciones por países y notamos que los únicos países que lograron acelerar sus exportaciones en este nuevo período son la República Dominicana(48% a USA, oro, insumos medicos, camisetas, cables), México (exporta partes de vehiculos, vehiculos, 74% a USA) y Honduras (58 a USA, textiles, cafe, cables). Y entre las que se desaceleraron, las que menos se desaceleraron fueron Guatemala, EL Salvador, Costa Rica y Panamá, que hoy mantienen altas tasas de crecimiento, a lo que habría que agregar Bolivia como la excepción sudamericana (12% USA, 5% a China, 27% Brasil, 16% Argentina), que practicamente mantuvo su ritmo algo lento pero estable de crecimiento exportador. Por otro lado, todas las economías de América del Sur presentan lás caídas más altas en su crecimiento exportador, dejando a los países con alto porcentaje de comercio con china o exportadores de commodities metálicos o agrícolas entre las con peor performance exportadora,  siendo esta vez Nicaragua la excepción centroamericana.
+Este nuevo contexto ha incidido en el desempeño de la región esencialmente a través de canales ligados a variables reales como las  exportaciones y los términos de intercambio, repercutiendo además en la distribución del ingreso. Estas variables que son parte de la estructura productiva de cada economía, están heterogénemente conformadas dentro de la región por los que los efectos del cambio de escenario internacional han sido consecuentemete heterogéneos. Por ejemplo, los países que exportan mayoritariamente manufacturas y tienen como principal socio comercial a Estados Unidos, han experimentado un shock de demanda externa menor y se han desacelerado relativamente poco porque, como vimos en la sección anterior, su recesión ha sido menos intensa que la experimentada por la zona del Euro y el cambio de tendencia en sus importaciones ha sido menos brusca que en China. Esto ayuda a explicar que la performance promedio de América Central y México sea mejor a la de América del Sur, ya sea en niveles o experimentando menores deterioros. La tasa promedio de crecimiento de los PIB tendenciales, por ejemplo, ha caído muy poco en México y América Central (de 3,6% en 2003-2008 a 3,4% en 2010-2016) y bastante más en América del Sur (de 4,2% a 2,3% en iguales períodos), inviertiendo de paso el ranking de crecimiento tendencial entre ambas. 
 
 
-+  En este ciclo no se han detectado como en ciclos anteriores choques financeros importantes, denominado sudden stops.
+
+El impacto diferenciado del choque de demanda externa se evidencia en las trayectorias de las exportaciones y de los términos de intercambio al interior de la región.  En el caso de las exportaciones,  los únicos países que lograron acelerar sus exportaciones en este nuevo período son México, la República Dominicana  y Honduras, todos países que exportan la mitad o más de su bienes y servicios a Estados Unidos e incluyen entre sus productos principales manufacturas e insumos industriales. Si bien otras economías de similares características sí se desaceleraron (Guatemala, El Salvador, Costa Rica y Panamá), lo hicieron menos que las economías de América del Sur. La excepción sudamericana la constituye Bolivia, pero sus socios comerciales son en primer lugar Brasil y Argentina y no China y Europa. La estructura productiva también ha determinado patrones disímiles en la evolución de los términos de intercambio: comparten una caída común el año 2009, producto de la fuerte caída de la demanda externa, pero mientras que desde el 2000 los promedios de América Central y México los promedios pre y psot crisis son aproximadamente planos, en América del Sur es muy notorio el período de caida de los términos de intercambio a partir del año 2011, luego de un largo ascenso que comenzó aproximadamente el año 2003.
+
+
+```{r table_avg_m_g_other, results=TRUE}
+table_avg_m_g_other_data <- weo_m_growth_other$avgs_df %>% 
+  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
+
+xm_gg_colnames = c(" ", "Imports 2003-2008", "Imports 2010-2016", "Cambio")
+
+tbl_gg_other_caption = "Volume of imports, average period growth (major economies)"
+knitr::kable(table_avg_m_g_other_data, digits = 1,
+             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
+  add_footnote("Source: growth rates for each year from WEO April 2017")
+```
+
+
+A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes, permitiendo que los flujos de capital hacia y desde  la región aumentaron notablemente su volumen y disminuyeron su volatilidad. En particular, en este nuevo período las reversiones súbitas de capital han sido prácticamente inexistentes (a excepcion de Colombia a fines del 2015), lo que constrasta fuertemente con las décadas anteriores a la crisis financiera global.
+
+
+En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
+
+
+
 
 +  Existen elementos para hablar de un boom de crédito y endeudamiento (especialmente Brasil y Chile)
 
@@ -1206,23 +1227,6 @@ En el caso de las exportaciones podemos apreciar con mayor detalle el impacto di
 
 
 
-
-El contexto más restrictivo ha incidido en el desempeño de la región. En primer lugar la mayor parte de los países registra una clara pérdida de dinamismo de su crecimiento de largo plazo (15 de 18 países) y en casi la mitad el promedio anual de crecimiento tendencial cae más de 100 puntos bases.
-
-
-La evidencia muestra que en ambas subregiones la mayoría de los países han perdido impulso en sus productos tendenciales, pero la pérdida de dinamismo es mucho mayor para América del Sur. Mientras la principal economía de la subregión norte, México, mantuvo su ritmo moderado,  las dos economías principales de América del Sur, Brasil y Argentina, tuvieron los frenos más pronunciados de la región, sólo superadas por Venezuela. 
-
-Interesantemente, las cuatro excepciones a este freno (Bolivia, Paraguay, Nicaragua y México) están repartidas entre ambas subregiones geográficas, tienen productos de exportación distintos (hidrocarburos, alimentos y manufacturas) y socios comerciales principales distintos (China y Estados Unidos), por lo que el fenómeno de desaceleración se resiste a un corte demasiado simple en términos geográficos, estructurales o comerciales. Dicho esto, en el caso de México y Nicaragua, es sin duda un factor importante el que Estados Unidos haya padecido una desaceleración menos pronunciada que China o la Unión Europea.
-
-
-
-**Párrafo con deudas de hogares**
-
-La evidencia dispoible muestra signos de un boom de crédito en varios países de la región. Específicamente en Chile y en Brasil ha tenido lugar un rápido y masivo aumento del nivel de 
-deudas de los hogares. En el caso de Brasil la deuda promedio de los hogares, como porcentaje de su ingreso disponible, se duplicó en diez años, con un 21% en el 2006 y 42% en el 2016, con el serivio de la deuda consumiendo un 22% del ingreso disponible. Aunque no hay de momento un fenómeno extendido de morosidad, si se anotó durante el 2016 un pequeño aumento en la cartera vencida de grupos específicos de deudores. Por su lado en Chile, el Banco Central nota que en el los últimos años el endeudamiento de los hogares ha aumentado moderada pero persistentemente de un 50% en el 2006 a 65% en el 2016 y que la razón por la cual el servicio de la deuda, estabilizado en un 15% durante el mismo período, no ha generado mayores tensiones financieras es que las condiciones de interés han sido hasta ahora muy favorables. La contínua falta de dinamismo del ingreso y el prospecto de tasa de interés de largo plazo más altas han puesto en alerta a la autoridad monetaria sobre futuros problemas de morosidad.
-Menos intenso es el panoramo en Colombia y México. Durante el 2016, la deuda promedio de los hogares, como porcentaje de su ingreso disponible , de 28% a 32% en Colombia y el servicio promedio de la deuda aumentó ligeramete de 9% a 9.5% del ingreso dispoible. Los datos dispobibles para México, en tanto, señalan que en 2016 la deuda de los hogares alcanzó un 22% de su igreso disponible.
-
-La situación de la deuda corporativa es bastante similar a la de los hogares, con Brasil mostrando una mayor preocupación por el nivel de apalancamiento y vulnerabilidad financiera de su sector corporativo. En Chile la deuda corporativa promedio como porcentaje del patrimonio ha crecido de 64% a 73% desde el año 2009, en tanto como porcentaje del PIB la deuda no bancaria total alcanza 119%, el nivel más alto por lejos de los países para lso cuales se tienen datos consistentes. Colombia tiene una deuda corporativa moderada, equivalente al 45% de su PIB el 2016, pero es de todos modos un aumento sustantivo desde 30% en el año 2004, cuando comienza una tendencia al alza.
 
 
 
@@ -1642,18 +1646,6 @@ knitr::kable(table_avg_trade_g_world_data, digits = 1,
 ```
 
 
-```{r table_avg_m_g_other, results=TRUE}
-table_avg_m_g_other_data <- weo_m_growth_other$avgs_df %>% 
-  select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
-
-xm_gg_colnames = c(" ", "Imports 2003-2008", "Imports 2010-2016", "Cambio")
-
-tbl_gg_other_caption = "Volume of imports, average period growth (major economies)"
-knitr::kable(table_avg_m_g_other_data, digits = 1,
-             col.names = xm_gg_colnames, caption = tbl_gg_other_caption) %>% 
-  add_footnote("Source: growth rates for each year from WEO April 2017")
-```
-
 
 ```{r table_avg_x_g_other, message=FALSE, warning=FALSE, include=FALSE}
 table_avg_x_g_other_data <- weo_x_growth_other$avgs_df %>% 
@@ -1965,10 +1957,7 @@ knitr::kable(table_comm_price_gr_avg_data, digits = 1,
 ### Los flujos financieros han sido más estables, pero sus componentes más volátiles crecen en importancia
 
 
-A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes. 
 
-
-En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
 
 
 
