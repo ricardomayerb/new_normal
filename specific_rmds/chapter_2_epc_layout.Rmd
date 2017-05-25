@@ -849,6 +849,104 @@ bis_credit_gdp_gap_lac <- cr_gap_bis_gapval %>%
 
 
 
+```{r tot_cepal}
+load("../produced_data/tot_cepal_b2000")
+
+
+cstats_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% cepal_18_countries[["iso3c"]])
+
+cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% cardm_countries[["iso3c"]])
+
+cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
+  filter(iso3c %in% sa_countries[["iso3c"]])
+
+
+cstats_tot_cardm_avgs <- cstats_tot_cardm %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end2 = 2014, this_region_name = "CARDM")
+  
+
+cstats_tot_sa_avgs <- cstats_tot_sa %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end2 = 2014, this_region_name = "SA")
+
+
+
+cstats_tot_cardm_avgs_03_11_14 <- cstats_tot_cardm %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2014, this_region_name = "CARDM")
+  
+
+cstats_tot_sa_avgs_03_11_14 <- cstats_tot_sa %>%
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = Pais,
+         voi = tot_2000) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2014, this_region_name = "SA")
+
+
+
+```
+
+
+```{r tot_wb}
+load("../produced_data/tot_wb_data")
+
+wb_tot_lac18 <- wb_tot_y2000_100 %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]])
+
+wb_tot_cardm <- wb_tot_y2000_100  %>% 
+  filter(iso2c %in% cardm_countries[["iso2c"]])
+
+wb_tot_sa <- wb_tot_y2000_100  %>% 
+  filter(iso2c %in% sa_countries[["iso2c"]])
+
+
+wb_tot_cardm_avgs <- wb_tot_cardm %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end2 = 2015, this_region_name = "CARDM")
+  
+
+wb_tot_sa_avgs <- wb_tot_sa %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end2 = 2015, this_region_name = "SA")
+
+wb_tot_cardm_avgs_03_11_14 <- wb_tot_cardm %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2015, this_region_name = "CARDM")
+  
+
+wb_tot_sa_avgs_03_11_14 <- wb_tot_sa %>%
+  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
+  rename(date_id = date,
+         eco_id = country,
+         voi = value) %>% 
+  growth_report(end1 =  2011, start2 = 2011, end2 = 2015, this_region_name = "SA")
+  
+  
+```
+
+
 ## Un nuevo "patrón de comportamiento" en el mundo desarrollado
 
 
@@ -1213,130 +1311,6 @@ knitr::kable(table_avg_m_g_other_data, digits = 1,
 ```
 
 
-A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes, permitiendo que los flujos de capital hacia y desde  la región aumentaron notablemente su volumen y disminuyeron su volatilidad. En particular, en este nuevo período las reversiones súbitas de capital han sido prácticamente inexistentes (a excepcion de Colombia a fines del 2015), lo que constrasta fuertemente con las décadas anteriores a la crisis financiera global.
-
-
-En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
-
-
-
-
-+  Existen elementos para hablar de un boom de crédito y endeudamiento (especialmente Brasil y Chile)
-
-+ Un análisis de la inversión en la región.
-
-
-
-
-
-
-### deuda hogares to merge with credit
-2.	Deuda de hogares en LAC
-La evidencia disponible, reciente y para relativamente pocos países,  muestra  elevados niveles de endeudamiento de los hogares en Chile y Brasil, que han venido al alza al menos desde el año 2006, tendencia al aumento que es compartida por México y Colombia, aunque en estos últimos los niveles de deuda son relativamente bajos.
- En Brasil (ver IMF 2016, Article IV Consultation) la deuda promedio de los hogares, como porcentaje de su ingreso disponible, se duplicó en diez años, desde 21% en el 2006 a 42% en el 2016, mientras que el servicio de la deuda del hogar promedio aumentó de 15% a 22% de su ingreso disponible. Aunque no hay de momento un fenómeno extendido de morosidad, si se anotó durante el 2016 un pequeño aumento en la cartera vencida de grupos específicos de deudores. En el caso de  Chile, el Banco Central nota que  en los últimos años el endeudamiento de los hogares ha aumentado moderada pero persistentemente, desde representar en promedio un 50% del ingreso disponible en el 2006 a un 65% en el 2016. El servicio promedio de la deuda se ha estabilizado en torno a un  15% del ingreso durante el mismo período, lo no ha generado mayores tensiones financieras, pero advierte que esta relativamente baja carga financiera está influída por las inusualmente bajas tasas de interés vigentes en el último lustro. 
-Menos intenso es el panorama en Colombia y México. Durante el 2015, la deuda promedio de los hogares, como porcentaje de su ingreso disponible, pasó de 28% a 32% en Colombia y el servicio promedio de la deuda aumentó ligeramente de 9% a 9.5% del ingreso disponible. Finalmente, para México, los datos disponibles señalan que en entre el 2010 y  el 2015 la deuda promedio de los hogares pasó de representar  un 18,4% del ingreso disponible a un 21,7%. Para el 2016  no habían datos comparable, pero en términos de fracción del PIB la deuda, a Junio del 2016,  había aumentado  desde 15%  a 16% (IMF country report 16/361, Fig 4a).
-.
-
-
-### Nuevo 2: terms of trade
-
-```{r tot_cepal}
-load("../produced_data/tot_cepal_b2000")
-
-
-cstats_tot_lac18 <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% cepal_18_countries[["iso3c"]])
-
-cstats_tot_cardm <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% cardm_countries[["iso3c"]])
-
-cstats_tot_sa <- term_inter_bs_serv_base_2000_tidy %>% 
-  filter(iso3c %in% sa_countries[["iso3c"]])
-
-
-cstats_tot_cardm_avgs <- cstats_tot_cardm %>%
-  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = Pais,
-         voi = tot_2000) %>% 
-  growth_report(end2 = 2014, this_region_name = "CARDM")
-  
-
-cstats_tot_sa_avgs <- cstats_tot_sa %>%
-  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = Pais,
-         voi = tot_2000) %>% 
-  growth_report(end2 = 2014, this_region_name = "SA")
-
-
-
-cstats_tot_cardm_avgs_03_11_14 <- cstats_tot_cardm %>%
-  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = Pais,
-         voi = tot_2000) %>% 
-  growth_report(end1 =  2011, start2 = 2011, end2 = 2014, this_region_name = "CARDM")
-  
-
-cstats_tot_sa_avgs_03_11_14 <- cstats_tot_sa %>%
-  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = Pais,
-         voi = tot_2000) %>% 
-  growth_report(end1 =  2011, start2 = 2011, end2 = 2014, this_region_name = "SA")
-
-
-
-```
-
-
-```{r tot_wb}
-load("../produced_data/tot_wb_data")
-
-wb_tot_lac18 <- wb_tot_y2000_100 %>% 
-  filter(iso2c %in% cepal_18_countries[["iso2c"]])
-
-wb_tot_cardm <- wb_tot_y2000_100  %>% 
-  filter(iso2c %in% cardm_countries[["iso2c"]])
-
-wb_tot_sa <- wb_tot_y2000_100  %>% 
-  filter(iso2c %in% sa_countries[["iso2c"]])
-
-
-wb_tot_cardm_avgs <- wb_tot_cardm %>%
-  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = country,
-         voi = value) %>% 
-  growth_report(end2 = 2015, this_region_name = "CARDM")
-  
-
-wb_tot_sa_avgs <- wb_tot_sa %>%
-  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = country,
-         voi = value) %>% 
-  growth_report(end2 = 2015, this_region_name = "SA")
-
-wb_tot_cardm_avgs_03_11_14 <- wb_tot_cardm %>%
-  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = country,
-         voi = value) %>% 
-  growth_report(end1 =  2011, start2 = 2011, end2 = 2015, this_region_name = "CARDM")
-  
-
-wb_tot_sa_avgs_03_11_14 <- wb_tot_sa %>%
-  mutate(date =  ymd(paste0(date,  "-12-31"))) %>% 
-  rename(date_id = date,
-         eco_id = country,
-         voi = value) %>% 
-  growth_report(end1 =  2011, start2 = 2011, end2 = 2015, this_region_name = "SA")
-  
-  
-```
-
 
 ```{r plot_tot_cepal}
 plot_tot_cepal_sa <-  cstats_tot_sa %>% 
@@ -1448,6 +1422,58 @@ table_tot_wb_sa_card_groups
 table_tot_wb_sa_card_groups_03_11_14 
 
 ```
+
+
+A la par con estos cambios en el sector real también se han registrado cambios significativos en la institucionalidad del sistema financiero lo cual ha generado cambios en los ciclos de liquidez a nivel mundial. Por un lado, los avances en la implementación de los acuerdos de tercera generación de Basilea, junto a los grandes buffers de reservas internacionales oficiales acumulados por las economías emergentes desde la década anterior, han influido en la mayor estabilidad a los flujos de capitales hacia las economías emergentes, permitiendo que los flujos de capital hacia y desde  la región aumentaron notablemente su volumen y disminuyeron su volatilidad. En particular, en este nuevo período las reversiones súbitas de capital han sido prácticamente inexistentes (a excepcion de Colombia a fines del 2015), lo que constrasta fuertemente con las décadas anteriores a la crisis financiera global.
+
+
+En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
+
+
+
+
++  Existen elementos para hablar de un boom de crédito y endeudamiento (especialmente Brasil y Chile)
+
+
+
+
+
+En toda la región, el período post crisis representa un período de rápida expansión del crédito, pero el fenómeno es más marcado en América del Sur, donde después de los ajustes durante y después de la crisis del sudeste asiático, comenzó un expansión del crédito que ni siquiera se vio desestabilizada por la ocurrencia de la crisis financiera global. 
+
+
+Si vemos el cuadro por países, vemos que Brasil y Chile han tenido ritmos particularmente rápidos de crecimiento del crédito al sector privado, medido como porcentaje del PIB.
+
+Una métrica interesante es separar la trayectoria del crédito (como fracción del PIB) entre un componente tendencial y uno cíclico, esperando distinguir flujos de crédito anormalmente acelerados para la trayectoria 
+histórica de una economía, que pudiera poner en riesgo la recuperación futura de créditos o al menos señalar una rápida saturación del crédito para estimular la demanda.
+
+
+```{r figure_credit_gap_lac_bis, message=FALSE, warning=FALSE}
+
+plot_credigap_lac <- ggplot(bis_credit_gdp_gap_lac,
+                            aes(x = date_id, y = voi, col = eco_id)) 
+plot_credigap_lac <- plot_credigap_lac + geom_line() + geom_hline(yintercept = 0)
+
+plot_credigap_lac
+  
+  
+
+```
+
+De los cuatro países para los que tenemos esos datos, solamente en Brasil el crédito interno está por debajo de lo que indicaría su tendencia de largo plazo, en los casos de Chile y Colombia más de un 10% arriba de su valor de tendencia y en caso de México casi un 10% y con clara tendencia hacia arriba. Más aún, todo parece indicar que comienzan el período post crisis con sectores financieros que bajo esta métrica no estaban sobre calentados, de hecho al comienzo de la crisis global México, Argentina y Chile exhibían niveles de crédito por debajo de lo que su tendencia histórica habría predicho, posiblemente indicando que había aún espacio para expandir el crédito de forma rápida y viene a reforzar el mensaje del cuadro anterior.
+
+
+
+
+### deuda hogares to merge with credit
+2.	Deuda de hogares en LAC
+La evidencia disponible, reciente y para relativamente pocos países,  muestra  elevados niveles de endeudamiento de los hogares en Chile y Brasil, que han venido al alza al menos desde el año 2006, tendencia al aumento que es compartida por México y Colombia, aunque en estos últimos los niveles de deuda son relativamente bajos.
+ En Brasil (ver IMF 2016, Article IV Consultation) la deuda promedio de los hogares, como porcentaje de su ingreso disponible, se duplicó en diez años, desde 21% en el 2006 a 42% en el 2016, mientras que el servicio de la deuda del hogar promedio aumentó de 15% a 22% de su ingreso disponible. Aunque no hay de momento un fenómeno extendido de morosidad, si se anotó durante el 2016 un pequeño aumento en la cartera vencida de grupos específicos de deudores. En el caso de  Chile, el Banco Central nota que  en los últimos años el endeudamiento de los hogares ha aumentado moderada pero persistentemente, desde representar en promedio un 50% del ingreso disponible en el 2006 a un 65% en el 2016. El servicio promedio de la deuda se ha estabilizado en torno a un  15% del ingreso durante el mismo período, lo no ha generado mayores tensiones financieras, pero advierte que esta relativamente baja carga financiera está influída por las inusualmente bajas tasas de interés vigentes en el último lustro. 
+Menos intenso es el panorama en Colombia y México. Durante el 2015, la deuda promedio de los hogares, como porcentaje de su ingreso disponible, pasó de 28% a 32% en Colombia y el servicio promedio de la deuda aumentó ligeramente de 9% a 9.5% del ingreso disponible. Finalmente, para México, los datos disponibles señalan que en entre el 2010 y  el 2015 la deuda promedio de los hogares pasó de representar  un 18,4% del ingreso disponible a un 21,7%. Para el 2016  no habían datos comparable, pero en términos de fracción del PIB la deuda, a Junio del 2016,  había aumentado  desde 15%  a 16% (IMF country report 16/361, Fig 4a).
+.
+
+
++ Un análisis de la inversión en la región.
+### Nuevo 2: terms of trade
 
 
 ### Antiguo
@@ -1857,30 +1883,6 @@ tbl_pricred_lacaggs
 
 
 ```
-
-En toda la región, el período post crisis representa un período de rápida expansión del crédito, pero el fenómeno es más marcado en América del Sur, donde después de los ajustes durante y después de la crisis del sudeste asiático, comenzó un expansión del crédito que ni siquiera se vio desestabilizada por la ocurrencia de la crisis financiera global. 
-
-
-Si vemos el cuadro por países, vemos que tanto México, Brasil y Chile han tenido ritmos particularmente rápidos de crecimiento del crédito al sector privado, medido como porcentaje del PIB.
-
-Una métrica interesante es separar la trayectoria del crédito (como fracción del PIB) entre un componente tendencial y uno cíclico, esperando distinguir flujos de crédito anormalmente acelerados para la trayectoria 
-histórica de una economía, que pudiera poner en riesgo la recuperación futura de créditos o al menos señalar una rápida saturación del crédito para estimular la demanda.
-
-
-```{r figure_credit_gap_lac_bis, message=FALSE, warning=FALSE}
-
-plot_credigap_lac <- ggplot(bis_credit_gdp_gap_lac,
-                            aes(x = date_id, y = voi, col = eco_id)) 
-plot_credigap_lac <- plot_credigap_lac + geom_line() + geom_hline(yintercept = 0)
-
-plot_credigap_lac
-  
-  
-
-```
-
-De los cuatro países para los que tenemos esos datos, solamente en Brasil el crédito interno está por debajo de lo que indicaría su tendencia de largo plazo, en los casos de Chile y Colombia más de un 10% arriba de su valor de tendencia y en caso de México casi un 10% y con clara tendencia hacia arriba. Más aún, todo parece indicar que comienzan el período post crisis con sectores financieros que bajo esta métrica no estaban sobre calentados, de hecho al comienzo de la crisis global México, Argentina y Chile exhibían niveles de crédito por debajo de lo que su tendencia histórica habría predicho, posiblemente indicando que había aún espacio para expandir el crédito de forma rápida y viene a reforzar el mensaje del cuadro anterior.
-
 
 ##### Page Break in Word
 
