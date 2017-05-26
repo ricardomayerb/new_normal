@@ -1029,6 +1029,51 @@ openess_other_list <- trade_wb %>%
 ```
 
 
+
+```{r}
+load("../produced_data/cs_particip_pib_actividad")
+load("../produced_data/cs_particip_x_manuf")
+load("../produced_data/cs_particip_x_primarios")
+
+sector_shares_long <- parti_por_tipo_de_actividad %>% 
+  gather(key = year, value = value, -c(pais, sector) ) 
+
+sector_shares <- sector_shares_long %>% 
+  spread(key = sector, value = value)
+
+new_names <- c("pais","year","adm_pub","agri_gan","com_mayor",
+               "construccion","minas","impu_prod","indu_manuf","interm_fin","serv_interm_fin_indir","sumi_elec_gas_agua","transpo_com","va_total")
+
+names(sector_shares) <- new_names
+
+estru_indices <- sector_shares %>% 
+  mutate(agromin = agri_gan + minas,
+         manuserv = indu_manuf + serv_interm_fin_indir + interm_fin + transpo_com)
+
+names(parti_x_manuf)[1]  <- "pais"
+names(parti_x_primarios)[1]  <- "pais"
+
+parti_x_manuf_long <- parti_x_manuf %>% 
+  gather(key = year, value = share_manuf, -pais)
+
+parti_x_primarios_long <- parti_x_primarios %>% 
+  gather(key = year, value = share_primarios, -pais)
+
+parti_x_m_p <- parti_x_manuf_long %>% left_join(
+  parti_x_primarios_long, by = c("pais", "year")
+)
+
+parti_x_m_p_iso <- parti_x_m_p %>% 
+  mutate(iso3c = countrycode(pais, "country.name.es", "iso3c", 
+                             custom_dict=cepal_33_countries),
+         iso2c = countrycode(pais, "country.name.es", "iso2c", 
+                             custom_dict=cepal_33_countries)
+         ) %>% 
+  filter(!is.na(iso3c))
+
+```
+
+
 ## Un nuevo "patrón de comportamiento" en el mundo desarrollado
 
 
