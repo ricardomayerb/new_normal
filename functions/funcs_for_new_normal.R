@@ -8,6 +8,9 @@ library(stringr)
 library(countrycode)
 library(lubridate)
 
+simple_net_growth_interval <- function(x) {
+  pg <- 100*(dplyr::last(x) - dplyr::first(x)) / dplyr::first(x)
+}
 
 simple_net_growth <- function(x) {
   pg <- 100*(x - dplyr::lag(x)) / dplyr::lag(x)

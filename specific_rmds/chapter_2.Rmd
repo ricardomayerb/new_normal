@@ -1030,7 +1030,7 @@ openess_other_list <- trade_wb %>%
 
 
 
-```{r}
+```{r sectorial_dfs, message=FALSE, warning=FALSE}
 load("../produced_data/cs_particip_pib_actividad")
 load("../produced_data/cs_particip_x_manuf")
 load("../produced_data/cs_particip_x_primarios")
@@ -1071,7 +1071,104 @@ parti_x_m_p_iso <- parti_x_m_p %>%
          ) %>% 
   filter(!is.na(iso3c))
 
+parti_x_m_p_avg_00_08 <- parti_x_m_p_iso %>% 
+  filter(year >= 2000 & year >= 2008) %>% 
+  group_by(iso2c) %>% 
+  summarise(manuf_avg_00_08 = mean(share_manuf, na.rm = TRUE),
+         primarios_avg_00_08 = mean(share_primarios, na.rm = TRUE),
+         manu_avg_to_primarios_avg = manuf_avg_00_08/primarios_avg_00_08 )
+
+parti_x_m_p_avg_00_08_lac18 <- parti_x_m_p_avg_00_08 %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(desc(manu_avg_to_primarios_avg))
+
 ```
+
+```{r sector_shares_vs_performances}
+#139.52143 in 2008
+#146.71621 in 2015
+
+# 167.66476
+# 180.71338
+
+#change in tot during 2008-2015, 2010-2015
+ch_tot_wb_08_15_lac18 <- wb_tot_lac18 %>% 
+  filter(date >= 2008 & date <= 2015) %>% 
+  group_by(iso2c) %>% 
+  arrange(iso2c, date) %>% 
+  summarise(pct_change_tot_08_15 = simple_net_growth_interval(value)) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(pct_change_tot_08_15)
+
+ch_tot_wb_11_15_lac18 <- wb_tot_lac18 %>% 
+  filter(date >= 2011 & date <= 2015) %>% 
+  group_by(iso2c) %>% 
+  arrange(iso2c, date) %>% 
+  summarise(pct_change_tot_11_15 = simple_net_growth_interval(value)) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(pct_change_tot_11_15)
+
+ch_tot_wb_10_15_lac18 <- wb_tot_lac18 %>% 
+  filter(date >= 2010 & date <= 2015) %>% 
+  group_by(iso2c) %>% 
+  arrange(iso2c, date) %>% 
+  summarise(pct_change_tot_10_15 = simple_net_growth_interval(value)) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(pct_change_tot_10_15)
+
+
+
+ch_tot_wb_00_08_lac18 <- wb_tot_lac18 %>% 
+  filter(date >= 2000 & date <= 2008) %>% 
+  group_by(iso2c) %>% 
+  arrange(iso2c, date) %>% 
+  summarise(pct_change_tot_00_08 = simple_net_growth_interval(value)) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(pct_change_tot_00_08)
+
+ch_tot_wb_02_08_lac18 <- wb_tot_lac18 %>% 
+  filter(date >= 2002 & date <= 2008) %>% 
+  group_by(iso2c) %>% 
+  arrange(iso2c, date) %>% 
+  summarise(pct_change_tot_02_08 = simple_net_growth_interval(value)) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(pct_change_tot_02_08)
+
+
+
+ch_tot_wb_00_07_lac18 <- wb_tot_lac18 %>% 
+  filter(date >= 2000 & date <= 2007) %>% 
+  group_by(iso2c) %>% 
+  arrange(iso2c, date) %>% 
+  summarise(pct_change_tot_00_07 = simple_net_growth_interval(value)) %>% 
+  mutate(subregion = ifelse(iso2c %in% cardm_countries[["iso2c"]], 
+                            "CARDM", "SA")) %>% 
+  arrange(pct_change_tot_00_07)
+
+x_sh_and_tot_chg_lac18 <- parti_x_m_p_avg_00_08_lac18 %>% 
+  select(-subregion) %>% 
+  left_join(ch_tot_wb_00_08_lac18, by = "iso2c") %>% 
+  select(-subregion) %>% 
+  left_join(ch_tot_wb_00_07_lac18, by = "iso2c") %>% 
+  select(-subregion) %>% 
+  left_join(ch_tot_wb_08_15_lac18, by = "iso2c") %>% 
+  select(-subregion) %>% 
+  left_join(ch_tot_wb_11_15_lac18, by = "iso2c")%>% 
+  select(-subregion) %>% 
+  left_join(ch_tot_wb_10_15_lac18, by = "iso2c")%>% 
+  select(-subregion) %>% 
+  left_join(ch_tot_wb_02_08_lac18, by = "iso2c")
+
+
+```
+
 
 
 ## Un nuevo "patrón de comportamiento" en el mundo desarrollado
@@ -1533,6 +1630,40 @@ tbl_trade_x_lacaggs_notnic
 
 
 La estructura productiva también ha determinado patrones disímiles en la evolución de los términos de intercambio: comparten una caída común el año 2009, producto de la fuerte caída de la demanda externa, pero mientras que para América Central y México los años previos a la crisis fueron de declive, para América Central fueron de fuerte crecimiento, y desde la crisis financiera los promedios de América Central y México son aproximadamente planos, en América del Sur es muy notorio el período de caida de los términos de intercambio a partir del año 2011, con la sola excepción de Uruguay y Paraguay.
+
+
+```{r plot_index_x_sh_vs_tot}
+
+plot_tot_02_08_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
+                             aes(x = manuf_avg_00_08, y = pct_change_tot_02_08,
+                                 label = iso2c)) + 
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "Cambios en T.d.I.  (2002-2008)",
+       subtitle = "versus estructura exportadora promedio 2000-2008",
+       x = "% de exportaciones que son manufacturas",
+       y = "% variacion TdI entre 2002 y 2008") + 
+  geom_text(check_overlap = TRUE,  nudge_x = -2.5, size = 3)
+
+plot_tot_v_struc_1b <- ggplot(data = x_sh_and_tot_chg_lac18,
+                             aes(x = manu_avg_to_primarios_avg, y = pct_change_tot_11_15)) + 
+  geom_point(aes(color = subregion, shape = subregion), size = 3)
+
+plot_tot_10_15_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
+                             aes(x = manuf_avg_00_08, y = pct_change_tot_10_15,
+                                 label = iso2c)) + 
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "Cambios en T.d.I. (2010-2015) ",
+       subtitle = "versus estructura exportadora promedio 2000-2008",
+       x = "% de exportaciones que son manufacturas",
+       y = "% variacion TdI entre 2010 y 2015") + 
+  geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3)
+
+
+plot_tot_02_08_vs_struc
+plot_tot_10_15_vs_struc 
+
+```
+
 
 
 
