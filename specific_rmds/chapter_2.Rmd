@@ -3,14 +3,15 @@ title: "Capítulo II: La región y el nuevo normal"
 author: "DDE"
 date: '`r Sys.Date()`'
 output:
+
+  html_document:
+    toc: yes
+
   
   word_document:
     reference_docx: reference_style_for_new_normal.docx
     toc: yes
     fig_caption: yes
-
-  html_document:
-    toc: yes
 
   pdf_document: default
 
@@ -55,6 +56,10 @@ subject_dict_wo <- WEOApr2017cepal18_others_long  %>%
   filter(country == "World" & year == 2000) %>% 
   select(-c(value, iso,  country_series_specific_notes,
             weo_country_code, estimates_start_after, scale, year) ) 
+
+weo_lac18plus_country_dict <- WEOApr2017cepal18_others_long  %>% 
+  select(country, iso) %>% 
+  distinct()
 
 
 load("../produced_data/cepal_18_countries")
@@ -1028,8 +1033,6 @@ openess_other_list <- trade_wb %>%
   growth_report()
 ```
 
-
-
 ```{r sectorial_dfs, message=FALSE, warning=FALSE}
 load("../produced_data/cs_particip_pib_actividad")
 load("../produced_data/cs_particip_x_manuf")
@@ -1142,7 +1145,6 @@ ch_tot_wb_02_08_lac18 <- wb_tot_lac18 %>%
   arrange(pct_change_tot_02_08)
 
 
-
 ch_tot_wb_00_07_lac18 <- wb_tot_lac18 %>% 
   filter(date >= 2000 & date <= 2007) %>% 
   group_by(iso2c) %>% 
@@ -1167,9 +1169,37 @@ x_sh_and_tot_chg_lac18 <- parti_x_m_p_avg_00_08_lac18 %>%
   left_join(ch_tot_wb_02_08_lac18, by = "iso2c")
 
 
+ch_gfcf_10_15_lac18 <- weo_gfcf_aspct_gdp_lac18 %>% 
+  filter(year(date_id) >= 2010 & year(date_id) <= 2015) %>% 
+  group_by(eco_id) %>% 
+  arrange(eco_id, date_id) %>% 
+  summarise(pct_change_gfcf_10_15 = simple_net_growth_interval(voi)) %>% 
+  mutate(subregion = ifelse(eco_id %in% weo_country_names_cardm, 
+                            "CARDM", "SA")) %>% 
+  mutate(iso3c = countrycode(eco_id, "country", "iso", custom_dict = 
+                               weo_lac18plus_country_dict),
+         iso2c = countrycode(iso3c, "iso3c", "iso2c")) %>% 
+  arrange(pct_change_gfcf_10_15)
+
+ch_gfcf_02_08_lac18 <- weo_gfcf_aspct_gdp_lac18 %>% 
+  filter(year(date_id) >= 2002 & year(date_id) <= 2008) %>% 
+  group_by(eco_id) %>% 
+  arrange(eco_id, date_id) %>% 
+  summarise(pct_change_gfcf_02_08 = simple_net_growth_interval(voi)) %>% 
+  mutate(subregion = ifelse(eco_id %in% weo_country_names_cardm, 
+                            "CARDM", "SA")) %>% 
+  mutate(iso3c = countrycode(eco_id, "country", "iso", custom_dict = 
+                               weo_lac18plus_country_dict),
+         iso2c = countrycode(iso3c, "iso3c", "iso2c")) %>% 
+  arrange(pct_change_gfcf_02_08)
+
+x_sh_and_gfcf_chg_lac18 <- parti_x_m_p_avg_00_08_lac18 %>% 
+  select(-subregion) %>% 
+  left_join(ch_gfcf_02_08_lac18, by = "iso2c") %>% 
+  select(- c(subregion, iso3c, eco_id)) %>% 
+  left_join(ch_gfcf_10_15_lac18, by = "iso2c") 
+
 ```
-
-
 
 ## Un nuevo "patrón de comportamiento" en el mundo desarrollado
 
@@ -1556,7 +1586,6 @@ table_tg_lacagg
 El impacto diferenciado del choque de demanda externa se evidencia en las trayectorias de las exportaciones y de los términos de intercambio al interior de la región.  En el caso de las exportaciones,  los únicos países que lograron acelerar sus exportaciones en este nuevo período son México, la República Dominicana  y Honduras, todos países que exportan la mitad o más de su bienes y servicios a Estados Unidos e incluyen entre sus productos principales manufacturas e insumos industriales. Si bien otras economías de similares características sí se desaceleraron (Guatemala, El Salvador, Costa Rica y Panamá), lo hicieron menos que las economías de América del Sur. La excepción sudamericana la constituye Bolivia, pero sus socios comerciales son en primer lugar Brasil y Argentina y no China y Europa.
 
 
-
 ```{r table_avg_m_g_other, results=TRUE}
 table_avg_m_g_other_data <- weo_m_growth_other$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
@@ -1632,6 +1661,37 @@ tbl_trade_x_lacaggs_notnic
 La estructura productiva también ha determinado patrones disímiles en la evolución de los términos de intercambio: comparten una caída común el año 2009, producto de la fuerte caída de la demanda externa, pero mientras que para América Central y México los años previos a la crisis fueron de declive, para América Central fueron de fuerte crecimiento, y desde la crisis financiera los promedios de América Central y México son aproximadamente planos, en América del Sur es muy notorio el período de caida de los términos de intercambio a partir del año 2011, con la sola excepción de Uruguay y Paraguay.
 
 
+```{r plot_index_x_sh_vs_gfcf}
+
+plot_gfcf_02_08_vs_struc <- ggplot(data = x_sh_and_gfcf_chg_lac18,
+                             aes(x = manuf_avg_00_08, y = pct_change_gfcf_02_08, label = iso2c)) + 
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "Cambios en inversion real  (2002-2008)",
+       subtitle = "versus estructura exportadora promedio 2000-2008",
+       x = "% de exportaciones que son manufacturas",
+       y = "% variacion I/PIB entre 2002 y 2008") + 
+  geom_text(check_overlap = TRUE,  nudge_x = -2.5, size = 3) + 
+  geom_hline(yintercept = 0) +
+  theme_classic()
+
+plot_gfcf_10_15_vs_struc <- ggplot(data = x_sh_and_gfcf_chg_lac18,
+                             aes(x = manuf_avg_00_08, y = pct_change_gfcf_10_15, label = iso2c)) + 
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "Cambios en  inversion real (2010-2015) ",
+       subtitle = "versus estructura exportadora promedio 2000-2008",
+       x = "% de exportaciones que son manufacturas",
+       y = "% variacion I/PIB entre 2010 y 2015") + 
+  geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3) + 
+  geom_hline(yintercept = 0) +
+  theme_classic()
+
+
+plot_gfcf_02_08_vs_struc
+plot_gfcf_10_15_vs_struc 
+
+```
+
+
 ```{r plot_index_x_sh_vs_tot}
 
 plot_tot_02_08_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
@@ -1642,7 +1702,9 @@ plot_tot_02_08_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
        subtitle = "versus estructura exportadora promedio 2000-2008",
        x = "% de exportaciones que son manufacturas",
        y = "% variacion TdI entre 2002 y 2008") + 
-  geom_text(check_overlap = TRUE,  nudge_x = -2.5, size = 3)
+  geom_text(check_overlap = TRUE,  nudge_x = -2.5, size = 3) + 
+  geom_hline(yintercept = 0) +
+  theme_classic()
 
 plot_tot_v_struc_1b <- ggplot(data = x_sh_and_tot_chg_lac18,
                              aes(x = manu_avg_to_primarios_avg, y = pct_change_tot_11_15)) + 
@@ -1656,16 +1718,15 @@ plot_tot_10_15_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
        subtitle = "versus estructura exportadora promedio 2000-2008",
        x = "% de exportaciones que son manufacturas",
        y = "% variacion TdI entre 2010 y 2015") + 
-  geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3)
+  geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3) + 
+  geom_hline(yintercept = 0) +
+  theme_classic()
 
 
 plot_tot_02_08_vs_struc
 plot_tot_10_15_vs_struc 
 
 ```
-
-
-
 
 ```{r plot_tot_wb}
 plot_tot_wb_sa <-  wb_tot_sa %>% 
@@ -1698,7 +1759,6 @@ plot_tot_wb_sa
 plot_tot_wb_cardm
   
 ```
-
 
 ```{r plot_tot_cepal}
 plot_tot_cepal_sa <-  cstats_tot_sa %>% 
@@ -1819,10 +1879,7 @@ knitr::kable(ee_table_data , digits = 1, caption = tbl_ee_caption) %>%
 ```
 
 
-
-
 En las figuras 5 y 6 la composición de los flujos (tanto brutos i.e. por no-residentes, como netos i.e. tanto por residentes como no residentes) es notoriamente más diversificada en este nuevo escenario respecto al  período anterior, donde la IED era abrumadoramente mayoritaria. El único año pre-crisis financiera que se parece al nuevo escenario es el año 2007, donde la composición de gross inflows aparece más balanceada entre de cartera, directa y otra inversión (principalmente préstamos entre instituciones bancarias). Hay que notar, sin embargo, que los años 2015 y 2016 parecen desmarcarse de los anteriores, porque el volumen total de gross inflows a la región disminuye notablemente en el caso de cartera y otros, coincidiendo con la paulatina alza de las tasas de interés en Estados Unidos.
-
 
 
 ```{r non_resident_flows}
