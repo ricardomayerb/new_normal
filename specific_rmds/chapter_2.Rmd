@@ -6,8 +6,8 @@ output:
 
   html_document:
     toc: yes
+    fig_caption: yes
 
-  
   word_document:
     reference_docx: reference_style_for_new_normal.docx
     toc: yes
@@ -15,13 +15,14 @@ output:
 
   pdf_document: default
 
----
+--- 
 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(printr)
 ```
+
 
 ```{r, load_libraries, include=FALSE}
 library(dplyr) # use dplyr::first and dplyr::last
@@ -41,6 +42,7 @@ library(readxl)
 source("../functions/funcs_for_new_normal.R")
 
 ```
+
 
 ```{r load_principal_data,  include=FALSE, cache=TRUE}
 load("../produced_data/WEOApr2017_cepal_and_others" )
@@ -1436,7 +1438,7 @@ Fuente: CEPAL en base a CPB World Trade Monitor
 ]
 
 Figura: Elasticidad largo plazo exportaciones mundiales a produccion industrial
-![Elasticidad de largo plazo de la exportaciones mundiales ante produccion industrial](elast_lp_expo_mund_prod.png)
+![Elasticidad de largo plazo de la exportaciones mundiales ante producción industrial](elast_lp_expo_mund_prod.png)
 
 
 
@@ -1458,6 +1460,26 @@ Dado que la elasticidad de nuestras exportaciones ante cambios en el  producto m
 
 
 #### Box 1. Determinantes de la inversión real: el papel de los beneficios
+
+
+**Por qué es tan débil la inversión?**
+
+Banerjee, Kearns y Lombardi (2015, BIS Quarterly Review) ofrecen dos explicaciones 
+posibles para la debilidad que ha mostrado la inversión privada, a pesar de las bajas 
+tasas de interés y la amplia disponibilidad de fondos en los mercados de capitales.  
+La primera explicación que consideran, tiene que ver con el descalce que se aprecia entre condiciones financieras favorables y oportunidades de inversión. En particular, es posible que las firmas que las firmas que tienen las mejores oportunidades de inversión no tengan los fondos propios suficientes para invertir o o su acceso a financiamiento externo esté muy restringido. Pero, a la luz del crecimiento sostenido del crédito y de la emisión accionaria, y considerando que las firmas pequeñas que son las que con mayor probabilidad enfrentan algún problema de financiamiento, explican una fracción muy menor de la inversión agregada, esta explicación presenta falencias importantes. Una
+segunda y más plausible explicación es que las firmas, incluso teniendo suficientes fondos 
+para invertir, enfrentan, desde su perspectiva, demasiada incertidumbre acerca de las
+condiciones economicas futuras y por lo tanto sobre si los posibles retornos justificarían el 
+costo de invertir. En una variante fuerte, esta segunda explicación implicaría que las condicioes 
+financiamiento a bajo costo y de fácil acceso no son el determinante clave de la inversión.
+
+En efecto, aunque no hay medidas directas de los retornos esperados, Banerjee, Kearns y Lombardi encuentran que varias proxies de esta variable --basadas en retornos ex post, en contenidos y frecuencia de noticias sobre la incertidumbre y en la dispersión de las predicciones económicas--  apuntan a que el choque de incertidumbre que trajo consigo la crisis financiera global, ha mantenido la incertidumbre en niveles más altos que previo al 2008, por lo que los retornos ajustados por riesgos están  por debajo de lo que las firmas estimarían en tiempos normales.
+
+
+**fin de Por qué es tan débil la inversión**
+
+
 
 Este ejercicio empírico estima el impacto de distintas variables macro-económicas sobre la inversión en Estados Unidos, Francia y Canadá, utilizando  vectores auto-regresivos estructurales sobre datos trimestrales expresados en logaritmo ^[Las variables de tasas de interés se dejaron expresadas como porcentaje y las importaciones de bienes de capital se dejaron como índice (2009=100).] . Adicionalmente, se estimó la relación de causalidad a largo plazo entre inversión y beneficios mediante un modelo de corrección de errores. Dada la restricción que impone la disponibilidad de información, la presente estimación comprende el periodo que va desde el primer trimestre de 1990 (1990-Q1) al cuarto trimestre de 2014 (2014-Q4) para Estados Unidos, desde el tercer trimestre de 1992 (1992-Q3) al segundo trimestre de 2016 (2016-Q2) para Canadá, y desde el primer trimestre de 1999 (1999-Q1) al primer trimestre de 2015 (2015-Q1) para Francia.
 
@@ -1693,6 +1715,7 @@ plot_gfcf_10_15_vs_struc
 
 
 ```{r plot_index_x_sh_vs_tot}
+library(ggrepel)
 
 plot_tot_02_08_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
                              aes(x = manuf_avg_00_08, y = pct_change_tot_02_08,
@@ -1702,7 +1725,6 @@ plot_tot_02_08_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
        subtitle = "versus estructura exportadora promedio 2000-2008",
        x = "% de exportaciones que son manufacturas",
        y = "% variacion TdI entre 2002 y 2008") + 
-  geom_text(check_overlap = TRUE,  nudge_x = -2.5, size = 3) + 
   geom_hline(yintercept = 0) +
   theme_classic()
 
@@ -1717,14 +1739,22 @@ plot_tot_10_15_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
   labs(title = "Cambios en T.d.I. (2010-2015) ",
        subtitle = "versus estructura exportadora promedio 2000-2008",
        x = "% de exportaciones que son manufacturas",
-       y = "% variacion TdI entre 2010 y 2015") + 
-  geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3) + 
+       y = "% variacion TdI entre 2010 y 2015")  + 
   geom_hline(yintercept = 0) +
   theme_classic()
 
+# plot_tot_10_15_vs_struc <- plot_tot_10_15_vs_struc +
+#   geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3)
+# plot_tot_02_08_vs_struc <- plot_tot_02_08_vs_struc +
+#   geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3)
 
-plot_tot_02_08_vs_struc
+plot_tot_10_15_vs_struc <- plot_tot_10_15_vs_struc + 
+  geom_text_repel(size = 3)
+plot_tot_02_08_vs_struc <- plot_tot_02_08_vs_struc + 
+  geom_text_repel(size = 3)
+
 plot_tot_10_15_vs_struc 
+plot_tot_02_08_vs_struc
 
 ```
 

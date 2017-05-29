@@ -5,7 +5,9 @@ library(stringr)
 library(dplyr)
 library(tidyr)
 library(lubridate)
+library(purrr)
 
+#----
 fin_flows_lac_18 <- read_excel("./raw_data/Bal Pag_TRIMESTRAL_CECILIA_rm.xlsx",
 sheet = "inflows_lac_18", col_types = c("text",
 "numeric", "numeric", "numeric",
@@ -114,5 +116,46 @@ save(fin_flows_18_xts, fin_flows_long_lac_18_yearly, fin_flows_long_lac_18,
      fin_flows_17_xts, fin_flows_long_lac_17_yearly, fin_flows_long_lac_17,
      file = "./produced_data/fin_flows_lac")
 
+#---- 
+# by countries
+new_dates <- as.yearqtr(2000 + seq(0,67/4, by = 1/4))
+wbpath  = "./raw_data/Bal Pag_TRIMESTRAL_CECILIA_rm.xlsx"
+rangedata <- "BI8:EZ62"
 
+firstcolsrange <- "A8:D62"
+
+#same order and names in cecilias workbook
+iso_names <- c("ARG","BOL","BRA","CHL","CRI","COL","ECU","SLV","GTM",
+               "HND","MEX","NIC","PAN","PRY","PER","DOM","URY","VEN")
+
+rstart <-  8 
+rend <-  62
+cstart <-  1
+cend <- 156
+
+dfs_bop <- list_along(iso_names)
+
+for (i in seq_along(dfs_bop) ) {
+  
+  sheet_name <- iso_names[[i]]
+  
+  catdata <- read_xlsx(path = wbpath, sheet = sheet_name,
+                       range = firstcolsrange,
+                       col_names = FALSE) 
+  
+  catdata$pais <- iso_names[[i]]
+  
+  portiondata <- read_xlsx(path = wbpath, sheet = sheet_name,
+                           range = rangedata,
+                           col_names = FALSE) 
+  
+  names_catdata <- c("rubroold", "grupo", "rubro", "manual", "pais")
+  names_portiondata <- new_dates
+  
+  # names(portiondata) <- names_portiondata
+  # names(catdata) <- names_catdata
+  
+  countrytable <- bind_cols(catdata , portiondata)
+  dfs_bop[[i]] <- countrytable 
+}
 
