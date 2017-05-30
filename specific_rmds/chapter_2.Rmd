@@ -4,14 +4,15 @@ author: "DDE"
 date: '`r Sys.Date()`'
 output:
 
-  html_document:
-    toc: yes
-    fig_caption: yes
-
   word_document:
     reference_docx: reference_style_for_new_normal.docx
     toc: yes
     fig_caption: yes
+    
+  html_document:
+    toc: yes
+    fig_caption: yes
+
 
   pdf_document: default
 
@@ -1092,11 +1093,6 @@ parti_x_m_p_avg_00_08_lac18 <- parti_x_m_p_avg_00_08 %>%
 ```
 
 ```{r sector_shares_vs_performances}
-#139.52143 in 2008
-#146.71621 in 2015
-
-# 167.66476
-# 180.71338
 
 #change in tot during 2008-2015, 2010-2015
 ch_tot_wb_08_15_lac18 <- wb_tot_lac18 %>% 
@@ -1758,32 +1754,85 @@ plot_tot_02_08_vs_struc
 
 ```
 
+
+
+
+```{r plot_index_x_sh_vs_nrflows}
+load("../produced_data/all_bops_lac")
+
+nrf_avgs_lac18 <- nrf_by_country_year %>% 
+  mutate(date_id =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = pais,
+         voi = total_nrf) %>% 
+  select(eco_id, date_id, voi) %>% 
+  means_report(start1 = 1995, end1 = 2008, start2 = 2010, end2 = 2016) 
+
+nrf_avgs_lac18_byc <- nrf_avgs_lac18$avgs_df %>% 
+  mutate(iso2c = countrycode(eco_id, "iso3c", "iso2c")) %>% 
+  left_join(parti_x_m_p_avg_00_08_lac18 , by = "iso2c" )
+  
+
+plot_nrf_00_08_vs_struc <- ggplot(data = nrf_avgs_lac18_byc,
+                             aes(x = manuf_avg_00_08, y = mean_per1,
+                                 label = iso2c)) +
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "Flujos brutos de capitales  (2000-2008)",
+       subtitle = "versus estructura exportadora promedio 2000-2008",
+       x = "% de exportaciones que son manufacturas",
+       y = "flujo promedio anual") +
+  geom_hline(yintercept = 0) +
+  theme_classic()
+# 
+plot_nrf_10_16_vs_struc <- ggplot(data = nrf_avgs_lac18_byc,
+                             aes(x = manuf_avg_00_08, y = mean_per2,
+                                 label = iso2c)) +
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "Flujos brutos de capitales  (2010-2016)",
+       subtitle = "versus estructura exportadora promedio 2000-2008",
+       x = "% de exportaciones que son manufacturas",
+       y = "flujo promedio anual") +
+  geom_hline(yintercept = 0) +
+  theme_classic()
+# 
+# 
+plot_nrf_10_16_vs_struc <- plot_nrf_10_16_vs_struc +
+  geom_text_repel(size = 3)
+
+plot_nrf_00_08_vs_struc <- plot_nrf_00_08_vs_struc +
+  geom_text_repel(size = 3)
+# 
+plot_nrf_10_16_vs_struc
+plot_nrf_00_08_vs_struc
+
+```
+
+
 ```{r plot_tot_wb}
-plot_tot_wb_sa <-  wb_tot_sa %>% 
-  filter(date >= 2000) %>% 
+plot_tot_wb_sa <-  wb_tot_sa %>%
+  filter(date >= 2000) %>%
     ggplot(aes(x = date, y = value)) +
-    geom_line(aes(group = iso2c, color = iso2c)) + 
+    geom_line(aes(group = iso2c, color = iso2c)) +
     labs(title = "Términos de intercambio (Base en año 2000)",
-         subtitle = "América del Sur, 2000-2015") + 
+         subtitle = "América del Sur, 2000-2015") +
    theme_tufte() +
    theme(axis.text = element_text(size = 11),
         legend.text = element_text(size = 13),
         legend.title = element_text(size = 17),
-        title = element_text(size = 14)) 
-  
-plot_tot_wb_cardm <-  wb_tot_cardm %>% 
-  filter(date >= 2000) %>% 
+        title = element_text(size = 14))
+
+plot_tot_wb_cardm <-  wb_tot_cardm %>%
+  filter(date >= 2000) %>%
     ggplot(aes(x = date, y = value)) +
-    geom_line(aes(group = iso2c, color = iso2c)) + 
+    geom_line(aes(group = iso2c, color = iso2c)) +
     labs(title = "Términos de intercambio (Base en año 2000)",
          subtitle = "América Central, México y República Dominicana, 2000-2015",
-        x = "", y = "Índice, año 2000 = 100", color = "") + 
+        x = "", y = "Índice, año 2000 = 100", color = "") +
    theme_tufte() +
    theme(axis.text = element_text(size = 11),
          axis.title.y =  element_text(size = 11),
         legend.text = element_text(size = 13),
         legend.title = element_text(size = 15),
-        title = element_text(size = 14)) 
+        title = element_text(size = 14))
 
 plot_tot_wb_sa
 plot_tot_wb_cardm
