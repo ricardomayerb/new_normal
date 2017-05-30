@@ -38,6 +38,7 @@ library(knitr)
 library(kableExtra)
 library(countrycode)
 library(readxl)
+library(easyGgplot2)
 
 
 source("../functions/funcs_for_new_normal.R")
@@ -47,6 +48,12 @@ source("../functions/funcs_for_new_normal.R")
 
 ```{r load_principal_data,  include=FALSE, cache=TRUE}
 load("../produced_data/WEOApr2017_cepal_and_others" )
+
+
+us_gdp_deflator <- read_excel("../raw_data/us_gdp_deflator.xlsx", col_types = c("date", "numeric")) %>% 
+  rename(us_deflator = value) %>% 
+  mutate(year = year(date))
+
 
 # what variables are available  (not the same for countries and groups of countries!) and what are their codes
 
@@ -501,6 +508,9 @@ fbcf_avg_gr_03_08_10_16 <- left_join(cf_gr_03_08,
   mutate(cambio = avg_10_16 - avg_03_08)
 
 ```
+
+
+
 
 ```{r avg_gr_trade_x_m, include=FALSE, cache=TRUE}
 
@@ -1703,26 +1713,29 @@ plot_gfcf_10_15_vs_struc <- ggplot(data = x_sh_and_gfcf_chg_lac18,
   geom_hline(yintercept = 0) +
   theme_classic()
 
-
-plot_gfcf_02_08_vs_struc
-plot_gfcf_10_15_vs_struc 
+# 
+# plot_gfcf_02_08_vs_struc
+# plot_gfcf_10_15_vs_struc 
 
 ```
 
+La Figura XYZ, explora la relación entre las variaciones de los términos de intercambio en los países de la región y la estructura productiva de las exportaciones en cada economía. En particular, para cada país, en base a datos de CEPAL sobre exportaciones anuales por tipo de bienes,  se calcula la participación promedio de las manufacturas en el volumen exportado --que es bastante estable en el mediano plazo pero se promedia para suavizar variaciones pequeñas, durante los años 2002 a 2008  y  por otro lado, se usa un índice de términos de intercambio con base en el nivel del año 2000, calculado por la UNCATD y obtenidos via el Banco Mudial, y con ello se computa la variación porcentual de este índice antes y después de la crisis financiera global: 2002-2008 y 2010-2015.  Es claro como la evolución de los términos de intercambio favoreció en mayor medida a los países que exportaban muy pocas manufacturas (es decir alimentos en bruto, hidrocarburo, metales, etc.) durante dicho período comparado con las economías manufactureras, para luego obtener en promedio condiciones mucho menos favorables post crisis y de hecho se invierte la relación, siendo en general más beneficiadas las economías manufactureras en el período post crisis.
 
-```{r plot_index_x_sh_vs_tot}
+```{r plot_index_x_sh_vs_tot, fig.width=8.5}
 library(ggrepel)
 
 plot_tot_02_08_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
                              aes(x = manuf_avg_00_08, y = pct_change_tot_02_08,
                                  label = iso2c)) + 
   geom_point(aes(color = subregion, shape = subregion), size = 3) +
-  labs(title = "Cambios en T.d.I.  (2002-2008)",
-       subtitle = "versus estructura exportadora promedio 2000-2008",
-       x = "% de exportaciones que son manufacturas",
-       y = "% variacion TdI entre 2002 y 2008") + 
+  labs(title = "2002-2008",
+       x = "exportación manufacturas (%)",
+       y = "variacion términos de intercambio (%)") + 
   geom_hline(yintercept = 0) +
-  theme_classic()
+  geom_text_repel(size = 3) +
+  guides(color = FALSE, shape = FALSE) +
+  theme_classic() + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
 
 plot_tot_v_struc_1b <- ggplot(data = x_sh_and_tot_chg_lac18,
                              aes(x = manu_avg_to_primarios_avg, y = pct_change_tot_11_15)) + 
@@ -1732,79 +1745,151 @@ plot_tot_10_15_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
                              aes(x = manuf_avg_00_08, y = pct_change_tot_10_15,
                                  label = iso2c)) + 
   geom_point(aes(color = subregion, shape = subregion), size = 3) +
-  labs(title = "Cambios en T.d.I. (2010-2015) ",
-       subtitle = "versus estructura exportadora promedio 2000-2008",
-       x = "% de exportaciones que son manufacturas",
-       y = "% variacion TdI entre 2010 y 2015")  + 
+  labs(title = "2010-2015",
+       x = "exportación manufacturas (%)",
+       y = "variacion términos de intercambio (%)")  + 
   geom_hline(yintercept = 0) +
-  theme_classic()
+  geom_text_repel(size = 3) + 
+  guides(color = FALSE, shape = FALSE) +
+  theme_classic() +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5) ) 
 
-# plot_tot_10_15_vs_struc <- plot_tot_10_15_vs_struc +
-#   geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3)
-# plot_tot_02_08_vs_struc <- plot_tot_02_08_vs_struc +
-#   geom_text(check_overlap = TRUE, nudge_x = -2.5, size = 3)
 
-plot_tot_10_15_vs_struc <- plot_tot_10_15_vs_struc + 
-  geom_text_repel(size = 3)
-plot_tot_02_08_vs_struc <- plot_tot_02_08_vs_struc + 
-  geom_text_repel(size = 3)
+# guides(color = guide_legend("sub-región"), shape = guide_legend("sub-región")) 
 
-plot_tot_10_15_vs_struc 
-plot_tot_02_08_vs_struc
+# plot_tot_10_15_vs_struc 
+# plot_tot_02_08_vs_struc
+
+easyGgplot2::ggplot2.multiplot(plot_tot_02_08_vs_struc, plot_tot_10_15_vs_struc, cols = 2)
 
 ```
 
 
 
 
-```{r plot_index_x_sh_vs_nrflows}
+```{r plot_index_x_sh_vs_nrflows, fig.width=8.5}
 load("../produced_data/all_bops_lac")
+
+
 
 nrf_avgs_lac18 <- nrf_by_country_year %>% 
   mutate(date_id =  ymd(paste0(year,  "-12-31"))) %>% 
   rename(eco_id = pais,
          voi = total_nrf) %>% 
   select(eco_id, date_id, voi) %>% 
-  means_report(start1 = 1995, end1 = 2008, start2 = 2010, end2 = 2016) 
+  means_report(start1 = 2002, end1 = 2008, start2 = 2010, end2 = 2016) 
+
 
 nrf_avgs_lac18_byc <- nrf_avgs_lac18$avgs_df %>% 
   mutate(iso2c = countrycode(eco_id, "iso3c", "iso2c")) %>% 
   left_join(parti_x_m_p_avg_00_08_lac18 , by = "iso2c" )
-  
+
 
 plot_nrf_00_08_vs_struc <- ggplot(data = nrf_avgs_lac18_byc,
                              aes(x = manuf_avg_00_08, y = mean_per1,
                                  label = iso2c)) +
   geom_point(aes(color = subregion, shape = subregion), size = 3) +
-  labs(title = "Flujos brutos de capitales  (2000-2008)",
-       subtitle = "versus estructura exportadora promedio 2000-2008",
-       x = "% de exportaciones que son manufacturas",
+  labs(title = "2000-2008",
+       x = "exportación manufacturas (%)",
        y = "flujo promedio anual") +
   geom_hline(yintercept = 0) +
-  theme_classic()
-# 
+  guides(color = FALSE, shape = FALSE) +
+  geom_text_repel(size = 3) +
+  theme_classic() + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
+
+
+
 plot_nrf_10_16_vs_struc <- ggplot(data = nrf_avgs_lac18_byc,
                              aes(x = manuf_avg_00_08, y = mean_per2,
                                  label = iso2c)) +
   geom_point(aes(color = subregion, shape = subregion), size = 3) +
-  labs(title = "Flujos brutos de capitales  (2010-2016)",
-       subtitle = "versus estructura exportadora promedio 2000-2008",
-       x = "% de exportaciones que son manufacturas",
+  labs(title = "2010-2016",
+       x = "exportación manufacturas (%)",
        y = "flujo promedio anual") +
   geom_hline(yintercept = 0) +
-  theme_classic()
-# 
-# 
-plot_nrf_10_16_vs_struc <- plot_nrf_10_16_vs_struc +
-  geom_text_repel(size = 3)
+  guides(color = FALSE, shape = FALSE) +
+  geom_text_repel(size = 3) +
+  theme_classic() + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
 
-plot_nrf_00_08_vs_struc <- plot_nrf_00_08_vs_struc +
-  geom_text_repel(size = 3)
-# 
-plot_nrf_10_16_vs_struc
-plot_nrf_00_08_vs_struc
+
+
+# easyGgplot2::ggplot2.multiplot(plot_nrf_00_08_vs_struc, plot_nrf_10_16_vs_struc, cols = 2)
 
 ```
+
+
+
+```{r plot_index_x_sh_vs_nrflowsgdp, fig.width=8.5}
+
+weo_gdp_usd_lac18 <- WEOApr2017cepal18_others_long %>% 
+  filter(weo_subject_code == "NGDPD" & iso %in% cepal_18_countries[["iso3c"]]) %>% 
+  select(weo_subject_code, iso, year, value) %>% 
+  mutate(iso2c = countrycode(iso, "iso3c", "iso2c"),
+         year = as.numeric(year)) %>% 
+  rename(gdp_usd = value)
+
+nrf_by_country_year_withgdp <- nrf_by_country_year %>% 
+  rename(iso = pais) %>% 
+  left_join(weo_gdp_usd_lac18, by = c("iso","year")) %>% 
+  mutate(total_to_gdp = total_nrf/gdp_usd,
+         ied_eed_to_gdp = ied_eed_y/gdp_usd,
+         p_cartera_to_gdp = p_cartera_y/gdp_usd,
+         p_otra_to_gdp = p_otra_y/gdp_usd)
+
+nrf_to_gdp_avgs_lac18 <- nrf_by_country_year_withgdp %>% 
+  mutate(date_id =  ymd(paste0(year,  "-12-31"))) %>% 
+  rename(eco_id = iso,
+         voi = total_to_gdp) %>% 
+  select(eco_id, date_id, voi) %>% 
+  means_report(start1 = 2002, end1 = 2008, start2 = 2010, end2 = 2016) 
+
+
+nrf_to_gdp_avgs_lac18_byc <- nrf_to_gdp_avgs_lac18$avgs_df %>% 
+  mutate(iso2c = countrycode(eco_id, "iso3c", "iso2c")) %>% 
+  left_join(parti_x_m_p_avg_00_08_lac18 , by = "iso2c" )
+  
+
+plot_nrf_to_gdp_00_08_vs_struc <- ggplot(data = nrf_to_gdp_avgs_lac18_byc,
+                             aes(x = manuf_avg_00_08, y = mean_per1,
+                                 label = iso2c)) +
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "2002-2008",
+       x = "exportación manufacturas (%)",
+       y = "flujo promedio anual (% PIB)") +
+  geom_hline(yintercept = 0) +
+  guides(color = FALSE, shape = FALSE) +
+  geom_text_repel(size = 3) +
+  theme_classic() + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
+
+
+
+plot_nrf_to_gdp_10_16_vs_struc <- ggplot(data = nrf_to_gdp_avgs_lac18_byc,
+                             aes(x = manuf_avg_00_08, y = mean_per2,
+                                 label = iso2c)) +
+  geom_point(aes(color = subregion, shape = subregion), size = 3) +
+  labs(title = "2002-2016",
+       x = "exportación manufacturas (%)",
+       y = "flujo promedio anual (% PIB)") +
+  geom_hline(yintercept = 0) +
+  guides(color = FALSE, shape = FALSE) +
+  geom_text_repel(size = 3) +
+  theme_classic() + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
+
+
+easyGgplot2::ggplot2.multiplot(plot_nrf_to_gdp_00_08_vs_struc,
+                               plot_nrf_to_gdp_10_16_vs_struc, cols = 2)
+
+
+```
+
+
+
+
+
 
 
 ```{r plot_tot_wb}
@@ -1967,6 +2052,15 @@ load("../produced_data/fin_flows_lac")
 gross_inflows_cols <- c("year", "inversion_directa_en_la_economia_declarante",
                         "pasivos_de_inversion_de_cartera", "pasivos_de_otra_inversion")
 
+gdp_usd_lac18_aggr <- weo_gdp_usd_lac18 %>% 
+  group_by(year) %>% 
+  summarise(gdp_total_lac18 = sum(gdp_usd, rm.na = TRUE))
+
+gdp_usd_lac17_aggr <- weo_gdp_usd_lac18 %>%
+  filter(iso != "VEN" ) %>% 
+  group_by(year) %>% 
+  summarise(gdp_total_lac17 = sum(gdp_usd, rm.na = TRUE))
+
 gross_inflows_lac17_by_type_y <- fin_flows_long_lac_17_yearly %>% 
   gather(key = inflow, value = value, -year) %>% 
   filter(inflow %in% gross_inflows_cols) %>% 
@@ -1976,6 +2070,16 @@ gross_inflows_lac18_by_type_y <- fin_flows_long_lac_18_yearly %>%
   gather(key = inflow, value = value, -year) %>% 
   filter(inflow %in% gross_inflows_cols) %>%  
   group_by(year) 
+
+gross_inflows_lac18_by_type_y_usd2009 <- gross_inflows_lac18_by_type_y %>% 
+  left_join(us_gdp_deflator, by = "year") %>% 
+  mutate(deflated_value = 100*value/us_deflator)
+
+
+gross_inflows_lac17_by_type_y_usd2009 <- gross_inflows_lac17_by_type_y %>% 
+  left_join(us_gdp_deflator, by = "year") %>% 
+  mutate(deflated_value = 100*value/us_deflator)
+
 
 gross_inflows_lac17_by_type_q <- fin_flows_long_lac_17%>% 
   gather(key = inflow, value = value, -date) %>% 
@@ -1987,13 +2091,8 @@ gross_inflows_lac18_by_type_q <- fin_flows_long_lac_18 %>%
   filter(inflow %in% gross_inflows_cols) %>% 
   group_by(date)   
 
-yearly_gross_inflows = ggplot(data = gross_inflows_lac17_by_type_y,
-       aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
-  ggtitle("Flujos de capitales, no-residentes, LAC-17")
 
-quarterly_gross_inflows = ggplot(data = gross_inflows_lac17_by_type_q,
-       aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
-  ggtitle("Flujos de capitales, no-residentes, LAC-17, trimestral")
+
 
 ```
 
@@ -2007,6 +2106,10 @@ net_inflows_lac17_by_type_y <- fin_flows_long_lac_17_yearly %>%
   gather(key = inflow, value = value, -year) %>% 
   filter(inflow %in% net_inflows_cols) %>% 
   group_by(year) 
+
+net_inflows_lac17_by_type_y_usd2009 <- net_inflows_lac17_by_type_y %>% 
+  left_join(us_gdp_deflator, by = "year") %>% 
+  mutate(deflated_value = 100*value/us_deflator)
 
 net_inflows_lac18_by_type_y <- fin_flows_long_lac_18_yearly %>% 
   gather(key = inflow, value = value, -year) %>% 
@@ -2027,6 +2130,10 @@ yearly_net_inflows = ggplot(data = net_inflows_lac17_by_type_y,
        aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
   ggtitle("Flujos netos por tipo de capital, LAC-17, anual")
 
+yearly_net_inflows_usd2009 = ggplot(data = net_inflows_lac17_by_type_y_usd2009,
+       aes(x = year, y=deflated_value, fill = inflow)) + geom_bar(stat = "identity")+ 
+  ggtitle("Flujos netos por tipo de capital, LAC-17, anual")
+
 quarterly_net_inflows = ggplot(data = net_inflows_lac17_by_type_q,
        aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
   ggtitle("Flujos netos por tipo de capital, LAC-17, trimestral")
@@ -2036,18 +2143,50 @@ quarterly_net_inflows = ggplot(data = net_inflows_lac17_by_type_q,
 
 Flujos netos y flujos brutos:
 
-```{r plot_gross_inflows_by_type}
+```{r plot_gross_and_net_inflows_by_type, fig.width=8.5, fig.height=8}
 
-yearly_gross_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
+yearly_gross_inflows <-  ggplot(data = gross_inflows_lac17_by_type_y,
+       aes(x = year, y=value, fill = inflow)) + geom_bar(stat = "identity")+ 
+  ggtitle("Flujos de capitales, no-residentes, LAC-17") + 
+  scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
+
+
+quarterly_gross_inflows <-  ggplot(data = gross_inflows_lac17_by_type_q,
+       aes(x = date, y=value, fill = inflow)) + geom_bar(stat = "identity") + 
+  ggtitle("Flujos de capitales, no-residentes, LAC-17, trimestral") + 
+  scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
+
+
+yearly_gross_inflows_usd2009  <- ggplot(data = gross_inflows_lac17_by_type_y_usd2009,
+       aes(x = year, y=deflated_value, fill = inflow)) + geom_bar(stat = "identity") +
+       scale_fill_discrete(labels = c("IED", "Otra", "Cartera")) +
+  labs(title = "Brutos",
+       x = "",
+       y = "Millones USD (2009)") +
+  coord_cartesian(ylim = c(-6*10000, 4*100000)) +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  guides(fill=guide_legend(title=NULL))
+
+yearly_net_inflows_usd2009 = ggplot(data = net_inflows_lac17_by_type_y_usd2009,
+       aes(x = year, y=deflated_value, fill = inflow)) + geom_bar(stat = "identity") +
+       scale_fill_discrete(labels = c("IED", "Otra", "Cartera")) +
+  labs(title = "Netos",
+       x = "",
+       y = "Millones USD (2009)") +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(ylim = c(-6*10000, 4*100000)) +
+  guides(fill=guide_legend(title=NULL))
+
+easyGgplot2::ggplot2.multiplot(yearly_gross_inflows_usd2009,
+                               yearly_net_inflows_usd2009, cols = 1)
+
 
 ```
 
 
-```{r plot_net_inflows_by_type}
 
-yearly_net_inflows + scale_fill_discrete(labels = c("IED", "Otra", "Cartera"))
-
-```
 
 
 
@@ -2091,11 +2230,16 @@ tbl_pricred_lacaggs
 Más allá de la pregunta por la tedencia del crédito, que puede reflejar una sana profundización fiananciera de la economía, surge la pregunta por los ciclos de crédito, que por un lado sirven para alertar sobre una futura fragilidad del sistema financiero y por otro para entender cuanto espacio disponible existe en el corto plazo para seguir alimentando la demanda por esta vía. La figura XYZ usa datos de brecha de crédito confeccionados por el BIS y ahí se puede apreciar cómo Brasil, Chile y México llegaron al 2007 con brechas negativas o neutras, lo que les daba una oportunidad de expandir rápidamente el crédito para navegar durante y después de la gran crisis financiera. Salvo Brasil, todos los países para los cuales están estos datos cuentan con menores holguras crediticias que las disponibles previo a la crisis.
 
 
-```{r figure_credit_gap_lac_bis, message=FALSE, warning=FALSE}
+```{r figure_credit_gap_lac_bis, message=FALSE, warning=FALSE, fig.width=8.5}
 
-plot_credigap_lac <- ggplot(bis_credit_gdp_gap_lac,
+plot_credigap_lac <- ggplot(bis_credit_gdp_gap_lac %>% 
+                              filter(year(date_id) > 1994),
                             aes(x = date_id, y = voi, col = eco_id)) 
-plot_credigap_lac <- plot_credigap_lac + geom_line() + geom_hline(yintercept = 0)
+plot_credigap_lac <- plot_credigap_lac + geom_line(size = 1.3) + geom_hline(yintercept = 0) + 
+  labs(x = "",
+       y = "Brecha de crédito (%)") +
+  theme_classic() +
+  guides(color=guide_legend(title=NULL)) 
 
 plot_credigap_lac
 
