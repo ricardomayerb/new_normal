@@ -1265,10 +1265,16 @@ tbl_prod_world_data <- ted_emplo_prod_avg_90_95_96_00$avgs_df %>%
 period_esteban_colnames <- c("Región", "1990-1995 ", "1996-2000",
                             "2001-2006", "2007-2009", "2010-2016")
 
-eco_desa_id <- c("Euro Area", "United States", "Other Mature Economies")
+eco_desa_id <- c("Euro Area", "United States", "Mature Economies", "China")
 
 tbl_prod_eco_desa_data <- tbl_prod_world_data %>% 
-  filter(eco_id %in% eco_desa_id)
+  filter(eco_id %in% eco_desa_id) %>% 
+  mutate(eco_id = recode(eco_id,
+                         "Mature Economies" = "Economías Avanzadas",
+                         "Euro Area" = "Zona Euro",
+                         "United States" = "Estados Unidos"))
+
+
 
 tbl_eco_desa_caption = "Crecimiento de la productividad, economías desarrolladas"
 
@@ -2371,18 +2377,78 @@ knitr::kable(table_avg_tg_lac_aes_data  , digits = 1,
 
 
 
-```{r table_avg_tg_lac,  include=FALSE}
+```{r table_avg_tg_lac}
 lac_tbl_caption = "Average growth of potential output, LAC"
 uno_colnames = c("país"," 2003-2008 ", " 2010-2016 ", " cambio ")
 table_data_pot_lac <- trend_growth_list_lac$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
 
-knitr::kable(table_data_pot_lac , digits = 1,
+thistable <- knitr::kable(table_data_pot_lac , digits = 1,
              col.names = uno_colnames, caption = lac_tbl_caption) %>% 
   add_footnote("Source: Real GDP growth and out gap from WEO April 2017.  Potential GDP growth, authors' calculations")
+
+thistable 
+
 ```
 
 
+```{r plot_avg_tg_lac}
+library(ggpubr)
+library("ggsci")
+
+isocol <- cepal_18_countries[["iso3c"]]
+expogroupcol <- c("ap", "hc", "ap", "mi", "hc", "mf", "mf", "hc", "mf", "mf",
+                       "mf", "mf", "mf", "mf", "ap", "mi", "ap", "hc")
+geogroupcol <- c("SA", "SA", "SA", "SA", "SA", "CARDM", "CARDM", "SA", "CARDM",
+                 "CARDM", "CARDM", "CARDM", "CARDM", "CARDM" ,"SA", "SA", "SA", "SA")
+
+lac18_expo_groups <- data.frame(iso = isocol, expogroup = expogroupcol, subregion = geogroupcol)
+
+lac18_expo_groups <- lac18_expo_groups %>% 
+  left_join(weo_lac18plus_country_dict, by = "iso")
+
+cleve_plot_data <- lac18_expo_groups %>% 
+  rename(eco_id = country) %>% 
+  left_join(table_data_pot_lac, by = "eco_id") %>% 
+  mutate(eco_id = factor(eco_id),
+         eco_id = reorder(eco_id, change_geo))
+
+
+
+cleve_plot_tg_lac <- ggdotchart(cleve_plot_data,  x = "change_geo", label = "eco_id" ,
+                                group = "expogroup", col = "expogroup")
+
+
+cleve_plot_tg_lac
+
+ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
+  geom_bar(aes(fill = expogroup, y = change_geo), stat = "identity") + 
+  coord_flip() +
+  theme_pubr() + 
+  xlab("") + ylab("% PIB tendencial")
+  
+ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
+  geom_bar(aes(fill = subregion, y = change_geo), stat = "identity") + 
+  coord_flip() +
+  theme_pubr() + 
+  xlab("") + ylab("% PIB tendencial")
+
+ggplot(cleve_plot_data ,  aes(x = reorder(eco_id, geo_mean_gr_per2) )) + 
+  geom_bar(aes(fill = expogroup, y = geo_mean_gr_per2), stat = "identity") +
+  geom_point(aes(y = geo_mean_gr_per1), shape = 18, size=3) + 
+  xlab("") + ylab("% PIB tendencial") + 
+  coord_flip() + 
+  theme_pubr() +
+  scale_fill_locuszoom()
+
+ggplot(cleve_plot_data ,  aes(x = reorder(eco_id, geo_mean_gr_per2) )) + 
+  geom_bar(aes(fill = subregion, y = geo_mean_gr_per2), stat = "identity") +
+  geom_point(aes(y = geo_mean_gr_per1), shape = 18, size = 3) + 
+  coord_flip() + 
+  theme_pubr() + 
+  xlab("") + ylab("% PIB tendencial")
+
+```
 
 
 ```{r net_extreme_episodes}
