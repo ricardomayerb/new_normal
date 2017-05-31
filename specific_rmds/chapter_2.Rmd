@@ -1890,6 +1890,13 @@ easyGgplot2::ggplot2.multiplot(plot_nrf_to_gdp_00_08_vs_struc,
                                plot_nrf_to_gdp_10_16_vs_struc, cols = 2)
 
 
+goo <- ggplot_build(plot_nrf_to_gdp_10_16_vs_struc)$data
+
+exportdatafromplot <- function(aplot, apath) {
+  df <- ggplot_build(aplot)
+  write_excel_csv(df, apath)
+}
+
 ```
 
 
@@ -2421,17 +2428,19 @@ cleve_plot_tg_lac <- ggdotchart(cleve_plot_data,  x = "change_geo", label = "eco
 
 cleve_plot_tg_lac
 
-ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
+plot_tgchange_by_expo <- ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
   geom_bar(aes(fill = expogroup, y = change_geo), stat = "identity") + 
   coord_flip() +
   theme_pubr() + 
-  xlab("") + ylab("% PIB tendencial")
+  xlab("") + ylab("% PIB tendencial") +
+  scale_fill_locuszoom()
   
-ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
+plot_tgchange_by_sa_cardm <- ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
   geom_bar(aes(fill = subregion, y = change_geo), stat = "identity") + 
   coord_flip() +
   theme_pubr() + 
-  xlab("") + ylab("% PIB tendencial")
+  xlab("") + ylab("% PIB tendencial") +
+  scale_fill_locuszoom()
 
 ggplot(cleve_plot_data ,  aes(x = reorder(eco_id, geo_mean_gr_per2) )) + 
   geom_bar(aes(fill = expogroup, y = geo_mean_gr_per2), stat = "identity") +
@@ -2447,6 +2456,9 @@ ggplot(cleve_plot_data ,  aes(x = reorder(eco_id, geo_mean_gr_per2) )) +
   coord_flip() + 
   theme_pubr() + 
   xlab("") + ylab("% PIB tendencial")
+
+plot_tgchange_by_expo
+plot_tgchange_by_sa_cardm
 
 ```
 
