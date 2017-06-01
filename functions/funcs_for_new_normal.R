@@ -7,6 +7,24 @@ library(mFilter)
 library(stringr)
 library(countrycode)
 library(lubridate)
+library(xlsx)
+library(ggplot2)
+
+exportdatafromplot <- function(aplot, adir, aname) {
+  
+  datasheet <- paste(aname, "data", sep = "_")
+  pathandfile <- paste(adir, aname, sep = "/")
+  imagename <- paste(aname, "png", sep = ".")
+  
+  df <- ggplot_build(aplot)$data
+  write.xlsx(x = df, file = pathandfile, sheetName = datasheet)
+  
+  ggsave(imagename)
+  unlink(imagename)
+  
+  xlsx::addPicture(file = paste0(imagename, ".xlsx"), sheet = aname)
+  
+}
 
 simple_net_growth_interval <- function(x) {
   pg <- 100*(dplyr::last(x) - dplyr::first(x)) / dplyr::first(x)

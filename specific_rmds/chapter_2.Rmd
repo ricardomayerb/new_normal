@@ -1892,10 +1892,6 @@ easyGgplot2::ggplot2.multiplot(plot_nrf_to_gdp_00_08_vs_struc,
 
 goo <- ggplot_build(plot_nrf_to_gdp_10_16_vs_struc)$data
 
-exportdatafromplot <- function(aplot, apath) {
-  df <- ggplot_build(aplot)
-  write_excel_csv(df, apath)
-}
 
 ```
 
@@ -2544,4 +2540,50 @@ knitr::kable(table_avg_x_g_lac_data, digits = 1,
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
 
+```{r save_plots_to_excel}
+
+exportdatafromplot <- function(plot_list, adir, names_vector, awbname) {
+  
+  wb = createWorkbook()
+  
+  for (i in seq(1, length(names_vector))  ) {
+    aname <- names_vector[[i]]
+    aplot <- plot_list[[i]]
+    datasheet <- paste(aname, "data", sep = "_")
+    pathandfile <- paste(adir, awbname, sep = "/")
+    imagename <- paste0(adir,"/", aname, ".png")
+    xlsxname <- paste0(pathandfile, ".xlsx")
+    df <- ggplot_build(aplot)$data
+    write.xlsx(x = df, file = xlsxname, sheetName = datasheet)
+    ggsave(file = imagename, plot = aplot)
+  }
+  
+  
+
+  
+  
+  
+}
+
+figdir = "../figures_exported_data"
+wbname = "all_figs"
+
+figs_to_export <- list(plot_tot_02_08_vs_struc, plot_tot_10_15_vs_struc,
+                       plot_credigap_lac)
+
+figs_names <- c("fig_4a", "fig_4b", "fig_5")
+
+for (i  in seq(1, length(figs_names))) {
+
+  exportdatafromplot(figs_to_export[[i]], adir=figdir,
+                   aname = figs_names[[i]], awbname = wbname)
+
+}
+
+
+# ggsave(file = imagename, plot = aplot)
+#   # unlink(imagename)
+# xlsx::addPicture(file = imagename, sheet = aname)
+
+```
 
