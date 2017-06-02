@@ -113,6 +113,7 @@ load("../produced_data/selected_oecd_vars")
 load("../produced_data/ted_productivity_2016_nov")
 ```
 
+
 ```{r calculate_gdp_gaps_trends, include=FALSE, cache=TRUE}
 
 weo_gdp <- WEOApr2017cepal18_others_long %>% 
@@ -2525,9 +2526,6 @@ knitr::kable(gfcf_lac_table_data , digits = 1,
 
 
 
-
-
-
 ```{r table_avg_x_g_lac, echo=FALSE, results=TRUE}
 table_avg_x_g_lac_data <- weo_x_growth_lac$avgs_df %>% 
   select(eco_id, geo_mean_gr_per1, geo_mean_gr_per2, change_geo)
@@ -2541,27 +2539,31 @@ knitr::kable(table_avg_x_g_lac_data, digits = 1,
 ```
 
 ```{r save_plots_to_excel}
-
+# pathtozip = "C:\\Users\\RMAYER\\7-Zip\\7z.exe"
+# Sys.setenv("R_ZIPCMD" = pathtozip)
 exportdatafromplot <- function(plot_list, adir, names_vector, awbname) {
   
   wb = createWorkbook()
+  pathandfile <- paste(adir, awbname, sep = "/")
+  xlsxname <- paste0(pathandfile, ".xlsx")
+  
   
   for (i in seq(1, length(names_vector))  ) {
     aname <- names_vector[[i]]
     aplot <- plot_list[[i]]
+    
     datasheet <- paste(aname, "data", sep = "_")
-    pathandfile <- paste(adir, awbname, sep = "/")
+    
     imagename <- paste0(adir,"/", aname, ".png")
-    xlsxname <- paste0(pathandfile, ".xlsx")
+    
     df <- ggplot_build(aplot)$data
-    write.xlsx(x = df, file = xlsxname, sheetName = datasheet)
+    addWorksheet(wb, sheetName = datasheet)
+   
+    writeData(wb, datasheet, x = df)
+    
     ggsave(file = imagename, plot = aplot)
   }
-  
-  
-
-  
-  
+  saveWorkbook(wb, xlsxname, overwrite = TRUE)
   
 }
 
@@ -2573,17 +2575,9 @@ figs_to_export <- list(plot_tot_02_08_vs_struc, plot_tot_10_15_vs_struc,
 
 figs_names <- c("fig_4a", "fig_4b", "fig_5")
 
-for (i  in seq(1, length(figs_names))) {
+exportdatafromplot(plot_list = figs_to_export, adir=figdir,
+                   names_vector = figs_names, awbname = wbname)
 
-  exportdatafromplot(figs_to_export[[i]], adir=figdir,
-                   aname = figs_names[[i]], awbname = wbname)
-
-}
-
-
-# ggsave(file = imagename, plot = aplot)
-#   # unlink(imagename)
-# xlsx::addPicture(file = imagename, sheet = aname)
 
 ```
 
