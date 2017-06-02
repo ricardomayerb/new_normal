@@ -38,8 +38,8 @@ library(knitr)
 library(kableExtra)
 library(countrycode)
 library(readxl)
-library(easyGgplot2)
-
+# library(easyGgplot2)
+library(openxlsx)
 
 source("../functions/funcs_for_new_normal.R")
 
@@ -2538,46 +2538,81 @@ knitr::kable(table_avg_x_g_lac_data, digits = 1,
   add_footnote("Source: growth rates for each year from WEO April 2017")
 ```
 
-```{r save_plots_to_excel}
-# pathtozip = "C:\\Users\\RMAYER\\7-Zip\\7z.exe"
-# Sys.setenv("R_ZIPCMD" = pathtozip)
-exportdatafromplot <- function(plot_list, adir, names_vector, awbname) {
-  
-  wb = createWorkbook()
-  pathandfile <- paste(adir, awbname, sep = "/")
-  xlsxname <- paste0(pathandfile, ".xlsx")
-  
-  
-  for (i in seq(1, length(names_vector))  ) {
-    aname <- names_vector[[i]]
-    aplot <- plot_list[[i]]
-    
-    datasheet <- paste(aname, "data", sep = "_")
-    
-    imagename <- paste0(adir,"/", aname, ".png")
-    
-    df <- ggplot_build(aplot)$data
-    addWorksheet(wb, sheetName = datasheet)
-   
-    writeData(wb, datasheet, x = df)
-    
-    ggsave(file = imagename, plot = aplot)
-  }
-  saveWorkbook(wb, xlsxname, overwrite = TRUE)
-  
-}
+```{r save_plots_as_named_list}
 
-figdir = "../figures_exported_data"
-wbname = "all_figs"
-
-figs_to_export <- list(plot_tot_02_08_vs_struc, plot_tot_10_15_vs_struc,
-                       plot_credigap_lac)
+figs_to_export <- list("fig_4a" = plot_tot_02_08_vs_struc, "fig_4b" = plot_tot_10_15_vs_struc, "fig_5" = plot_credigap_lac)
 
 figs_names <- c("fig_4a", "fig_4b", "fig_5")
 
-exportdatafromplot(plot_list = figs_to_export, adir=figdir,
-                   names_vector = figs_names, awbname = wbname)
+save(figs_to_export, file = "list_of_final_figures")
 
+
+
+# pathtozip = "C:\\Users\\RMAYER\\7-Zip\\7z.exe"
+# pathtozip = "C://Program Files//WinRAR//WinRAR.exe"
+# Sys.setenv("R_ZIPCMD" = pathtozip)
+
+# exportdatafromplot <- function(plot_list, adir, names_vector, awbname) {
+#   
+#   thiswb = createWorkbook()
+#   pathandfile <- paste(adir, awbname, sep = "/")
+#   xlsxname <- paste0(pathandfile, ".xlsx")
+#   
+#   print(class(thiswb))
+#   
+#   for (i in seq(1, length(names_vector))  ) {
+#     aname <- names_vector[[i]]
+#     aplot <- plot_list[[i]]
+#     
+#     datasheet <- paste(aname, "data", sep = "_")
+#     
+#     imagename <- paste0(adir,"/", aname, ".png")
+#     
+#     df <- ggplot_build(aplot)$data
+#     addWorksheet(wb = thiswb, sheetName = datasheet)
+#    
+#     writeData(wb = thiswb, datasheet, x = df)
+#     
+#     ggsave(file = imagename, plot = aplot)
+#   }
+#   saveWorkbook(wb = thiswb, xlsxname, overwrite = TRUE)
+#   
+# }
+
+# figdir = "../figures_exported_data"
+# wbname = "all_figs"
+# 
+# figs_to_export <- list(plot_tot_02_08_vs_struc, plot_tot_10_15_vs_struc,
+#                        plot_credigap_lac)
+# 
+# figs_names <- c("fig_4a", "fig_4b", "fig_5")
+# adir = "../figures_exported_data"
+# awbname = wbname
+# names_vector = figs_names
+# plot_list = figs_to_export
+# 
+# thiswb = openxlsx::createWorkbook()
+# pathandfile <- paste(adir, awbname, sep = "/")
+# xlsxname <- paste0(pathandfile, ".xlsx")
+# print(class(thiswb))
+# for (i in seq(1, length(names_vector))  ) {
+#   aname <- names_vector[[i]]
+#   aplot <- plot_list[[i]]
+#   datasheet <- paste(aname, "data", sep = "_")
+#   imagename <- paste0(adir,"/", aname, ".png")
+#   df <- ggplot_build(aplot)$data
+#   openxlsx::addWorksheet(wb = thiswb, sheetName = datasheet)
+#   openxlsx::writeData(wb = thiswb, datasheet, x = df)
+#   ggsave(file = imagename, plot = aplot)
+# }
+# 
+# openxlsx::saveWorkbook(wb = thiswb, "foo.xlsx", overwrite = TRUE)
+# openXL(file = "foo.xlsx")
+# 
+
+# exportdatafromplot(plot_list = figs_to_export, adir=figdir,
+#                    names_vector = figs_names, awbname = wbname)
+# 
 
 ```
 
