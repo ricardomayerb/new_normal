@@ -211,7 +211,7 @@ add_ts_filters <- function(df, date_colname = "date", value_colname = "value",
     df$hp_trend[df[[country_colname]] == co] <- co_hp$trend
     df$hp_cycle_pct[df[[country_colname]] == co] <- 100 * co_hp$cycle/co_hp$trend
     
-    co_cf = cffilter(co_xts, pl = 2.1, pu=15, root = TRUE)
+    co_cf = cffilter(co_xts, pl = 2, pu=15, root = TRUE)
     df$cf_cycle[df[[country_colname]] == co] <- co_cf$cycle
     df$cf_trend[df[[country_colname]] == co] <- co_cf$trend
     df$cf_cycle_pct[df[[country_colname]] == co] <- 100 * co_cf$cycle/co_cf$trend
