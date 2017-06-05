@@ -3,10 +3,11 @@ title: "potential_output"
 author: "Ricardo Mayer"
 date: "April 17, 2017"
 output:
+  html_document: default
   word_document:
     reference_docx: reference_word.docx
   pdf_document: default
-  html_document: default
+
 ---
 
 
@@ -147,6 +148,35 @@ real_gdp_gap_weo_wide <- real_gdp_gap_weo_long %>%
 ```
 
 
+```{r potential_gdp_extended_exam}
+
+real_gdp_lcu_long <- WEOApr2017cepal18_others_long %>% 
+  filter(weo_subject_code %in% c("NGDP_R")) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) 
+
+real_gdp_percapita_lcu_long <- WEOApr2017cepal18_others_long %>% 
+  filter(weo_subject_code %in% c("NGDPRPC")) %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) 
+
+real_gdp_lcu_hp <- add_ts_filters(real_gdp_lcu_long) %>% arrange(country, date) %>% 
+  group_by(country) %>% 
+  mutate(trend_growth_pct = 100*(hp_trend / dplyr::lag(hp_trend)-1) )
+
+real_gdp_percapita_lcu_hp <- add_ts_filters(real_gdp_percapita_lcu_long) %>% arrange(country, date) %>% 
+  group_by(country) %>% 
+  mutate(trend_growth_pct = 100*(hp_trend / dplyr::lag(hp_trend)-1) )
+
+plot_arg <- ggplot(data = filter(real_gdp_lcu_hp, iso == "ARG"), 
+                   aes(x = date, y = value)) + geom_point() + 
+  geom_line(aes(y = hp_trend), col = "blue") +
+  geom_line(aes(y = cf_trend), col = "red") 
+  
+
+plot_arg
+```
+
+
+
 
 ```{r table_avg_tg_lac, echo=FALSE, results=TRUE}
 lac_tbl_caption = "Average growth of potential output, LAC"
@@ -203,7 +233,7 @@ bp_lac <- ggplot(lac_data, aes(x = country, y = avg_growth, fill = period)) +
         legend.title = element_text(size = 17),
         title = element_text(size = 19)) 
 
-# bp_lac
+bp_lac
 ```
 
 

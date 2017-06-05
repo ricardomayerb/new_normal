@@ -184,6 +184,10 @@ add_ts_filters <- function(df, date_colname = "date", value_colname = "value",
   df$hp_trend <- NA
   df$hp_cycle_pct <- NA
   
+  df$cf_cycle <- NA
+  df$cf_trend <- NA
+  df$cf_cycle_pct <- NA
+  
   if(data_periodicity == "annual"){
     lambda_value = 6.25
   } else {
@@ -206,6 +210,11 @@ add_ts_filters <- function(df, date_colname = "date", value_colname = "value",
     df$hp_cycle[df[[country_colname]] == co] <- co_hp$cycle
     df$hp_trend[df[[country_colname]] == co] <- co_hp$trend
     df$hp_cycle_pct[df[[country_colname]] == co] <- 100 * co_hp$cycle/co_hp$trend
+    
+    co_cf = cffilter(co_xts, pl = 2.1, pu=15, root = TRUE)
+    df$cf_cycle[df[[country_colname]] == co] <- co_cf$cycle
+    df$cf_trend[df[[country_colname]] == co] <- co_cf$trend
+    df$cf_cycle_pct[df[[country_colname]] == co] <- 100 * co_cf$cycle/co_cf$trend
     
   }
  
