@@ -44,7 +44,7 @@ library(readxl)
 library(openxlsx)
 
 source("../functions/funcs_for_new_normal.R")
-
+Sys.setenv("R_ZIPCMD" = "C://Rtools//bin//zip")
 newwb <- createWorkbook()
 
 ```
@@ -2461,11 +2461,11 @@ cleve_plot_data <- lac18_expo_groups %>%
 
 
 
-cleve_plot_tg_lac <- ggdotchart(cleve_plot_data,  x = "change_geo", label = "eco_id" ,
-                                group = "expogroup", col = "expogroup")
-
-
-cleve_plot_tg_lac
+# cleve_plot_tg_lac <- ggdotchart(cleve_plot_data,  x = "change_geo", label = "eco_id" ,
+#                                 group = "expogroup", col = "expogroup")
+# 
+# 
+# cleve_plot_tg_lac
 
 plot_tgchange_by_expo <- ggplot(cleve_plot_data,  aes(x = reorder(eco_id, change_geo))) + 
   geom_bar(aes(fill = expogroup, y = change_geo), stat = "identity") + 
