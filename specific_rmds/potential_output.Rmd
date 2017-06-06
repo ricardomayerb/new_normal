@@ -167,6 +167,11 @@ real_gdp_percapita_lcu_long <- WEOApr2017cepal18_others_long %>%
   filter(weo_subject_code %in% c("NGDPRPC")) %>% 
   mutate(date =  ymd(paste0(year,  "-12-31"))) 
 
+growth_gdp_p_a_filter <-  growth_gdp_potencial_aravena %>% 
+  mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
+  add_ts_filters(value_colname = "growth_pot_gdp", country_colname ="iso2c") 
+
+
 real_gdp_lcu_filters <- add_ts_filters(real_gdp_lcu_long) %>% arrange(country, date) %>% 
   group_by(country) %>% 
   mutate(hp_trend_growth_pct = 100*(hp_trend / dplyr::lag(hp_trend)-1),
@@ -185,7 +190,7 @@ real_gdp_lcu_filters_pfun <- real_gdp_lcu_filters %>%
   select(-c(weo_country_code, subject_descriptor, subject_notes, estimates_start_after,
             units, scale, country_series_specific_notes)) %>% 
   left_join(ponderadores_gdp, by = c("iso2c", "year")) %>% 
-  left_join(growth_gdp_potencial_aravena, by = c("iso2c", "year"))
+  left_join(growth_gdp_p_a_filter, by = c("iso2c", "year"), suffix = c(".fil", ".p_fun"))
 
 # %>% 
 #   ungroup() %>% arrange(date, country) %>% group_by(date) %>% 
@@ -193,41 +198,71 @@ real_gdp_lcu_filters_pfun <- real_gdp_lcu_filters %>%
 
 gr_lac_filters_pfun <- real_gdp_lcu_filters_pfun %>% 
   filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
-  group_by(date) %>% 
-  summarise(w_gr_pfun = mean(100*growth_pot_gdp*pond),
-            w_gr_hp = mean(hp_trend_growth_pct*pond),
-            w_gr_cf = mean(cf_trend_growth_pct*pond),
-            w_gr_actual_gdp = mean(actual_gdp_growth_pct*pond)) %>% 
+  group_by(date.fil) %>% 
+  summarise(w_gr_pfun = sum(100*growth_pot_gdp*pond),
+            w_gr_pfun_hp = sum(100*hp_trend.p_fun*pond),
+            w_gr_hp = sum(hp_trend_growth_pct*pond),
+            w_gr_cf = sum(cf_trend_growth_pct*pond),
+            w_gr_actual_gdp = sum(actual_gdp_growth_pct*pond)) %>% 
   ungroup() %>% 
-  filter(year(date) >= 1990 & year(date) <= 2015)
+  filter(year(date.fil) >= 1990 & year(date.fil) <= 2015)
 
-gr_lac_filters_pfun_xts <- as.xts(gr_lac_filters_pfun[,2:5], order.by = gr_lac_filters_pfun$date) 
+gr_lac_filters_pfun_xts <- as.xts(gr_lac_filters_pfun[,2:5], order.by = gr_lac_filters_pfun$date.fil) 
 
-plot_lac18_wavg_gr <- ggplot(gr_lac_filters_pfun, aes(x = date)) + 
+xticks = seq(1990, 2015, 3)
+
+plot_lac18_wavg_gr_base <- ggplot(gr_lac_filters_pfun, aes(x = year(date.fil))) + 
+  geom_line(aes(y = w_gr_hp, col = "HP"), size = 1.3) + 
+  labs(title = "PIB potencial",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+   theme_classic2() +
+   theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) + 
+  scale_x_continuous(breaks = xticks)
+  
+
+ # + 
+ #  scale_x_date(date_breaks = "2 years", date_labels = "%Y")
+
+plot_lac18_wavg_gr_base_hp_pfun <- plot_lac18_wavg_gr_base  + 
+  geom_line(aes(y = w_gr_pfun_hp, col = "Prod fun hped"), size = 1.3)
+
+plot_lac18_wavg_gr_with_actual <- plot_lac18_wavg_gr_base_hp_pfun + 
   geom_line(aes(y = w_gr_actual_gdp, col = "actual gdp")) + 
-  geom_line(aes(y = w_gr_hp, col = "HP")) + 
-  geom_line(aes(y = w_gr_pfun, col = "Prod fun"))
+  geom_line(aes(y = w_gr_pfun, col = "Prod fun"))  
 
-plot_lac18_wavg_gr
+
+plot_lac18_wavg_gr_base
 
 plot_bra_chgs <-  ggplot(data = filter(real_gdp_lcu_filters_pfun, 
                                        iso == "BRA" & year >= 1990 & year <= 2015), 
-                   aes(x = date, y = actual_gdp_growth_pct)) + geom_line() + 
+                   aes(x = date.fil, y = actual_gdp_growth_pct)) + geom_line() + 
   geom_line(aes(y = hp_trend_growth_pct), col = "blue") +
   geom_line(aes(y = cf_trend_growth_pct), col = "red") + 
   geom_line(aes(y = 100*growth_pot_gdp), col = "green")
 
+plot_bra_chgs_pfunhp <-  ggplot(data = filter(real_gdp_lcu_filters_pfun, 
+                                       iso == "BRA" & year >= 1990 & year <= 2015), 
+                   aes(x = date.fil, y = actual_gdp_growth_pct)) + geom_line() + 
+  geom_line(aes(y = hp_trend_growth_pct), col = "blue") +
+  geom_line(aes(y = cf_trend_growth_pct), col = "red") + 
+  geom_line(aes(y = 100*growth_pot_gdp), col = "green") + 
+  geom_line(aes(y = 100*hp_trend.p_fun), col = "yellow")
+
+plot_bra_chgs
+plot_bra_chgs_pfunhp
+
+
 plot_mex_chgs <-  ggplot(data = filter(real_gdp_lcu_filters_pfun, 
                                        iso == "BRA" & year >= 1990 & year <= 2015), 
-                   aes(x = date, y = actual_gdp_growth_pct)) + geom_line() + 
+                   aes(x = date.fil, y = actual_gdp_growth_pct)) + geom_line() + 
   geom_line(aes(y = hp_trend_growth_pct), col = "blue") +
   geom_line(aes(y = cf_trend_growth_pct), col = "red") + 
   geom_line(aes(y = 100*growth_pot_gdp), col = "green") + 
   geom_smooth(aes(y = 100*growth_pot_gdp), col = "yellow", se = FALSE)
 
-plot_arg
 
-plot_arg_chgs
+
 plot_bra_chgs
 plot_mex_chgs
 
@@ -238,7 +273,7 @@ for (co in cepal_18_countries[["iso2c"]]) {
   crit <- real_gdp_lcu_filters_pfun$iso2c == co & real_gdp_lcu_filters_pfun$year >=1990 & real_gdp_lcu_filters_pfun$year<= 2015
   
   df <- real_gdp_lcu_filters_pfun[crit, ]
-  co_plot <- ggplot(data = df, aes(x = date, y = actual_gdp_growth_pct)) + 
+  co_plot <- ggplot(data = df, aes(x = date.fil, y = actual_gdp_growth_pct)) + 
     geom_line() + 
   geom_line(aes(y = hp_trend_growth_pct), col = "blue") +
   geom_line(aes(y = 100*growth_pot_gdp), col = "green") + 

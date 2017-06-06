@@ -45,6 +45,8 @@ library(openxlsx)
 
 source("../functions/funcs_for_new_normal.R")
 
+newwb <- createWorkbook()
+
 ```
 
 
@@ -1763,6 +1765,15 @@ plot_tot_10_15_vs_struc <- ggplot(data = x_sh_and_tot_chg_lac18,
   theme_classic() +
   theme(legend.position = "none", plot.title = element_text(hjust = 0.5) ) 
 
+addWorksheet(newwb, sheetName = "fig_11a")
+df_fig11a <- plot_tot_02_08_vs_struc$data %>% 
+  select(manuf_avg_00_08, pct_change_tot_02_08, iso2c, subregion)
+writeData(newwb, "fig_11a" , df_fig11a)
+
+addWorksheet(newwb, sheetName = "fig_11b")
+df_fig11b <- plot_tot_10_15_vs_struc$data %>% 
+  select(manuf_avg_00_08, pct_change_tot_10_15, iso2c, subregion)
+writeData(newwb, "fig_11b" , df_fig11b) 
 
 # guides(color = guide_legend("sub-región"), shape = guide_legend("sub-región")) 
 
@@ -1824,6 +1835,9 @@ plot_nrf_10_16_vs_struc <- ggplot(data = nrf_avgs_lac18_byc,
 
 
 
+
+
+
 # easyGgplot2::ggplot2.multiplot(plot_nrf_00_08_vs_struc, plot_nrf_10_16_vs_struc, cols = 2)
 
 ```
@@ -1874,7 +1888,6 @@ plot_nrf_to_gdp_00_08_vs_struc <- ggplot(data = nrf_to_gdp_avgs_lac18_byc,
   theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
 
 
-
 plot_nrf_to_gdp_10_16_vs_struc <- ggplot(data = nrf_to_gdp_avgs_lac18_byc,
                              aes(x = manuf_avg_00_08, y = mean_per2,
                                  label = iso2c)) +
@@ -1888,12 +1901,23 @@ plot_nrf_to_gdp_10_16_vs_struc <- ggplot(data = nrf_to_gdp_avgs_lac18_byc,
   theme_classic() + 
   theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) 
 
+addWorksheet(newwb, sheetName = "fig_10a")
+df_fig10a <- plot_nrf_to_gdp_00_08_vs_struc$data %>% 
+  select(manuf_avg_00_08, mean_per1, iso2c, subregion)
+writeData(newwb, "fig_10a" , df_fig10a)
+
+addWorksheet(newwb, sheetName = "fig_10b")
+df_fig10b <- plot_nrf_to_gdp_10_16_vs_struc$data %>% 
+  select(manuf_avg_00_08, mean_per1, iso2c, subregion)
+writeData(newwb, "fig_10b" , df_fig10b) 
+
 
 easyGgplot2::ggplot2.multiplot(plot_nrf_to_gdp_00_08_vs_struc,
                                plot_nrf_to_gdp_10_16_vs_struc, cols = 2)
 
 
-goo <- ggplot_build(plot_nrf_to_gdp_10_16_vs_struc)$data
+ 
+
 
 
 ```
@@ -2170,30 +2194,41 @@ quarterly_gross_inflows <-  ggplot(data = gross_inflows_lac17_by_type_q,
 
 
 yearly_gross_inflows_usd2009  <- ggplot(data = gross_inflows_lac17_by_type_y_usd2009,
-       aes(x = year, y=deflated_value, fill = inflow)) + geom_bar(stat = "identity") +
+       aes(x = year, y=deflated_value/1000, fill = inflow)) + geom_bar(stat = "identity") +
        scale_fill_discrete(labels = c("IED", "Otra", "Cartera")) +
   labs(title = "Brutos",
        x = "",
-       y = "Millones USD (2009)") +
-  coord_cartesian(ylim = c(-6*10000, 4*100000)) +
+       y = "Miles de millones USD (2009)") +
+  coord_cartesian(ylim = c(-6*10, 4*100)) +
   theme_classic() + 
   theme(plot.title = element_text(hjust = 0.5)) +
   guides(fill=guide_legend(title=NULL))
 
 yearly_net_inflows_usd2009 = ggplot(data = net_inflows_lac17_by_type_y_usd2009,
-       aes(x = year, y=deflated_value, fill = inflow)) + geom_bar(stat = "identity") +
+       aes(x = year, y=deflated_value/1000, fill = inflow)) + geom_bar(stat = "identity") +
        scale_fill_discrete(labels = c("IED", "Otra", "Cartera")) +
   labs(title = "Netos",
        x = "",
-       y = "Millones USD (2009)") +
+       y = "Miles de millones USD (2009)") +
   theme_classic() + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  coord_cartesian(ylim = c(-6*10000, 4*100000)) +
+  coord_cartesian(ylim = c(-6*10, 4*100)) +
   guides(fill=guide_legend(title=NULL))
 
 easyGgplot2::ggplot2.multiplot(yearly_gross_inflows_usd2009,
                                yearly_net_inflows_usd2009, cols = 1)
 
+addWorksheet(newwb, sheetName = "fig_9a")
+df_fig9a <- yearly_gross_inflows_usd2009$data %>% 
+  select(year, deflated_value, inflow)
+writeData(newwb, "fig_9a" , df_fig9a)
+
+addWorksheet(newwb, sheetName = "fig_9b")
+df_fig9b <- yearly_net_inflows_usd2009$data %>% 
+  select(year, deflated_value, inflow)
+writeData(newwb, "fig_9b" , df_fig9b)  
+
+saveWorkbook(newwb, "figuras_excel_9ab.xlsx", overwrite = TRUE)
 
 ```
 
@@ -2252,6 +2287,11 @@ plot_credigap_lac <- plot_credigap_lac + geom_line(size = 1.3) + geom_hline(yint
        y = "Brecha de crédito (%)") +
   theme_classic() +
   guides(color=guide_legend(title=NULL)) 
+
+addWorksheet(newwb, sheetName = "fig_12")
+df_fig12 <- plot_credigap_lac$data %>% 
+  select(date_id,  voi, eco_id)
+writeData(newwb, "fig_12" , df_fig12) 
 
 plot_credigap_lac
 
@@ -2620,4 +2660,9 @@ save(figs_to_export, file = "list_of_final_figures")
 # 
 
 ```
+
+```{r saveworkbook}
+saveWorkbook(newwb, "figuras_excel.xlsx", overwrite = TRUE)
+```
+
 

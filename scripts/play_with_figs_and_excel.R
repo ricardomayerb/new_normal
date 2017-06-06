@@ -35,6 +35,12 @@ saveWorkbook(figswb, "figuras_excel.xlsx", overwrite = TRUE)
 
 
 
+#Now, by hand using original data frames:
+
+
+
+
+
 # cf520 <- 119
 # cf620 <- 143
 # cf940 <- 193

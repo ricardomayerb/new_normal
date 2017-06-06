@@ -210,6 +210,25 @@ rf_by_country_year <- rf_all %>%
             total_rf = ied_eee_y + a_cartera_y + a_otra_y)
 
 
+nrf_by_country_year_not_ven <- nrf_all %>% 
+  filter(pais != "VEN") %>% 
+  group_by(pais, year) %>% 
+  summarise(ied_eed_y = sum(as.numeric(ied_eed), na.rm = TRUE),
+            p_cartera_y = sum(as.numeric(p_cartera), na.rm = TRUE),
+            p_otra_y = sum(as.numeric(p_otra), na.rm = TRUE),
+            total_nrf = ied_eed_y + p_cartera_y + p_otra_y)
+
+
+rf_by_country_year_not_ven <- rf_all %>% 
+  filter(pais != "VEN") %>% 
+  group_by(pais, year) %>% 
+  summarise(ied_eee_y = sum(as.numeric(ied_eee), na.rm = TRUE),
+            a_cartera_y = sum(as.numeric(a_cartera), na.rm = TRUE),
+            a_otra_y = sum(as.numeric(a_otra), na.rm = TRUE),
+            total_rf = ied_eee_y + a_cartera_y + a_otra_y)
+
 
 save(bop_lac_all_countries_tidy, nrf_by_country_year,
-     rf_by_country_year, file = "./produced_data/all_bops_lac")
+     rf_by_country_year, 
+     nrf_by_country_year_not_ven, rf_by_country_year_not_ven,
+     file = "./produced_data/all_bops_lac")
