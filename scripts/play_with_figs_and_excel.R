@@ -27,10 +27,11 @@ for (i in seq_along(fig_names)) {
   ggsave(paste0(fig_names[[i]],".png"), plot = figs_to_export[[i]])
   insertImage(figswb,  fig_names[[i]],file = paste0(fig_names[[i]],".png"))
   addWorksheet(figswb, sheetName = data_fig_names[[i]])
-  writeData(figswb, data_fig_names[[i]], x=data_from_figs[[i]] )
+  writeData(figswb, data_fig_names[[i]], x=data_from_figs[[i]][[1]], 
+            colNames = TRUE)
   
 }
-saveWorkbook(figswb, "doo.xlsx", overwrite = TRUE)
+saveWorkbook(figswb, "figuras_excel.xlsx", overwrite = TRUE)
 
 
 

@@ -4,14 +4,16 @@ author: "DDE"
 date: '`r Sys.Date()`'
 output:
 
+  html_document:
+    toc: yes
+    fig_caption: yes
+
+
   word_document:
     reference_docx: reference_style_for_new_normal.docx
     toc: yes
     fig_caption: yes
     
-  html_document:
-    toc: yes
-    fig_caption: yes
 
 
   pdf_document: default
@@ -2540,9 +2542,12 @@ knitr::kable(table_avg_x_g_lac_data, digits = 1,
 
 ```{r save_plots_as_named_list}
 
-figs_to_export <- list("fig_4a" = plot_tot_02_08_vs_struc, "fig_4b" = plot_tot_10_15_vs_struc, "fig_5" = plot_credigap_lac)
+figs_to_export <- list("fig_9a" = plot_tot_02_08_vs_struc, "fig_9b" = plot_tot_10_15_vs_struc, "fig_10a" = yearly_gross_inflows_usd2009, "fig_10b" = yearly_net_inflows_usd2009, "fig_11a" = plot_nrf_to_gdp_00_08_vs_struc, "fig_11b" = plot_nrf_to_gdp_10_16_vs_struc, "fig_12" = plot_credigap_lac)
 
-figs_names <- c("fig_4a", "fig_4b", "fig_5")
+
+
+figs_names <- c("fig_9a", "fig_9b", "fig_10a", "fig_10b",
+                "fig_11a", "fig_11b",  "fig_12")
 
 save(figs_to_export, file = "list_of_final_figures")
 
