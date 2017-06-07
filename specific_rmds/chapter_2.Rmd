@@ -2220,12 +2220,15 @@ easyGgplot2::ggplot2.multiplot(yearly_gross_inflows_usd2009,
 
 addWorksheet(newwb, sheetName = "fig_9a")
 df_fig9a <- yearly_gross_inflows_usd2009$data %>% 
-  select(year, deflated_value, inflow)
+  select(year, deflated_value, inflow) %>% 
+  spread(year, deflated_value)
+
 writeData(newwb, "fig_9a" , df_fig9a)
 
 addWorksheet(newwb, sheetName = "fig_9b")
 df_fig9b <- yearly_net_inflows_usd2009$data %>% 
-  select(year, deflated_value, inflow)
+  select(year, deflated_value, inflow) %>% 
+  spread(year, deflated_value)
 writeData(newwb, "fig_9b" , df_fig9b)  
 
 saveWorkbook(newwb, "figuras_excel_9ab.xlsx", overwrite = TRUE)
@@ -2289,8 +2292,11 @@ plot_credigap_lac <- plot_credigap_lac + geom_line(size = 1.3) + geom_hline(yint
   guides(color=guide_legend(title=NULL)) 
 
 addWorksheet(newwb, sheetName = "fig_12")
+
 df_fig12 <- plot_credigap_lac$data %>% 
-  select(date_id,  voi, eco_id)
+  select(date_id,  voi, eco_id) %>% 
+  spread(eco_id, voi)
+
 writeData(newwb, "fig_12" , df_fig12) 
 
 plot_credigap_lac
