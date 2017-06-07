@@ -1892,7 +1892,7 @@ plot_nrf_to_gdp_10_16_vs_struc <- ggplot(data = nrf_to_gdp_avgs_lac18_byc,
                              aes(x = manuf_avg_00_08, y = mean_per2,
                                  label = iso2c)) +
   geom_point(aes(color = subregion, shape = subregion), size = 3) +
-  labs(title = "2002-2016",
+  labs(title = "2010-2016",
        x = "exportación manufacturas (%)",
        y = "flujo promedio anual (% PIB)") +
   geom_hline(yintercept = 0) +
@@ -1908,7 +1908,7 @@ writeData(newwb, "fig_10a" , df_fig10a)
 
 addWorksheet(newwb, sheetName = "fig_10b")
 df_fig10b <- plot_nrf_to_gdp_10_16_vs_struc$data %>% 
-  select(manuf_avg_00_08, mean_per1, iso2c, subregion)
+  select(manuf_avg_00_08, mean_per2, iso2c, subregion)
 writeData(newwb, "fig_10b" , df_fig10b) 
 
 
