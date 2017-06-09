@@ -164,9 +164,8 @@ real_gdp_lcu_long <- WEOApr2017cepal18_others_long %>%
   filter(weo_subject_code %in% c("NGDP_R")) %>% 
   mutate(date =  ymd(paste0(year,  "-12-31"))) 
 
-real_gdp_percapita_lcu_long <- WEOApr2017cepal18_others_long %>% 
-  filter(weo_subject_code %in% c("NGDPRPC")) %>% 
-  mutate(date =  ymd(paste0(year,  "-12-31"))) 
+# real_gdp_lcu_long <- real_gdp_lcu_long %>% 
+#   filter(year(date) <= 2015)
 
 growth_gdp_p_a_filter <-  growth_gdp_potencial_aravena %>% 
   mutate(date =  ymd(paste0(year,  "-12-31"))) %>% 
@@ -221,6 +220,24 @@ gr_lac_filters_pfun <- real_gdp_lcu_filters_pfun %>%
   ungroup() %>% 
   filter(year(date.fil) >= 1990 & year(date.fil) <= 2015)
 
+
+gr_lac16venbra_filters_pfun <- real_gdp_lcu_filters_pfun %>% 
+  filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
+  filter(!iso2c %in% c("BR", "VE")) %>% 
+  group_by(date.fil) %>% 
+  summarise(w_gr_pfun = sum(100*growth_pot_gdp*pond),
+            w_gr_pfun_hp = sum(100*hp_trend.p_fun*pond),
+            w_gr_hp = sum(hp_trend_growth_pct*pond),
+            w_gr_cf = sum(cf_trend_growth_pct*pond),
+            w_gr_actual_gdp = sum(actual_gdp_growth_pct*pond),
+            uw_gr_actual_gdp = mean(actual_gdp_growth_pct),
+            uw_gr_hp = mean(hp_trend_growth_pct),
+            uw_gr_pfun = mean(100*growth_pot_gdp),
+            uw_gr_pfun_hp = mean(100*hp_trend.p_fun)) %>% 
+  ungroup() %>% 
+  filter(year(date.fil) >= 1990 & year(date.fil) <= 2015)
+
+
 gr_groups_filters_pfun <- real_gdp_lcu_filters_pfun %>% 
   filter(iso2c %in% cepal_18_countries[["iso2c"]]) %>% 
   group_by(date.fil, exp_group) %>% 
@@ -253,8 +270,8 @@ plot_lac18_wavg_gr_base <- ggplot(gr_lac_filters_pfun, aes(x = year(date.fil))) 
   scale_x_continuous(breaks = xticks)
 
 
-plot_groups_uwavg_gr_hp <- ggplot(gr_groups_filters_pfun, aes(x = year(date.fil), col = exp_group)) + 
-  geom_line(aes(y = uw_gr_hp), size = 1.3) + 
+plot_groups_uwavg_gr_pfun <- ggplot(gr_groups_filters_pfun, aes(x = year(date.fil), col = exp_group)) + 
+  geom_line(aes(y = uw_gr_pfun), size = 1.3) + 
   theme_classic2() +
   scale_x_continuous(breaks = xticks) + 
   scale_colour_discrete(name  = "",
@@ -265,14 +282,16 @@ plot_groups_uwavg_gr_hp <- ggplot(gr_groups_filters_pfun, aes(x = year(date.fil)
        x = "",
        y = "Growth (%)",
        color = "",
-       caption = "Simple averages of country-level trend GDP growth rates.\n For each country, potential GDP is obtained by estimating a production function") +
+       caption = "Source: WEO, April 2017 and ECLAC. Simple averages of country-level trend GDP growth rates.\n For each country, potential GDP is obtained by estimating a production function") +
   guides(color = guide_legend(ncol = 2)) + 
   theme(legend.position = "bottom",
          plot.title = element_text(hjust = 0.5), 
          plot.subtitle = element_text(hjust = 0.5),
-         plot.caption = element_text(size = 9)) 
+         plot.caption = element_text(size = 8, hjust = 0),
+         legend.key.size = unit(0.4, "cm")) 
 
-plot_groups_uwavg_gr_pfun <- ggplot(gr_groups_filters_pfun, aes(x = year(date.fil), col = exp_group)) + 
+plot_groups_uwavg_gr_hp <- ggplot(gr_groups_filters_pfun, aes(x = year(date.fil), col = exp_group)) + 
+  geom_line(aes(y = uw_gr_hp), size = 1.3) + 
   theme_classic2() +
   scale_x_continuous(breaks = xticks) + 
   scale_colour_discrete(name  = "",
@@ -283,12 +302,13 @@ plot_groups_uwavg_gr_pfun <- ggplot(gr_groups_filters_pfun, aes(x = year(date.fi
        x = "",
        y = "Growth (%)",
        color = "",
-       caption = "Simple averages of country-level trend GDP growth rates.\n For each country, trend GDP is obtained by filtering real GDP, using a HP filter.") +
+       caption = "Source: WEO, April 2017 and ECLAC. Simple averages of country-level trend GDP growth rates.\n For each country, trend GDP is obtained by filtering real GDP, using a HP filter.") +
   guides(color = guide_legend(ncol = 2)) + 
   theme(legend.position = "bottom",
          plot.title = element_text(hjust = 0.5), 
          plot.subtitle = element_text(hjust = 0.5),
-         plot.caption = element_text(size = 9)) 
+         plot.caption = element_text(size = 8, hjust = 0),
+         legend.key.size = unit(0.4, "cm")) 
 
 
 plot_manuf_uwavg_gr <- ggplot( filter(gr_groups_filters_pfun, exp_group == "manuf") , aes(x = year(date.fil))) +   geom_line(aes(y = uw_gr_hp, col = "HP"), size = 1.3) + 
@@ -392,23 +412,86 @@ plot_lac18_wavg_gr_with_actual <- plot_lac18_wavg_gr_base_hp_pfun +
 
 
 plot_lac18_uwavg_gr_base <- ggplot(gr_lac_filters_pfun, aes(x = year(date.fil))) + 
-  geom_line(aes(y = w_gr_hp, col = "HP"), size = 1.3) + 
-  labs(title = "PIB potencial",
+  geom_line(aes(y = uw_gr_hp, col = "HP"), size = 1.3) + 
+  labs(title = "Trend GDP",
        x = "",
        y = "Crecimiento anual (%)") + 
    theme_classic2() +
    theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) + 
   scale_x_continuous(breaks = xticks)
 
-plot_lac18_uwavg_gr_base_hp_pfun <- plot_lac18_uwavg_gr_base  + 
-  geom_line(aes(y = uw_gr_pfun_hp, col = "Prod fun hped"), size = 1.3)
+plot_lac18_uwavg_gr_pfun <- ggplot(gr_lac_filters_pfun, aes(x = year(date.fil))) + 
+  geom_line(aes(y = uw_gr_pfun, col = "HP"), size = 1.3) + 
+  labs(title = "Potential GDP",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+   theme_classic2() +
+   theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) + 
+  scale_x_continuous(breaks = xticks)
+
+plot_lac18_uwavg_gr_hp_pfun <- plot_lac18_uwavg_gr_base  + 
+  geom_line(aes(y = uw_gr_pfun, col = "Prod fun"), size = 1.3) + 
+  labs(title = "HP vs production function, simple averages of growth rates",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+  
 
 plot_lac18_uwavg_gr_with_actual <- plot_lac18_uwavg_gr_base_hp_pfun + 
   geom_line(aes(y = uw_gr_actual_gdp, col = "actual gdp")) + 
   geom_line(aes(y = uw_gr_pfun, col = "Prod fun"))  
 
 
+plot_lac16_uwavg_gr_base <- ggplot(gr_lac16venbra_filters_pfun, aes(x = year(date.fil))) + 
+  geom_line(aes(y = uw_gr_hp, col = "HP"), size = 1.3) + 
+  labs(title = "LAC 16, Trend GDP",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+   theme_classic2() +
+   theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) + 
+  scale_x_continuous(breaks = xticks)
 
+plot_lac16_uwavg_gr_base<- ggplot(gr_lac16venbra_filters_pfun, aes(x = year(date.fil))) + 
+  geom_line(aes(y = uw_gr_pfun, col = "HP"), size = 1.3) + 
+  labs(title = "LAC 16, Potential GDP",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+   theme_classic2() +
+   theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) + 
+  scale_x_continuous(breaks = xticks)
+
+plot_lac16_uwavg_gr_hp_pfun <- plot_lac16_uwavg_gr_base  + 
+  geom_line(aes(y = uw_gr_pfun, col = "Prod fun"), size = 1.3) + 
+  labs(title = "HP vs production function, simple averages of growth rates",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+  
+
+plot_lac16_uwavg_gr_with_actual <- plot_lac16_uwavg_gr_hp_pfun + 
+  geom_line(aes(y = uw_gr_actual_gdp, col = "actual gdp")) + 
+  geom_line(aes(y = uw_gr_pfun, col = "Prod fun"))  
+
+plot_lac18vs16_pfun <- ggplot(gr_lac16venbra_filters_pfun, aes(x = year(date.fil))) + 
+  geom_line(aes(y = uw_gr_pfun, col = "Lac-16"), size = 1.3) + 
+  geom_line(data = gr_lac_filters_pfun, aes(y = uw_gr_pfun, col = "Lac-18"), size = 1.3) +
+  labs(title = "Potential GDP",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+   theme_classic2() +
+   theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5)) + 
+  scale_x_continuous(breaks = xticks)
+
+
+plot_lac18vs16_hp <- ggplot(gr_lac16venbra_filters_pfun, aes(x = year(date.fil))) + 
+  geom_line(aes(y = uw_gr_hp, col = "Lac-16"), size = 1.3) + 
+  geom_line(data = gr_lac_filters_pfun, aes(y = uw_gr_hp, col = "Lac-18"), size = 1.3) +
+  labs(title = "Trend GDP",
+       x = "",
+       y = "Crecimiento anual (%)") + 
+   theme_classic2() +
+   theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5)) + 
+  scale_x_continuous(breaks = xticks)
 
 
 
@@ -444,9 +527,9 @@ plot_lac18_uwavg_gr_base
 plot_lac18_uwavg_gr_base_hp_pfun
 plot_lac18_uwavg_gr_with_actual
 
-plot_groups_uwavg_gr_pfun
-plot_groups_uwavg_gr_hp
 
+plot_groups_uwavg_gr_hp
+plot_groups_uwavg_gr_pfun
 
 
 ```
