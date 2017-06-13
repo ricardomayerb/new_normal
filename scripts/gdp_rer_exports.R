@@ -6,6 +6,10 @@ library(countrycode)
 library(AER)
 library(ivpack)
 library(stringr)
+library(RcppRoll)
+library(xts)
+library(lubridate)
+library(roll)
 
 load("./produced_data/WEOApr2017_cepal_and_others")
 
@@ -39,13 +43,19 @@ gdp_and_expo_wide <- WEOApr2017cepal18_others_wide %>%
   select(-c(`2017`:`2022`)) %>% 
   arrange(country)
 
-gdp_and_expo_long <- WEOApr2017cepal18_others_long %>% 
+# percent change of GDP at constant prices and growth of exports at constant prices
+pch_gdp_and_expo_to_panel <- WEOApr2017cepal18_others_long %>% 
   filter(iso %in% cepal_18_countries[["iso3c"]]) %>% 
   select(-c(weo_country_code, subject_notes, units, scale,
-            country_series_specific_notes, estimates_start_after)) %>% 
+            country_series_specific_notes, estimates_start_after,
+            iso, subject_descriptor)) %>% 
   filter(weo_subject_code %in% c("TX_RPCH", "NGDP_RPCH")) %>% 
   filter(year <= 2016) %>% 
-  arrange(country, year)
+  mutate(year = as.numeric(year)) %>% 
+  arrange(country, year) %>% 
+  spread(key = weo_subject_code, value = value) %>% 
+  rename(gdp_pch = NGDP_RPCH, x_pch = TX_RPCH)
+
 
 data_from_bart <- read_excel("./raw_data/Data for Regression GDP levels.xlsx",
 col_types = c("text", "numeric", "numeric",
@@ -59,8 +69,39 @@ names(data_from_bart) <- c("country", "id", "year", "nominal_gdp",
 reer_1990_2015 <- data_from_bart %>% 
   select(-c(nominal_gdp, nominal_x_s, id))
 
+gdp_x_reer <- reer_1990_2015 %>% 
+  left_join(pch_gdp_and_expo_to_panel, by = c("country", "year")) %>% 
+  select(country, year, gdp_pch, x_pch, reer_2005)
+
+corr_by_country <- gdp_x_reer %>% 
+  group_by(country) %>% 
+  summarise(c_gdp_x = cor(gdp_pch, x_pch),
+            c_gdp_reer = cor(gdp_pch, reer_2005))
 
 
+chl_data <- gdp_x_reer %>% filter(country == "Chile") %>% 
+  select(-country) %>% 
+  mutate(year = ymd(paste0(year, "-12-31")))
 
 
+chl_data_xts <- as.xts(chl_data[, 3:5], order.by = chl_data$year)
+foo <- roll::roll_cor(chl_data_xts, width = 5)
+foo_gx <-  foo[2, 1, ]
+foo_gr <-  foo[3, 1, ]
+foo_rx <-  foo[3, 2, ]
 
+foo_xts <- as.xts(cbind(foo_gr, foo_gx, foo_rx), order.by = index(chl_data_xts))
+
+library(ggfortify)
+
+
+get_rcor <- function(df) {
+  df_xts <- as.xts(df[, 2:4], order.by = df$year)
+  foo <- roll::roll_cor(chl_data_xts, width = 5)
+  foo_gx <-  foo[2, 1, ]
+  foo_gr <-  foo[3, 1, ]
+  foo_rx <-  foo[3, 2, ]
+  foo_xts <- as.xts(cbind(foo_gr, foo_gx, foo_rx), order.by = index(chl_data_xts))
+}
+
+goo_xts <- get_rcor(chl_data)
